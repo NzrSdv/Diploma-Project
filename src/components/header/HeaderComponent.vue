@@ -18,8 +18,8 @@ import ButtonAccentTwo from "../../UI/buttons/ButtonAccentTwo.vue";
         </li>
       </ul>
       <div class="flex items-center justify-center gap-4">
-        <ButtonAccentOne text="Sign in" />
-        <ButtonAccentTwo text="Sign up"/>
+        <ButtonAccentTwo text="Войти"/>
+        <ButtonAccentOne text="Зарегестрироваться" />
       </div>
     </nav>
   </header>
@@ -30,7 +30,7 @@ export default {
   components: { ButtonAccentOne,ButtonAccentTwo },
   data() {
     return {
-      links: ["Catalog", "About us", "Cart"],
+      links: ["Каталог", "О нас", "Корзина"],
     };
   },
 };
