@@ -9,9 +9,12 @@ import Wines_bg from "../../assets/img/Wines_1_photo.jpg";
   >
     <div class="w-full h-full bg-linear-to-l from-black/10 to-black/60">
       <div class="px-31 h-full flex flex-col items-start justify-center gap-2">
-        <h1 class="text-main text-8xl">Любое вино</h1>
+        <h1 class="max-w-xl text-main font-bold text-7xl">
+          Порадуйте себя и гостей
+        </h1>
         <p class="max-w-2xl text-3xl">
-            Тщательно подобранная коллекция вин, которая украсит любое торжество.
+          Здесь тщательно подобранная коллекция вин, которая украсит любое
+          торжество.
         </p>
       </div>
     </div>

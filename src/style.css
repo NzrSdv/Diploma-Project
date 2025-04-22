@@ -6,18 +6,20 @@
   --color-main-2: #ffffff;
 
   --color-accent-1: #7b0323;
+  --color-accent-15: #ae0834;
+
   --color-accent-2: #eeedc4;
 
   --font-logo: "Julius Sans One", "sans-serif";
   --font-main: "Roboto", "sans-serif";
 }
 
-html{
-    @apply bg-main-1;
+html {
+  @apply bg-main-1;
 }
-.container{
+.container {
 }
 
-.Logo{
-    @apply text-5xl font-logo;
+.Logo {
+  @apply text-5xl font-logo;
 }
