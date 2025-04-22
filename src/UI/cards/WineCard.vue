@@ -22,9 +22,12 @@ import WhiteWine from "../../assets/img/WhiteWine_photo.png";
         <p class="opacity-60 text-lg">{{ info.winePlace }}</p>
       </div>
       <div
-        :class="['border-[2px] border-solid rounded-lg px-5 py-1 text-xl',info.wineColor == 'white' ? 'border-accent-15' : ' border-main-2']"
+        :class="[
+          'border-[2px] border-solid rounded-lg px-5 py-1 text-xl cursor-pointer duration-200 hover:scale-110',
+          info?.wineColor == 'white' ? 'border-accent-15' : ' border-main-2',
+        ]"
       >
-        {{ info.winePrice }}$
+        {{ info?.winePrice }}$
       </div>
     </div>
   </div>
@@ -33,7 +36,7 @@ import WhiteWine from "../../assets/img/WhiteWine_photo.png";
 export default {
   name: "WineCard",
   props: {
-    info: Object,
+    info: { type: Object, required: true },
   },
 };
 </script>

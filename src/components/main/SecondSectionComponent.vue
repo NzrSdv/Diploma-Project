@@ -7,7 +7,7 @@ import WineCard from "../../UI/cards/WineCard.vue";
     <div class="h-[1px] w-full bg-main-2">
       <WineCard
         :info="{
-          wineColor: 'white',
+          wineColor: 'red',
           wineName: 'Красное вино',
           winePlace: 'Франция, Прованс',
           winePrice: 200,
