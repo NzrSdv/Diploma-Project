@@ -9,7 +9,7 @@ import WineCard from "../../UI/cards/WineCard.vue";
       <h2 class="">Наш ассортимент</h2>
       <div class="h-[1px] w-full bg-main-2"></div>
     </div>
-    <div class="flex flex-row items-center justify-center gap-21">
+    <div class="flex flex-row items-center justify-center gap-21 flex-wrap lg:flex-no-wrap">
       <WineCard v-for="(item, index) in wineCards" :key="index" :info="item" />
     </div>
   </section>
@@ -38,7 +38,13 @@ export default {
           wineName: "Красное вино",
           winePlace: "Франция, Прованс",
           winePrice: 200,
-        }
+        },
+        {
+          wineColor: "white",
+          wineName: "Красное вино",
+          winePlace: "Франция, Прованс",
+          winePrice: 200,
+        },
       ],
     };
   },

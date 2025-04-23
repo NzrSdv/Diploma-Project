@@ -14,10 +14,10 @@
   --font-main: "Roboto", "sans-serif";
 }
 @layer utilities {
-  .no-scrollbar::-webkit-scrollbar {
+  html::-webkit-scrollbar {
     display: none;
   }
-  .no-scrollbar {
+  html{
     -ms-overflow-style: none;
     scrollbar-width: none;
   }
