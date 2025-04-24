@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import SignInInput from "../../UI/inputs/SignInInput.vue";
 import ButtonInput from "../../UI/buttons/ButtonInput.vue";
-import { createUserWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../../config/firebase";
+import { signInWithEmailAndPassword, signInWithPopup } from "firebase/auth";
+import { auth, googleProvider } from "../../config/firebase";
 import { useRouter } from "vue-router";
 const router = useRouter();
 </script>
@@ -33,7 +33,20 @@ const router = useRouter();
             @click="
               async () => {
                 try {
-                  await createUserWithEmailAndPassword(auth, email, password);
+                  await signInWithEmailAndPassword(auth, email, password);
+                  router.push('/');
+                } catch (e) {
+                  console.error(e);
+                }
+              }
+            "
+          />
+          <ButtonInput
+            text="Войти с Google"
+            @click="
+              async () => {
+                try {
+                  await signInWithPopup(auth, googleProvider);
                   router.push('/');
                 } catch (e) {
                   console.error(e);
