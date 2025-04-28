@@ -4,7 +4,10 @@ import ButtonInput from "../../UI/buttons/ButtonInput.vue";
 import { signInWithEmailAndPassword, signInWithPopup } from "firebase/auth";
 import { auth, googleProvider } from "../../config/firebase";
 import { useRouter } from "vue-router";
+import { useStore } from "vuex";
+import { key } from "../../store.ts";
 const router = useRouter();
+const store = useStore(key);
 </script>
 <template>
   <main>
@@ -34,6 +37,7 @@ const router = useRouter();
               async () => {
                 try {
                   await signInWithEmailAndPassword(auth, email, password);
+                  store.commit('setUser', { ...auth.currentUser, cart: [] });
                   router.push('/');
                 } catch (e) {
                   console.error(e);
@@ -47,6 +51,7 @@ const router = useRouter();
               async () => {
                 try {
                   await signInWithPopup(auth, googleProvider);
+                  store.commit('setUser', { ...auth.currentUser, cart: [] });
                   router.push('/');
                 } catch (e) {
                   console.error(e);
@@ -76,9 +81,6 @@ export default {
     inputPassword(newText: string) {
       this.password = newText;
     },
-  },
-  created() {
-    console.log(auth.currentUser);
   },
 };
 </script>
