@@ -14,7 +14,7 @@ async function signOutUser() {
   try {
     await signOut(auth);
     localStorage.removeItem("currentUser");
-    router.push("/login");
+    router.push("/");
   } catch (error) {
     console.error("Error signing out: ", error);
   }
@@ -68,6 +68,4 @@ export default defineComponent({
   },
 });
 </script>
-<style></style>
 
-У
