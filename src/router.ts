@@ -1,12 +1,13 @@
 import MainComponent from "@/components/main/MainComponent.vue";
 import { createRouter, createWebHistory } from "vue-router";
-import ErrorComponent from "@/components/ErrorComponent.vue";
+import ErrorComponent from "./components/ErrorComponent.vue";
 import LoginComponent from "./components/login/LoginComponent.vue";
-
+import UserPageComponent from "./components/user/UserPageComponent.vue";
 const routes = [
   { path: "/", component: MainComponent },
   { path: "/login", component: LoginComponent },
-  { path: "/*", component: ErrorComponent },
+  { path: "/user", component: UserPageComponent },
+  { path: "/:pathMatch(.*)*", component: ErrorComponent },
 ];
 
 const router = createRouter({

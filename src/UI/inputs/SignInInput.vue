@@ -2,7 +2,7 @@
   <div class="flex flex-col">
     <label for="">{{ title }}</label>
     <input
-      class="border-2 border-solid border-main-2 px-4 py-2 rounded-md duration-200 focus:scale-105 focus:outline-hidden placeholder:capitalize"
+      class="border-2 border-solid border-main-2 px-4 py-2 rounded-md duration-400 focus:scale-105 focus:outline-hidden placeholder:capitalize"
       :type="inputType"
       :placeholder="placeholder"
       v-model="inputValue"

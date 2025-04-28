@@ -29,6 +29,9 @@ function forwardLogin() {
         <ButtonAccentTwo text="Войти" @click="forwardLogin()" />
         <ButtonAccentOne text="Зарегестрироваться" />
       </div>
+      <div v-if="!signedIn" class="flex items-center justify-center gap-4">
+        <router-link to="/user">Profile</router-link>
+      </div>
     </nav>
   </header>
 </template>
