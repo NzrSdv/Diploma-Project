@@ -4,18 +4,24 @@ import HeaderComponent from "./components/header/HeaderComponent.vue";
 import { RouterView } from "vue-router";
 import { useStore } from "vuex";
 import { key } from "./store.ts";
+import { useRoute } from "vue-router";
 import { computed } from "vue";
 export default defineComponent({
   components: { HeaderComponent },
   setup() {
     const store = useStore(key);
+    const route = useRoute();
     const currentUser = computed(() => store.state.currentUser);
     // store.dispatch("getRedWines");
+    return {
+      currentUser,
+      route,
+    };
   },
 });
 </script>
 
 <template>
-  <HeaderComponent />
+  <HeaderComponent v-if="route.path != '/login'" />
   <RouterView />
 </template>
