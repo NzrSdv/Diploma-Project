@@ -3,19 +3,14 @@ import { db } from "./config/firebase.ts";
 import { addDoc, collection, getDocs } from "firebase/firestore";
 import type { InjectionKey } from "vue";
 
+import type User from "./interfaces.ts";
+
 export interface State {
   currentUser: Object;
   currentPage: Object;
   redWines: Array<Object>;
 }
 
-interface User {
-  uid: string;
-  displayName: string;
-  email: string;
-  photoURL: string;
-  cart: Array<Object>;
-}
 
 export const key: InjectionKey<Store<State>> = Symbol();
 
