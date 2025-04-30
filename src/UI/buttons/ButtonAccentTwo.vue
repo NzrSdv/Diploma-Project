@@ -1,6 +1,6 @@
 <template lang="">
   <button
-    :class="['rounded-full px-6 py-2 text-lg  border-2 border-solid border-accent-1 duration-200 hover:scale-105', textColor]"
+    class="rounded-xl p-2 text-lg border-2 border-solid border-accent-15 duration-200 hover:scale-105 text-accent-15"
   >
     {{ text }}
   </button>
@@ -10,10 +10,6 @@ export default {
   name: "ButtonAccentTwo",
   props: {
     text: String,
-    textColor:{
-      type: String,
-      default: "text-accent-1",
-    }
   },
 };
 </script>
