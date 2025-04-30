@@ -3,14 +3,14 @@ import WineCard from "../../UI/cards/WineCard.vue";
 </script>
 <template>
   <section
-    class="w-full flex flex-col items-center justify-center gap-20 px-30"
+    class="container flex flex-col items-center justify-center gap-20 px-30"
   >
-    <div class="flex flex-col w-full">
+    <div class="flex flex-col w-full gap-5">
       <h2 class="text-4xl font-main">Наш ассортимент</h2>
       <div class="h-[1px] w-full bg-main-2"></div>
     </div>
     <div
-      class="flex flex-row items-center justify-center gap-21 flex-wrap xl:flex-nowrap"
+      class="container flex flex-row items-center justify-center gap-21 flex-wrap"
     >
       <WineCard v-for="(item, index) in wineCards" :key="index" :info="item" />
     </div>
@@ -23,29 +23,41 @@ export default {
   data() {
     return {
       wineCards: [
-        {
-          wineColor: "red",
-          wineName: "Красное вино",
-          winePlace: "Франция, Прованс",
-          winePrice: 200,
+      {
+          type: "white",
+          wine: "Красное вино",
+          location: "Франция, Прованс",
+          price: 200,
+          rating:{
+            average:"4.2"
+          }
         },
         {
-          wineColor: "white",
-          wineName: "Красное вино",
-          winePlace: "Франция, Прованс",
-          winePrice: 200,
+          type: "red",
+          wine: "Красное вино",
+          location: "Франция, Прованс",
+          price: 200,
+          rating:{
+            average:"4.7"
+          }
         },
         {
-          wineColor: "red",
-          wineName: "Красное вино",
-          winePlace: "Франция, Прованс",
-          winePrice: 200,
+          type: "white",
+          wine: "Красное вино",
+          location: "Франция, Прованс",
+          price: 200,
+          rating:{
+            average:"4.2"
+          }
         },
         {
-          wineColor: "white",
-          wineName: "Красное вино",
-          winePlace: "Франция, Прованс",
-          winePrice: 200,
+          type: "red",
+          wine: "Красное вино",
+          location: "Франция, Прованс",
+          price: 200,
+          rating:{
+            average:"4.2"
+          }
         },
       ],
     };

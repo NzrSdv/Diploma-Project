@@ -1,23 +1,25 @@
-@import url("https://fonts.googleapis.com/css2?family=Julius+Sans+One&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Julius+Sans+One&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap");
 @import "tailwindcss";
 
 @theme {
+  --color-main-05: #252c32;
   --color-main-1: #232323;
   --color-main-2: #ffffff;
+  --color-main-3: #d9d9d9;
 
   --color-accent-1: #7b0323;
   --color-accent-15: #ae0834;
-
   --color-accent-2: #eeedc4;
 
   --font-logo: "Julius Sans One", "sans-serif";
+  --font-accent: "Inter";
   --font-main: "Roboto", "sans-serif";
 }
 @layer utilities {
   html::-webkit-scrollbar {
     display: none;
   }
-  html{
+  html {
     -ms-overflow-style: none;
     scrollbar-width: none;
   }
@@ -26,17 +28,18 @@ html {
   @apply bg-main-1;
 }
 .container {
+  @apply w-[clamp(80dvw,auto,100%)];
 }
 
 .Logo {
   @apply text-5xl font-logo;
 }
 input:-webkit-autofill,
-input:-webkit-autofill:hover, 
-input:-webkit-autofill:focus, 
-input:-webkit-autofill:active{
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: #ffffff;
-    transition: background-color 5000s ease-in-out 0s;
-    box-shadow: inset 0 0 20px 20px #23232329;
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: #ffffff;
+  transition: background-color 5000s ease-in-out 0s;
+  box-shadow: inset 0 0 20px 20px #23232329;
 }

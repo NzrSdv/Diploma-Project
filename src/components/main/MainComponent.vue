@@ -4,7 +4,7 @@ import SecondSectionComponent from "./SecondSectionComponent.vue";
 </script>
 
 <template lang="">
-  <main class="text-white font-main flex flex-col items-stretch justify-center gap-27">
+  <main class="text-white font-main flex flex-col items-center justify-center gap-27">
     <FirstSectionComponent />
     <SecondSectionComponent />
   </main>
