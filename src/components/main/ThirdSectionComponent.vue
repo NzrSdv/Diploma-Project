@@ -13,7 +13,7 @@ import DeliverPhoto from "../../assets/img/DeliverySection_photo.png";
       class="w-full bg-main-025 pl-44 flex flex-row items-stretch justify-between"
     >
       <div class="flex flex-col gap-13 items-start justify-center font-main">
-        <div class="flex flex-col gap-7">
+        <div class="flex flex-col gap-8">
           <div class="flex flex-col gap-4">
             <h2 class="font-bold text-5xl">Вкус винограда — у двери</h2>
             <p>Доставка зависит от места вашего нахождения.</p>

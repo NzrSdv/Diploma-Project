@@ -2,6 +2,7 @@
 import FirstSectionComponent from "./FirstSectionComponent.vue";
 import SecondSectionComponent from "./SecondSectionComponent.vue";
 import ThirdSectionComponent from "./ThirdSectionComponent.vue";
+import FourthSectionComponent from "./FourthSectionComponent.vue";
 </script>
 
 <template lang="">
@@ -9,12 +10,13 @@ import ThirdSectionComponent from "./ThirdSectionComponent.vue";
     <FirstSectionComponent />
     <SecondSectionComponent />
     <ThirdSectionComponent/>
+    <FourthSectionComponent/>
   </main>
 </template>
 <script lang="ts">
 export default {
   name: "MainComponent",
-  components: { FirstSectionComponent, SecondSectionComponent,ThirdSectionComponent },
+  components: { FirstSectionComponent, SecondSectionComponent,ThirdSectionComponent,FourthSectionComponent },
 };
 </script>
 <style lang=""></style>
