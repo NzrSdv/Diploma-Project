@@ -7,7 +7,7 @@ import DeliverPhoto from "../../assets/img/DeliverySection_photo.png";
   <section class="container flex flex-col items-center justify-center gap-20">
     <div class="w-full flex flex-col gap-5 px-30">
       <h2 class="text-4xl font-main font-semibold">Доставка</h2>
-      <div class="h-[1px] w-full bg-main-2"></div>
+      <div class="h-[1px] w-full bg-accent-2"></div>
     </div>
     <div
       class="w-full bg-main-025 pl-44 flex flex-row items-stretch justify-between"

@@ -2,11 +2,15 @@
 @import "tailwindcss";
 
 @theme {
-  --color-main-025:#2F2F2F;
+
+  --color-main-025: #2f2f2f;
   --color-main-05: #252c32;
   --color-main-1: #232323;
   --color-main-2: #ffffff;
   --color-main-3: #d9d9d9;
+
+  --color-light-1: #e7e7e7;
+  --color-gray-1: #a2a2a2;
 
   --color-accent-1: #7b0323;
   --color-accent-15: #ae0834;
@@ -26,7 +30,7 @@
   }
 }
 html {
-  @apply bg-main-1;
+  @apply bg-main-1 flex flex-col items-stretch justify-between;
 }
 .container {
   @apply w-[clamp(80dvw,auto,100%)];

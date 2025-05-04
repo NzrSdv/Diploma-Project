@@ -10,7 +10,7 @@ import Photo2 from "../../assets/img/FourthSection2_photo.png";
         <div><img :src="Photo2" alt="" /></div>
       </div>
       <div class="max-w-150 flex flex-col items-start justify-center gap-7 font-main">
-        <h2 class="font-medium text-6xl">Вино для особенных моментов</h2>
+        <h3 class="font-medium text-6xl">Вино для особенных моментов</h3>
         <p class="max-w-119 text-start">
           Мы объединили страсть к виноделию и современный сервис, чтобы сделать
           покупку вина простой, быстрой и приятной. На нашем сайте вы найдете

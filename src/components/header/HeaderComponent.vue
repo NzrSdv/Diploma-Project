@@ -21,21 +21,34 @@ function toggleBurgerStatus(): void {
       <router-link to="/">
         <div class="Logo w-6/16">Vino</div>
       </router-link>
-      
+
       <nav
-        :class="['lg:w-10/16 w-1/4 lg:flex lg:flex-row flex-col-reverse  items-center lg:justify-between justify-end',burgerStatus ? 'flex' : 'hidden']"
+        :class="[
+          'lg:w-10/16 w-1/4 lg:flex lg:flex-row flex-col-reverse  items-center lg:justify-between justify-end',
+          burgerStatus ? 'flex' : 'hidden',
+        ]"
       >
-        <ul class="flex lg:flex-row flex-col items-center lg:justify-center justify-start px-10 py-20 gap-14 bg-white lg:static fixed top-0 right-0 bottom-0">
+        <ul
+          class="flex lg:flex-row flex-col items-center lg:justify-center justify-start px-10 gap-14 bg-white lg:static fixed top-0 right-0 bottom-0"
+        >
           <li
             class="font-main text-lg border-b-2 border-solid duration-200 border-transparent hover:border-accent-15"
             v-for="(link, index) in links"
             :key="index"
           >
-            <router-link to="">{{ link }}</router-link>
+            <router-link :to="link.link">{{ link.text }}</router-link>
           </li>
-          <li class="w-full lg:hidden block text-center font-main text-xl rounded-lg text-accent-15 font-bold duration-300 cursor-pointer hover:bg-main-1/50" @click="toggleBurgerStatus">X</li>
+          <li
+            class="w-full lg:hidden block text-center font-main text-xl rounded-lg text-accent-15 font-bold duration-300 cursor-pointer hover:bg-main-1/50"
+            @click="toggleBurgerStatus"
+          >
+            X
+          </li>
         </ul>
-        <div v-if="signedIn" class="flex flex-row items-center justify-center gap-3">
+        <div
+          v-if="signedIn"
+          class="flex flex-row items-center justify-center gap-3"
+        >
           <ButtonAccentTwo text="Войти" @click="forwardLogin()" />
           <ButtonAccentOne text="Зарегестрироваться" />
         </div>
@@ -60,7 +73,11 @@ export default {
   components: { ButtonAccentOne, ButtonAccentTwo },
   data() {
     return {
-      links: ["Каталог", "О нас", "Корзина"],
+      links: [
+        { text: "Каталог", link: "/catalog" },
+        { text: "О нас", link: "/" },
+        { text: "Корзина", link: "/" },
+      ],
       signedIn: false,
     };
   },

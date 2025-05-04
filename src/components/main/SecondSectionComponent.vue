@@ -7,7 +7,7 @@ import WineCard from "../../UI/cards/WineCard.vue";
   >
     <div class="flex flex-col w-full gap-5">
       <h2 class="text-4xl font-main font-semibold">Наш ассортимент</h2>
-      <div class="h-[1px] w-full bg-main-2"></div>
+      <div class="h-[1px] w-full bg-accent-2"></div>
     </div>
     <div
       class="container flex flex-row items-center justify-between"

@@ -6,8 +6,9 @@ import { useStore } from "vuex";
 import { key } from "./store.ts";
 import { useRoute } from "vue-router";
 import { computed } from "vue";
+import FooterComponent from "./components/footer/FooterComponent.vue";
 export default defineComponent({
-  components: { HeaderComponent },
+  components: { HeaderComponent, FooterComponent },
   setup() {
     const store = useStore(key);
     const route = useRoute();
@@ -24,4 +25,5 @@ export default defineComponent({
 <template>
   <HeaderComponent v-if="route.path != '/login'" />
   <RouterView />
+  <FooterComponent v-if="route.path != '/login'" />
 </template>

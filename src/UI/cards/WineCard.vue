@@ -6,6 +6,7 @@ import ActiveStar from "../../assets/icons/Star_active_icon.svg";
 import DisabledStar from "../../assets/icons/Star_disabled_icon.svg";
 
 import ActiveHeart from "../../assets/icons/Heart_active_icon.svg";
+import DisabledHeart from "../../assets/icons/Heart_disabled_icon.svg";
 </script>
 
 <template>
@@ -19,7 +20,7 @@ import ActiveHeart from "../../assets/icons/Heart_active_icon.svg";
       <div
         class="absolute size-8 right-1 top-2 flex items-center justify-center duration-200 hover:scale-110 cursor-pointer"
       >
-        <img :src="ActiveHeart" alt="" />
+        <img :src="DisabledHeart" alt="" />
       </div>
       <div
         class="flex h-full flex-col items-center justify-between text-main-05"
