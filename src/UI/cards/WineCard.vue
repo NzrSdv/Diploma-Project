@@ -10,7 +10,7 @@ import DisabledHeart from "../../assets/icons/Heart_disabled_icon.svg";
 </script>
 
 <template>
-  <router-link to="">
+  <router-link :to="`/redWines/${info.id}`">
     <div
       :class="[
         'w-88 h-98 flex flex-col rounded-md font-accent relative pt-10',

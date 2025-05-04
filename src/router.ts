@@ -4,10 +4,12 @@ import ErrorComponent from "./components/error/ErrorComponent.vue";
 import LoginComponent from "./components/login/LoginComponent.vue";
 import UserPageComponent from "./components/user/UserPageComponent.vue";
 import CatalogComponent from "./components/catalog/CatalogComponent.vue";
+import ProductComponent from "./components/product/ProductComponent.vue";
 
 const routes = [
   { path: "/", component: MainComponent },
   { path: "/catalog", component: CatalogComponent },
+  { path: "/redWines/:WineId", component: ProductComponent },
   { path: "/login", component: LoginComponent },
   { path: "/user", component: UserPageComponent },
   { path: "/:pathMatch(.*)*", component: ErrorComponent },
