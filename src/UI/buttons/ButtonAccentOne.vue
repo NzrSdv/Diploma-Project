@@ -1,12 +1,13 @@
 <template lang="">
   <button
+    @click="this.$emit('click')"
     :class="[
-      ' p-2 bg-accent-15 text-main-2 text-lg border-2 border-solid border-transparent duration-200 hover:scale-105',
+      ' p-2 bg-accent-15 text-main-2 text-lg border-2 border-solid border-transparent flex items-center justify-center gap-4 duration-200 hover:scale-105',
       padding ? padding : '',
-      radius ? radius : 'rounded-xl'
+      radius ? radius : 'rounded-xl',
     ]"
   >
-    {{ text }}
+    <slot></slot>{{ text }}
   </button>
 </template>
 <script lang="ts">

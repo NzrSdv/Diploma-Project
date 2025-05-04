@@ -8,7 +8,6 @@ import { useRoute } from "vue-router";
 import { computed } from "vue";
 import FooterComponent from "./components/footer/FooterComponent.vue";
 
-
 export default defineComponent({
   components: { HeaderComponent, FooterComponent },
   setup() {
@@ -25,7 +24,10 @@ export default defineComponent({
 </script>
 
 <template>
-  <HeaderComponent v-if="route.path != '/login'" />
+  <HeaderComponent v-if="route.path != '/login' && route.path != '/register'" />
   <RouterView />
-  <FooterComponent v-if="route.path != '/login'" class="static bottom-0" />
+  <FooterComponent
+    v-if="route.path != '/login' && route.path != '/register'"
+    class="static bottom-0"
+  />
 </template>

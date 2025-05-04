@@ -25,13 +25,13 @@ const store = useStore(key);
               title="Email"
               placeholder="email..."
               inputType="email"
-              @changeEmail="changeEmail"
+              @change="changeEmail"
             />
             <SignInInput
               title="Password"
               placeholder="password..."
               inputType="password"
-              @changeEmail="inputPassword"
+              @change="inputPassword"
             />
           </div>
          <div class="flex flex-col items-cennter justify-center gap-4">

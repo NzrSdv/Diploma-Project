@@ -1,15 +1,19 @@
 <script setup lang="ts">
-import { useRouter } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 import ButtonAccentOne from "../../UI/buttons/ButtonAccentOne.vue";
 import ButtonAccentTwo from "../../UI/buttons/ButtonAccentTwo.vue";
 import { auth } from "../../config/firebase";
 import { ref } from "vue";
 
+const route = useRoute();
 const router = useRouter();
 let burgerStatus = ref(false);
 
 function forwardLogin(): void {
   router.push("/login");
+}
+function forwardRegister(): void {
+  router.push("/register");
 }
 function toggleBurgerStatus(): void {
   burgerStatus.value = !burgerStatus.value;
@@ -32,7 +36,12 @@ function toggleBurgerStatus(): void {
           class="flex lg:flex-row flex-col items-center lg:justify-center justify-start px-10 gap-14 bg-white lg:static fixed top-0 right-0 bottom-0"
         >
           <li
-            class="font-main text-lg border-b-2 border-solid duration-200 border-transparent hover:border-accent-15"
+            :class="[
+              'font-main text-lg border-b-2 border-solid duration-200  hover:border-accent-15',
+              route.path == link.link
+                ? 'border-accent-15'
+                : 'border-transparent',
+            ]"
             v-for="(link, index) in links"
             :key="index"
           >
@@ -50,7 +59,10 @@ function toggleBurgerStatus(): void {
           class="flex flex-row items-center justify-center gap-3"
         >
           <ButtonAccentTwo text="Войти" @click="forwardLogin()" />
-          <ButtonAccentOne text="Зарегестрироваться" />
+          <ButtonAccentOne
+            text="Зарегестрироваться"
+            @click="forwardRegister()"
+          />
         </div>
         <div v-if="!signedIn" class="flex items-center justify-center gap-4">
           <router-link to="/user">Profile</router-link>
