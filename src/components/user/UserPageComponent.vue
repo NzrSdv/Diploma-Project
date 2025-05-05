@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-import { signOut } from "firebase/auth";
 import { auth } from "../../config/firebase.ts";
 import { useRouter } from "vue-router";
 import ButtonAccentOne from "../../UI/buttons/ButtonAccentOne.vue";
@@ -24,15 +23,7 @@ function changeName(newName: string) {
 
 const router = useRouter();
 
-async function signOutUser() {
-  try {
-    await signOut(auth);
-    localStorage.removeItem("currentUser");
-    router.push("/");
-  } catch (error) {
-    console.error("Error signing out: ", error);
-  }
-}
+
 </script>
 <template>
   <main class="h-dvh">
@@ -45,7 +36,7 @@ async function signOutUser() {
         <div
           class="w-full flex flex-col items-center justify-center gap-5 shadow-sm py-7 z-20"
         >
-          <div class="size-20 rounded-full border border-solid border-accent-1">
+          <div class="size-20 rounded-full border border-solid border-accent-1 overflow-hidden flex items-center justify-center">
             <img
               class="w-full h-auto"
               :src="user.photoURL ? user.photoURL : UserFiller"
@@ -66,7 +57,7 @@ async function signOutUser() {
             <li
               :class="[
                 'w-full font-accent font-semibold px-8 py-5 text-main-1 text-start text-xl',
-                currentNavLink == navigat.link ? 'bg-main-25' : '',
+                currentNavLink == navigat.link ? 'bg-main-25' : 'bg-main-2',
               ]"
               v-for="(navigat, index) in navigationProfile"
               :key="index"
@@ -76,12 +67,12 @@ async function signOutUser() {
           </ul>
         </nav>
       </div>
-      <RouterView class="w-full h-full flex items-center justify-center text-main-2" />
+      <RouterView class="w-full h-full flex items-center justify-center text-main-1" />
       <div>
 
       </div>
     </section>
-    <ButtonAccentOne text="Выйти из аккаунта" @click="signOutUser" />
+    
   </main>
 </template>
 <script lang="ts">
@@ -104,6 +95,7 @@ export default defineComponent({
     };
   },
   created() {
+    this.currentNavLink = `/${this.$route.path.split('/')[2]}`;
     if (localStorage.getItem("currentUser") === null) {
       // this.$router.push("/login");
     }

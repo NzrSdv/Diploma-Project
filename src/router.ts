@@ -9,10 +9,12 @@ import RegisterComponent from "./components/register/RegisterComponent.vue";
 import InfoComponent from "./components/user/nested/InfoComponent.vue";
 import CardComponent from "./components/user/nested/CardComponent.vue";
 import SettingsComponent from "./components/user/nested/SettingsComponent.vue";
+import CartComponent from "./components/cart/CartComponent.vue";
 
 const routes = [
   { path: "/", component: MainComponent },
   { path: "/catalog", component: CatalogComponent },
+  { path: "/cart", component: CartComponent },
   { path: "/redWines/:WineId", component: ProductComponent },
   { path: "/register", component: RegisterComponent },
   { path: "/login", component: LoginComponent },

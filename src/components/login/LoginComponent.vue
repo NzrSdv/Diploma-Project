@@ -46,7 +46,7 @@ const store = useStore(key);
               async () => {
                 try {
                   await signInWithEmailAndPassword(auth, email, password);
-                  store.commit('setUser', { ...auth.currentUser, cart: [] });
+                  await store.commit('setUser', { ...auth.currentUser, cart: [] });
                   router.push('/');
                 } catch (e) {
                   console.error(e);
@@ -62,7 +62,7 @@ const store = useStore(key);
               async () => {
                 try {
                   await signInWithPopup(auth, googleProvider);
-                  // store.commit('setUser', { ...auth.currentUser, cart: [] });
+                  await store.commit('setUser', { ...auth.currentUser, cart: [] });
                   router.push('/');
                 } catch (e) {
                   console.error(e);

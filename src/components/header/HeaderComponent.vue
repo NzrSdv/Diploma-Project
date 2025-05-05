@@ -96,7 +96,7 @@ export default {
       links: [
         { text: "Каталог", link: "/catalog" },
         { text: "О нас", link: "/" },
-        { text: "Корзина", link: "/" },
+        { text: "Корзина", link: "/cart" },
       ],
       signedIn: false,
     };
