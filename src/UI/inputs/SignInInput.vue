@@ -13,7 +13,7 @@
 <script>
 export default {
   name: "SignInInput",
-  datat() {
+  data() {
     return {
       inputValue: "",
     };

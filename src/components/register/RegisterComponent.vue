@@ -6,7 +6,11 @@ import SignInInput from "../../UI/inputs/SignInInput.vue";
 import GoogleIcon from "../../assets/icons/Google_Icon.svg";
 
 import { auth, googleProvider } from "../../config/firebase.ts";
-import { createUserWithEmailAndPassword, signInWithPopup } from "firebase/auth";
+import {
+  createUserWithEmailAndPassword,
+  signInWithPopup,
+  updateProfile,
+} from "firebase/auth";
 
 import { useStore } from "vuex";
 import { key } from "../../store.ts";
@@ -68,8 +72,20 @@ console.log(import.meta.env.VITE_FIREBASE_AUTH_DOMAIN);
               try {
                 console.log(email);
                 console.log(password);
-                await createUserWithEmailAndPassword(auth, email, password);
-                store.commit('setUser', { ...auth.currentUser, cart: [] });
+                console.log(surname);
+                await createUserWithEmailAndPassword(
+                  auth,
+                  email,
+                  password
+                ).then(async () => {
+                  await updateProfile(auth.currentUser, {
+                    displayName: name,
+                  });
+                });
+                store.commit('setUser', {
+                  ...{ displayName: surname, ...auth.currentUser },
+                  cart: [],
+                });
                 router.push('/');
               } catch (e) {
                 console.error(e);
@@ -120,19 +136,15 @@ export default {
   methods: {
     changeName(newName: string) {
       this.name = newName;
-      console.log(newName);
     },
     changeSurname(newSurname: string) {
       this.surname = newSurname;
-      console.log(newSurname);
     },
     changeEmail(newEmail: string) {
       this.email = newEmail;
-      console.log(newEmail);
     },
     changePassword(newPassword: string) {
       this.password = newPassword;
-      console.log(newPassword);
     },
   },
 };

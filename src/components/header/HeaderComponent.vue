@@ -48,6 +48,17 @@ function toggleBurgerStatus(): void {
             <router-link :to="link.link">{{ link.text }}</router-link>
           </li>
           <li
+            v-if="signedIn"
+            :class="[
+              'font-main text-lg border-b-2 border-solid duration-200  hover:border-accent-15',
+              route.path == '/user'
+                ? 'border-accent-15'
+                : 'border-transparent',
+            ]"
+          >
+            <router-link to="/user">Profile</router-link>
+          </li>
+          <li
             class="w-full lg:hidden block text-center font-main text-xl rounded-lg text-accent-15 font-bold duration-300 cursor-pointer hover:bg-main-1/50"
             @click="toggleBurgerStatus"
           >
@@ -55,7 +66,7 @@ function toggleBurgerStatus(): void {
           </li>
         </ul>
         <div
-          v-if="signedIn"
+          v-if="!signedIn"
           class="flex flex-row items-center justify-center gap-3"
         >
           <ButtonAccentTwo text="Войти" @click="forwardLogin()" />
@@ -63,9 +74,6 @@ function toggleBurgerStatus(): void {
             text="Зарегестрироваться"
             @click="forwardRegister()"
           />
-        </div>
-        <div v-if="!signedIn" class="flex items-center justify-center gap-4">
-          <router-link to="/user">Profile</router-link>
         </div>
       </nav>
       <button
@@ -96,9 +104,9 @@ export default {
   beforeCreate() {
     auth.onAuthStateChanged((user) => {
       if (user) {
-        this.signedIn = false;
-      } else {
         this.signedIn = true;
+      } else {
+        this.signedIn = false;
       }
     });
   },
