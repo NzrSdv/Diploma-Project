@@ -8,14 +8,15 @@ import UserFiller from "../../assets/icons/userFIller_Icon.svg";
 import ButtonAccentTwo from "../../UI/buttons/ButtonAccentTwo.vue";
 import ProfileInput from "../../UI/inputs/ProfileInput.vue";
 
+import { RouterView } from "vue-router";
+
 import type User from "../../interfaces.ts";
 const user: User = JSON.parse(localStorage.getItem("currentUser") || "{}");
+let displayName: string = user?.displayName;
+let email: string = user.email;
 
-let displayName:string = user?.displayName;
-let email:string = user.email;
-
-let changeStatus:boolean = false;
-function changeName(newName:string){
+let changeStatus: boolean = false;
+function changeName(newName: string) {
   changeStatus = true;
   console.log(changeStatus);
   displayName = newName;
@@ -34,33 +35,53 @@ async function signOutUser() {
 }
 </script>
 <template>
-  <main>
+  <main class="h-dvh">
     <section
-      class="mt-15 w-full h-dvh gap-10 px-30 flex items-start justify-start text-main-2"
+      class="w-full h-full gap-10 flex items-start justify-between text-main-2 relative"
     >
       <div
-        class="w-1/3 aspect-square border border-solid border-accent-1 flex items-center justify-center"
-      >
-        <img class="w-full h-auto" :src="user?.photoURL || UserFiller" alt="" />
-      </div>
-      <div
-        class="topinfo w-2/3 flex flex-col items-center justify-center h-2/3 gap-9 text-xl font-main border-b border-solid border-main-2"
+        class="w-101 h-full bg-main-2 flex flex-col items-center justify-start"
       >
         <div
-          class="w-full h-full flex flex-col items-center justify-center gap-4" 
+          class="w-full flex flex-col items-center justify-center gap-5 shadow-sm py-7 z-20"
         >
-          <ProfileInput title="name" :value="displayName" @changeInput="changeName" :readonly="false" />
-          <ProfileInput title="email" :value="email" @changeInput="" :readonly="true"/>
+          <div class="size-20 rounded-full border border-solid border-accent-1">
+            <img
+              class="w-full h-auto"
+              :src="user.photoURL ? user.photoURL : UserFiller"
+              alt=""
+            />
+          </div>
+          <div
+            class="flex flex-col items-center justify-center gap-3 text-main-1 font-main"
+          >
+            <h3 class="font-medium text-xl text-main-1">
+              {{ user.displayName }}
+            </h3>
+            <p class="text-base text-main-1/50">{{ user.email }}</p>
+          </div>
+        </div>
+        <nav class="w-full flex flex-col items-center justify-center">
+          <ul class="w-full flex flex-col items-start justify-start">
+            <li
+              :class="[
+                'w-full font-accent font-semibold px-8 py-5 text-main-1 text-start text-xl',
+                currentNavLink == navigat.link ? 'bg-main-25' : '',
+              ]"
+              v-for="(navigat, index) in navigationProfile"
+              :key="index"
+            >
+              <router-link :to="`${baseUrl}${navigat.link}`">{{ navigat.text }}</router-link>
+            </li>
+          </ul>
+        </nav>
+      </div>
+      <RouterView class="w-full h-full flex items-center justify-center text-main-2" />
+      <div>
 
-          <ButtonAccentOne text="Выйти из аккаунта" @click="signOutUser" />
-          
-            <ButtonAccentTwo v-if="!changeStatus" text="Сохранить" textColor="text-main-2"/>
-        </div>
-        <div class="flex items-center justify-center min-h-1/3">
-          <h3>You haven't purchased yet</h3>
-        </div>
       </div>
     </section>
+    <ButtonAccentOne text="Выйти из аккаунта" @click="signOutUser" />
   </main>
 </template>
 <script lang="ts">
@@ -71,11 +92,25 @@ export default defineComponent({
     ButtonAccentTwo,
     ProfileInput,
   },
-  data() {},
+  data() {
+    return {
+      baseUrl: "/user",
+      navigationProfile: [
+        { text: "Мои данные", link: `/info` },
+        { text: "Карта", link: `/card` },
+        { text: "Настройки", link: `/settings` },
+      ],
+      currentNavLink: "/",
+    };
+  },
   created() {
     if (localStorage.getItem("currentUser") === null) {
-      this.$router.push("/login");
+      // this.$router.push("/login");
     }
   },
+  updated(){
+    this.currentNavLink = `/${this.$route.path.split('/')[2]}`;
+    console.log(this.currentNavLink)
+  }
 });
 </script>

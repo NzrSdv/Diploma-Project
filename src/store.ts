@@ -10,6 +10,7 @@ export interface State {
   currentPage: Object;
   redWines: Array<Object>;
 }
+const usersCollection = collection(db, "users");
 
 
 export const key: InjectionKey<Store<State>> = Symbol();
@@ -31,15 +32,16 @@ const store = createStore<State>({
       const newUser = {
         uid: user.uid,
         email: user.email,
-        displayName: user.displayName || "",
+        displayName: user.displayName,
         photoURL: user.photoURL || "",
         cart: user.cart
       }
+      console.log(user);
+      console.log(newUser);
       state.currentUser = newUser;
       localStorage.setItem("currentUser", JSON.stringify(newUser));
       try {
-        const usersCollection = collection(db, "users");
-        await addDoc(usersCollection, newUser);
+        await addDoc(usersCollection, user);
       } catch (error) {
         console.error(error);
       }

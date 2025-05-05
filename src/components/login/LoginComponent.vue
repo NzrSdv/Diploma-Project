@@ -9,34 +9,39 @@ import { auth, googleProvider } from "../../config/firebase";
 import { useRouter } from "vue-router";
 import { useStore } from "vuex";
 import { key } from "../../store.ts";
+import ButtonAccentOne from "../../UI/buttons/ButtonAccentOne.vue";
 const router = useRouter();
 const store = useStore(key);
 </script>
 <template>
   <main>
-    <section class="w-full h-dvh flex justify-center items-center text-main-2">
-      <div
-        class="size-120 rounded-2xl bg-accent-1 flex flex-col items-center justify-center gap-10"
-      >
-        <h2 class="text-3xl">Вход</h2>
-        <div class="flex flex-col justify-center gap-8">
-          <div class="flex flex-col justify-center gap-4">
+    <section class="w-full h-dvh bg-main-025 flex flex-col justify-center items-center gap-16 font-accent text-main-2">
+      
+       <div class="flex flex-col items-center justify-center text-center gap-5">
+        <h2 class="text-4xl font-semibold">Вход</h2>
+        <p class="text-xl ">Пожалуйста, заполните эту форму.</p>
+       </div>
+        <div class="w-1/4 flex flex-col justify-center gap-10">
+          <div class="flex flex-col justify-center gap-5">
             <SignInInput
               title="Email"
               placeholder="email..."
               inputType="email"
-              @changeEmail="changeEmail"
+              @modify="changeEmail"
             />
             <SignInInput
               title="Password"
               placeholder="password..."
               inputType="password"
-              @changeEmail="inputPassword"
+              @modify="inputPassword"
             />
           </div>
-         <div class="flex flex-col items-cennter justify-center gap-4">
-          <ButtonInput
+         <div class="flex flex-col items-cennter justify-center gap-5">
+          <ButtonAccentOne
+          class="w-full"
             text="Войти"
+            radius="rounded-sm"
+            padding="py-3"
             @click="
               async () => {
                 try {
@@ -49,31 +54,34 @@ const store = useStore(key);
               }
             "
           />
-          <ButtonInput
+          <ButtonAccentOne
             text="Войти с Google"
-            :icon="GoogleIcon"
+            radius="rounded-sm"
+            padding="py-3"
             @click="
               async () => {
                 try {
                   await signInWithPopup(auth, googleProvider);
-                  store.commit('setUser', { ...auth.currentUser, cart: [] });
+                  // store.commit('setUser', { ...auth.currentUser, cart: [] });
                   router.push('/');
                 } catch (e) {
                   console.error(e);
                 }
               }
             "
-          />
+          >
+        <div class="size-10">
+          <img :src="GoogleIcon" alt="">
+        </div></ButtonAccentOne>
          </div>
         </div>
-      </div>
     </section>
   </main>
 </template>
 <script lang="ts">
 export default {
   name: "LoginComponent",
-  components: { SignInInput, ButtonInput },
+  components: { SignInInput, ButtonAccentOne },
   data() {
     return {
       email: "",

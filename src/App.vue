@@ -6,13 +6,17 @@ import { useStore } from "vuex";
 import { key } from "./store.ts";
 import { useRoute } from "vue-router";
 import { computed } from "vue";
+import FooterComponent from "./components/footer/FooterComponent.vue";
+import { auth } from "./config/firebase.ts";
+
 export default defineComponent({
-  components: { HeaderComponent },
+  components: { HeaderComponent, FooterComponent },
   setup() {
     const store = useStore(key);
     const route = useRoute();
     const currentUser = computed(() => store.state.currentUser);
     // store.dispatch("getRedWines");
+    console.log(auth.currentUser);
     return {
       currentUser,
       route,
@@ -22,6 +26,18 @@ export default defineComponent({
 </script>
 
 <template>
-  <HeaderComponent v-if="route.path != '/login'" />
-  <RouterView />
+  <div class="min-h-dvh">
+    <HeaderComponent
+      v-if="route.path != '/login' && route.path != '/register'"
+    />
+    <RouterView />
+    <FooterComponent
+      v-if="
+        route.path != '/login' &&
+        route.path != '/register' &&
+        !route.path.startsWith('/user')
+      "
+      class="static bottom-0"
+    />
+  </div>
 </template>
