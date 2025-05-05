@@ -20,7 +20,7 @@ function toggleBurgerStatus(): void {
 }
 </script>
 <template lang="">
-  <header class="h-20 bg-main-2 flex items-center justify-center px-10">
+  <header class="h-20 bg-main-2 flex items-center justify-center px-10 z-30">
     <div class="container flex items-center justify-between">
       <router-link to="/">
         <div class="Logo w-6/16">Vino</div>
@@ -51,12 +51,12 @@ function toggleBurgerStatus(): void {
             v-if="signedIn"
             :class="[
               'font-main text-lg border-b-2 border-solid duration-200  hover:border-accent-15',
-              route.path == '/user'
+              route.path.includes('/user')
                 ? 'border-accent-15'
                 : 'border-transparent',
             ]"
           >
-            <router-link to="/user">Profile</router-link>
+            <router-link to="/user/info">Мои данные</router-link>
           </li>
           <li
             class="w-full lg:hidden block text-center font-main text-xl rounded-lg text-accent-15 font-bold duration-300 cursor-pointer hover:bg-main-1/50"

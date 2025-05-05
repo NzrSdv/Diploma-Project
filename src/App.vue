@@ -16,7 +16,7 @@ export default defineComponent({
     const route = useRoute();
     const currentUser = computed(() => store.state.currentUser);
     // store.dispatch("getRedWines");
-    console.log(auth.currentUser)
+    console.log(auth.currentUser);
     return {
       currentUser,
       route,
@@ -26,10 +26,18 @@ export default defineComponent({
 </script>
 
 <template>
-  <HeaderComponent v-if="route.path != '/login' && route.path != '/register'" />
-  <RouterView />
-  <FooterComponent
-    v-if="route.path != '/login' && route.path != '/register'"
-    class="static bottom-0"
-  />
+  <div class="min-h-dvh">
+    <HeaderComponent
+      v-if="route.path != '/login' && route.path != '/register'"
+    />
+    <RouterView />
+    <FooterComponent
+      v-if="
+        route.path != '/login' &&
+        route.path != '/register' &&
+        !route.path.startsWith('/user')
+      "
+      class="static bottom-0"
+    />
+  </div>
 </template>

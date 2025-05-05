@@ -82,7 +82,7 @@ console.log(import.meta.env.VITE_FIREBASE_AUTH_DOMAIN);
                     displayName: name,
                   });
                 });
-                store.commit('setUser', {
+                await store.commit('setUser', {
                   ...{ displayName: surname, ...auth.currentUser },
                   cart: [],
                 });

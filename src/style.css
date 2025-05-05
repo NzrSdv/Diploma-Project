@@ -2,11 +2,11 @@
 @import "tailwindcss";
 
 @theme {
-
   --color-main-025: #2f2f2f;
   --color-main-05: #252c32;
   --color-main-1: #232323;
   --color-main-2: #ffffff;
+  --color-main-25: #f3f3f3;
   --color-main-3: #d9d9d9;
 
   --color-light-1: #e7e7e7;
