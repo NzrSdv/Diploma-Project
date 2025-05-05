@@ -6,7 +6,7 @@ import SignInInput from "../../UI/inputs/SignInInput.vue";
 import GoogleIcon from "../../assets/icons/Google_Icon.svg";
 
 import { auth, googleProvider } from "../../config/firebase.ts";
-import { signInWithPopup, createUserWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, signInWithPopup } from "firebase/auth";
 
 import { useStore } from "vuex";
 import { key } from "../../store.ts";
@@ -14,15 +14,8 @@ import { key } from "../../store.ts";
 const store = useStore(key);
 
 const router = useRouter();
-async function registerWithGoogle() {
-  try {
-    await signInWithPopup(auth, googleProvider);
-    store.commit("setUser", { ...auth.currentUser, cart: [] });
-    router.push("/");
-  } catch (e) {
-    console.error(e);
-  }
-}
+
+console.log(import.meta.env.VITE_FIREBASE_AUTH_DOMAIN);
 </script>
 <template>
   <main class="text-main-2 font-accent">
@@ -39,12 +32,12 @@ async function registerWithGoogle() {
             class="w-1/2"
             title="Имя"
             placeholder="Имя"
-            @change="changeName"
+            @modify="changeName"
           /><SignInInput
             class="w-1/2"
             title="Фамилия"
             placeholder="Фамилиля"
-            @change="changeSurname"
+            @modify="changeSurname"
           />
         </div>
         <SignInInput
@@ -52,14 +45,14 @@ async function registerWithGoogle() {
           title="email"
           inputType="email"
           placeholder="Email"
-          @change="changeEmail"
+          @modify="changeEmail"
         />
         <SignInInput
           class="w-full"
           title="Пароль"
-          inputType="phone"
+          inputType="password"
           placeholder="Пароль"
-          @change="changePassword"
+          @modify="changePassword"
         />
         <div class="w-full flex flex-row items-center justify-start gap-3">
           <input type="checkbox" id="Policy" v-model="policyAgree" />
@@ -73,6 +66,8 @@ async function registerWithGoogle() {
           @click="
             async () => {
               try {
+                console.log(email);
+                console.log(password);
                 await createUserWithEmailAndPassword(auth, email, password);
                 store.commit('setUser', { ...auth.currentUser, cart: [] });
                 router.push('/');
@@ -83,14 +78,25 @@ async function registerWithGoogle() {
           "
           text="Зарегестрироваться"
           radius="rounded-sm"
+          inputType="password"
           padding="py-3"
           :disabled="!policyAgree"
         ></ButtonAccentOne>
         <ButtonAccentOne
           class="w-full"
-          @click="registerWithGoogle"
+          @click="
+            async () => {
+              try {
+                await signInWithPopup(auth, googleProvider);
+                store.commit('setUser', { ...auth.currentUser, cart: [] });
+                router.push('/');
+              } catch (e) {
+                console.error(e);
+              }
+            }
+          "
           text="Используя Google"
-          radius="rounded-sm" 
+          radius="rounded-sm"
           padding="py-3"
           ><div class="size-10"><img :src="GoogleIcon" alt="" /></div
         ></ButtonAccentOne>
@@ -114,15 +120,19 @@ export default {
   methods: {
     changeName(newName: string) {
       this.name = newName;
+      console.log(newName);
     },
     changeSurname(newSurname: string) {
       this.surname = newSurname;
+      console.log(newSurname);
     },
     changeEmail(newEmail: string) {
       this.email = newEmail;
+      console.log(newEmail);
     },
     changePassword(newPassword: string) {
       this.password = newPassword;
+      console.log(newPassword);
     },
   },
 };

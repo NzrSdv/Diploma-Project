@@ -6,7 +6,7 @@
       :type="inputType ? inputType : 'text'"
       :placeholder="placeholder"
       v-model="inputValue"
-      @input="this.$emit('change', inputValue)"
+      @change="this.$emit('modify', $event?.target?.value)"
     />
   </div>
 </template>

@@ -7,6 +7,7 @@ import { key } from "./store.ts";
 import { useRoute } from "vue-router";
 import { computed } from "vue";
 import FooterComponent from "./components/footer/FooterComponent.vue";
+import { auth } from "./config/firebase.ts";
 
 export default defineComponent({
   components: { HeaderComponent, FooterComponent },
@@ -15,6 +16,7 @@ export default defineComponent({
     const route = useRoute();
     const currentUser = computed(() => store.state.currentUser);
     // store.dispatch("getRedWines");
+    console.log(auth.currentUser)
     return {
       currentUser,
       route,

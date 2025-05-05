@@ -74,7 +74,7 @@ export default defineComponent({
   data() {},
   created() {
     if (localStorage.getItem("currentUser") === null) {
-      this.$router.push("/login");
+      // this.$router.push("/login");
     }
   },
 });
