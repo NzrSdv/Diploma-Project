@@ -7,6 +7,10 @@ import DisabledStar from "../../assets/icons/Star_disabled_icon.svg";
 
 import ActiveHeart from "../../assets/icons/Heart_active_icon.svg";
 import DisabledHeart from "../../assets/icons/Heart_disabled_icon.svg";
+import { doc, deleteDocs } from "firebase/firestore";
+import { db } from "../../config/firebase.ts";
+
+
 </script>
 
 <template>
