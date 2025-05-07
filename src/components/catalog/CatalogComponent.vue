@@ -1,8 +1,12 @@
 <script setup lang="ts">
 import CatalogPhoto from "../../assets/img/CatalogComponent_photo.jpg";
 import WineCard from "../../UI/cards/WineCard.vue";
+import { useStore } from "vuex";
 
-const wines = JSON.parse(localStorage.getItem("redWines") || "[]");
+import { computed } from "vue";
+const store = useStore();
+
+const wines = computed(() => store.state.redWines);
 </script>
 <template>
   <main class="flex flex-col items-center jusitfy-center font-main gap-30">

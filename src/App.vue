@@ -24,7 +24,13 @@ export default defineComponent({
     const store = useStore(key);
     const route = useRoute();
     const currentUser = computed(() => store.state.currentUser);
-    // store.dispatch("getRedWines");
+    if (!localStorage.getItem("redWines")) {
+      store.dispatch("getRedWines");
+    }
+    else{
+      console.log("local is wine");
+      
+    }
     console.log(auth.currentUser);
     return {
       currentUser,
