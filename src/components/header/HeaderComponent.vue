@@ -33,17 +33,18 @@ function toggleBurgerStatus(): void {
         ]"
       >
         <ul
-          class="flex lg:flex-row flex-col items-center lg:justify-center justify-start px-10 gap-14 bg-white lg:static fixed top-0 right-0 bottom-0"
+          class="flex lg:flex-row flex-col items-center lg:justify-center justify-start px-10 gap-14 bg-white lg:static fixed top-0 right-0 bottom-0 z-20"
         >
           <li
             :class="[
               'font-main text-lg border-b-2 border-solid duration-200  hover:border-accent-15',
-              route.path == link.link
+              route.path == link.link && sideStatus
                 ? 'border-accent-15'
                 : 'border-transparent',
             ]"
             v-for="(link, index) in links"
             :key="index"
+            @click="toggleBurgerStatus"
           >
             <router-link :to="link.link">{{ link.text }}</router-link>
           </li>
@@ -55,8 +56,11 @@ function toggleBurgerStatus(): void {
                 ? 'border-accent-15'
                 : 'border-transparent',
             ]"
+            @click="toggleBurgerStatus"
           >
-            <router-link to="/user/info">Мои данные</router-link>
+            <router-link to="/user/info" 
+              >Мои данные</router-link
+            >
           </li>
           <li
             class="w-full lg:hidden block text-center font-main text-xl rounded-lg text-accent-15 font-bold duration-300 cursor-pointer hover:bg-main-1/50"

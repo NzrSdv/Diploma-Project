@@ -6,19 +6,20 @@ import { Transition } from "vue";
   <section
     class="container font-main flex flex-col items-center justify-center gap-14"
   >
-    <div class="flex flex-col items-center justify-center gap-2">
-      <h4 class="text-xl uppercase">что о нас говорят?</h4>
-      <h2 class="font-bold text-5xl">Отзывы о нас</h2>
+    <div class="flex flex-col items-center justify-center text-center gap-2">
+      <h4 class="text-xl uppercase ">что о нас говорят?</h4>
+      <h2 class="font-bold text-5xl ">Отзывы о нас</h2>
     </div>
     <div class="flex flex-col items-center justify-center gap-12">
       <div class="overflow-hidden flex flex-row">
         <button @click="ReviewGo()">Go Down</button>
         <Transition name="move">
           <div
-            class="flex flex-row items-center jusitfy-center gap-10"
+            class="flex xl:flex-row flex-col items-center jusitfy-center gap-10"
             v-if="!animationStatus"
           >
             <ReviewCard
+            class="w-full"
               v-for="(review, index) in currentReviews"
               :key="index"
               :review="review"

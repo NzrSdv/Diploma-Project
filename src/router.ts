@@ -1,4 +1,4 @@
-import MainComponent from "./components/main/MainComponent.vue";
+import MainView from "./views/MainView.vue";
 import { createRouter, createWebHistory } from "vue-router";
 import ErrorComponent from "./components/error/ErrorComponent.vue";
 import LoginComponent from "./components/login/LoginComponent.vue";
@@ -12,7 +12,7 @@ import SettingsComponent from "./components/user/nested/SettingsComponent.vue";
 import CartComponent from "./components/cart/CartComponent.vue";
 
 const routes = [
-  { path: "/", component: MainComponent },
+  { path: "/", component: MainView },
   { path: "/catalog", component: CatalogComponent },
   { path: "/cart", component: CartComponent },
   { path: "/redWines/:WineId", component: ProductComponent },

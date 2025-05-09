@@ -1,15 +1,16 @@
 import { createStore, Store } from "vuex";
 import { db } from "./config/firebase.ts";
-import { addDoc, collection, getDocs, limit, orderBy, query, } from "firebase/firestore";
+import { addDoc, collection, getDocs, orderBy, query, } from "firebase/firestore";
 import type { InjectionKey } from "vue";
 
 import type User from "./interfaces.ts";
-const onePageMax = 20;
 export interface State {
   currentUser: Object;
-  currentPage: Object;
+  currentPage: number;
   redWines: Array<Object>;
-  lastVisibleWine: object;
+  currentWines: Array<Object>;
+  onePageMax: number;
+  LastWineIndex: number;
 }
 
 
@@ -17,9 +18,11 @@ export const key: InjectionKey<Store<State>> = Symbol();
 
 const defaultState: State = {
   currentUser: {},
-  currentPage: {},
+  currentPage: 0,
   redWines: [],
-  lastVisibleWine: {},
+  currentWines: [],
+  onePageMax: 20,
+  LastWineIndex: 0
 };
 
 if (localStorage.getItem("currentUser")) {
@@ -50,10 +53,15 @@ const store = createStore<State>({
     setRedWines(state: State, redWines: Array<Object>) {
       state.redWines = redWines;
       localStorage.setItem("redWines", JSON.stringify(redWines));
-      console.log(redWines);
+      console.log(state.currentWines);
     },
-    setLastVisibleWine(state: State, Wine: object) {
-      state.lastVisibleWine = Wine;
+    setCurrentWines(state: State) {
+      state.currentWines = state.redWines.slice(state.onePageMax * state.currentPage, state.onePageMax * (state.currentPage + 1))
+
+      localStorage.setItem("currentWines", JSON.stringify(state.currentWines));
+    },
+    setCurrentPage(state: State, newPage: number) {
+      state.currentPage = newPage;
     }
   },
   actions: {
@@ -61,14 +69,15 @@ const store = createStore<State>({
       return new Promise(async (resolve: Function, reject: Function) => {
         try {
           const redWines = collection(db, "redWines");
-          const pageQuery = query(redWines, orderBy("wine"), limit(onePageMax))
+          const pageQuery = query(redWines, orderBy("wine"));
           const data = await getDocs(pageQuery);
-          commit("setLastVisibleWine", data.docs[data.docs.length - 1])
           const filteredData = data.docs.map((doc) => ({
             ...doc.data(),
             id: doc.id,
           }));
+          console.log(filteredData);
           commit("setRedWines", filteredData);
+          commit("setCurrentWines")
           resolve();
         }
         catch (error) {
@@ -77,6 +86,9 @@ const store = createStore<State>({
         }
       });
     },
+    setCurrentPageWine({ commit }: { commit: Function }) {
+      commit("")
+    }
   },
   getters: {},
 });

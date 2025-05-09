@@ -11,7 +11,7 @@ import { auth } from "./config/firebase.ts";
 
 auth.authStateReady().then(() => {
   if(auth.currentUser){
-    console.log("logged in",auth.currentUser)
+    // console.log("logged in",auth.currentUser)
   }
   else{
     console.log("not logged in")

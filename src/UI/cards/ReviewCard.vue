@@ -2,8 +2,8 @@
 </script>
 <template>
   <div class="w-1/2 px-11 py-12 bg-main-025 font-main flex flex-col items-start justify-center gap-11">
-    <p class="text-base">{{ review.review }}</p>
-    <h5 class="font-semibold text-base">{{ review.author }}</h5>
+    <p class="sm:text-base text-sm">{{ review.review }}</p>
+    <h5 class="font-semibold sm:text-base text-sm">{{ review.author }}</h5>
 
   </div>
 </template>

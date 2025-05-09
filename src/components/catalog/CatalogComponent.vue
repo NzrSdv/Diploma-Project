@@ -1,12 +1,8 @@
 <script setup lang="ts">
 import CatalogPhoto from "../../assets/img/CatalogComponent_photo.jpg";
 import WineCard from "../../UI/cards/WineCard.vue";
-import { useStore } from "vuex";
 
-import { computed } from "vue";
-const store = useStore();
-
-const wines = computed(() => store.state.redWines);
+const wines = JSON.parse(localStorage.getItem("currentWines") || "[]");
 </script>
 <template>
   <main class="flex flex-col items-center jusitfy-center font-main gap-30">
@@ -24,10 +20,15 @@ const wines = computed(() => store.state.redWines);
         </h1>
       </div>
     </section>
-    <section
-      class="container px-30 flex items-center justify-center flex-wrap gap-7"
-    >
-      <WineCard v-for="(wine, index) in wines" :key="index" :info="wine" />
+    <section class="container px-30 flex items-center justify-center">
+      <div class="">
+        <select name="" id=""></select>
+      </div>
+      <div
+        class="w-full h-max flex items-center justify-center flex-wrap gap-7"
+      >
+        <WineCard v-for="(wine, index) in wines" :key="index" :info="wine" />
+      </div>
     </section>
   </main>
 </template>

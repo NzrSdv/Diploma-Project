@@ -7,17 +7,13 @@ import DisabledStar from "../../assets/icons/Star_disabled_icon.svg";
 
 import ActiveHeart from "../../assets/icons/Heart_active_icon.svg";
 import DisabledHeart from "../../assets/icons/Heart_disabled_icon.svg";
-import { doc, deleteDocs } from "firebase/firestore";
-import { db } from "../../config/firebase.ts";
-
-
 </script>
 
 <template>
   <router-link :to="`/redWines/${info.id}`">
     <div
       :class="[
-        'w-88 h-98 flex flex-col rounded-md font-accent relative pt-10',
+        'md:w-88 w-70 md:h-98 h-90 flex flex-col rounded-md font-accent relative pt-10',
         info.type == 'red' || info.type == 'rose' ? 'bg-main-2' : 'bg-main-3',
       ]"
     >
@@ -29,7 +25,7 @@ import { db } from "../../config/firebase.ts";
       <div
         class="flex h-full flex-col items-center justify-between text-main-05"
       >
-        <div class="w-12 h-50">
+        <div class="md:w-12 w-10 md:h-50 h-45">
           <img
             :src="
               info.type == 'red' || info.type == 'rose' ? RedWhine : WhiteWine
@@ -39,7 +35,9 @@ import { db } from "../../config/firebase.ts";
         </div>
         <div class="w-full flex flex-col items-start justify-center pl-6 pb-6">
           <h3>{{ info.wine }}</h3>
-          <p class="font-semibold text-lg">${{ info.price }}</p>
+          <p class="font-semibold text-lg">
+            ${{ info.price < 15 ? info.price * 10 : info.price }}
+          </p>
           <div class="flex items-center justify-center gap-2">
             <div class="flex items-center justify-center">
               <div
