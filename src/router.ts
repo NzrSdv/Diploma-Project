@@ -13,7 +13,7 @@ import CartComponent from "./components/cart/CartComponent.vue";
 
 const routes = [
   { path: "/", component: MainView },
-  { path: "/catalog", component: CatalogView },
+  { path: "/catalog/:page", component: CatalogView },
   { path: "/cart", component: CartComponent },
   { path: "/redWines/:WineId", component: ProductView },
   { path: "/register", component: RegisterComponent },

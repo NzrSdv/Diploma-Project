@@ -28,6 +28,9 @@ const defaultState: State = {
 if (localStorage.getItem("currentUser")) {
   defaultState.currentUser = JSON.parse(localStorage.getItem("currentUser") || "{}");
 }
+if (localStorage.getItem("redWines")) {
+  defaultState.redWines = JSON.parse(localStorage.getItem("redWines") || "{}")
+}
 
 const store = createStore<State>({
   state: defaultState,
@@ -56,8 +59,8 @@ const store = createStore<State>({
       console.log(state.currentWines);
     },
     setCurrentWines(state: State) {
-      state.currentWines = state.redWines.slice(state.onePageMax * state.currentPage, state.onePageMax * (state.currentPage + 1))
-
+      localStorage.removeItem("currentWines")
+      state.currentWines = state.redWines.slice(state.onePageMax * (state.currentPage-1), state.onePageMax * state.currentPage)
       localStorage.setItem("currentWines", JSON.stringify(state.currentWines));
     },
     setCurrentPage(state: State, newPage: number) {
@@ -86,11 +89,17 @@ const store = createStore<State>({
         }
       });
     },
-    setCurrentPageWine({ commit }: { commit: Function }) {
-      commit("")
+    setCurrentPageWine({ commit, state }: { commit: Function, state: State }, newPage: string) {
+      commit("setCurrentPage", newPage);
+      commit("setCurrentWines");
     }
   },
-  getters: {},
+  getters: {
+    getRedWinesPages(state: State) {
+      return state.redWines.length;
+    }
+
+  },
 });
 
 export default store;
