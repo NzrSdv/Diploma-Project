@@ -38,7 +38,7 @@ function toggleBurgerStatus(): void {
           <li
             :class="[
               'font-main text-lg border-b-2 border-solid duration-200  hover:border-accent-15',
-              route.path == link.link && sideStatus
+              route.path == link.link
                 ? 'border-accent-15'
                 : 'border-transparent',
             ]"
@@ -98,7 +98,7 @@ export default {
   data() {
     return {
       links: [
-        { text: "Каталог", link: "/catalog" },
+        { text: "Каталог", link: "/catalog/1" },
         { text: "О нас", link: "/" },
         { text: "Корзина", link: "/cart" },
       ],

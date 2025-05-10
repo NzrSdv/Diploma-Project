@@ -23,6 +23,7 @@ const route = useRoute();
 
 const currentWines = computed(() => store.state.currentWines);
 store.dispatch("setCurrentPageWine", route.params.page);
+console.log(route.params.page)
 watch(
   () => route.params.page,
   (newPage, oldPage) => {
@@ -51,15 +52,62 @@ console.log(AllPages);
   <section
     class="2xl:container w-full md:px-30 px-0 flex-col flex items-center justify-center gap-10"
   >
-    <div class="">
-      <select name="" id=""></select>
+    <div class="text-white">
+      <input
+        type="text"
+        v-model="searchText"
+        @input="
+          () => {
+            store.commit('setSearchText', searchText);
+            store.commit('setSortedAndSearched');
+            store.commit('setCurrentWines')
+          }
+        "
+      />
+      <select
+        name=""
+        id=""
+        v-model="searchKey"
+        @change="
+          () => {
+            store.commit('setFilterKey', searchKey);
+            store.commit('setSortedAndSearched');
+            store.commit('setCurrentWines')
+
+          }
+        "
+      >
+        <option value="id">Обычно</option>
+        <option value="wine">По названию</option>
+        <option value="price">По цене</option>
+      </select>
+      <select
+        v-model="ascending"
+        @change="
+          () => {
+            store.commit('setAscending', ascending);
+            store.commit('setSortedAndSearched');
+            store.commit('setCurrentWines')
+
+          }
+        "
+        name=""
+        id=""
+      >
+        <option value="true">По возростанию</option>
+        <option value="false">По убыванию</option>
+      </select>
     </div>
     <div class="w-full h-max flex items-center justify-center flex-wrap gap-7">
       <WineCard
+      v-if="currentWines?.length"
         v-for="(wine, index) in currentWines"
         :key="index"
         :info="wine"
       />
+      <div v-if="!currentWines?.length" class="w-full h-100 flex items-center justify-center">
+        <h2 class="text-6xl text-main-2 font-bold">Ничего не найдено</h2>
+      </div>
     </div>
     <Pagination
       v-slot="{ page }"
@@ -98,7 +146,9 @@ console.log(AllPages);
             () => router.push(`/catalog/${Number(route.params.page) + 1}`)
           "
         />
-        <PaginationLast @click="() => router.push(`/catalog/${Math.ceil(AllPages / 20)}`)" />
+        <PaginationLast
+          @click="() => router.push(`/catalog/${Math.ceil(AllPages / 20)}`)"
+        />
       </PaginationContent>
     </Pagination>
   </section>
@@ -117,6 +167,13 @@ export default {
     PaginationPrevious,
   },
   props: { wines: Array<Object> },
+  data() {
+    return {
+      searchText: "",
+      searchKey: "wine",
+      ascending: true,
+    };
+  },
 };
 </script>
 <style></style>

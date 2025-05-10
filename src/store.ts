@@ -4,6 +4,7 @@ import { addDoc, collection, getDocs, orderBy, query, } from "firebase/firestore
 import type { InjectionKey } from "vue";
 
 import type User from "./interfaces.ts";
+import type { Wine } from "lucide-vue-next";
 export interface State {
   currentUser: Object;
   currentPage: number;
@@ -11,6 +12,10 @@ export interface State {
   currentWines: Array<Object>;
   onePageMax: number;
   LastWineIndex: number;
+  sortedAndSearchRedWines: Array<Object>;
+  searchText: string;
+  filterKey: string;
+  ascending: boolean;
 }
 
 
@@ -22,14 +27,28 @@ const defaultState: State = {
   redWines: [],
   currentWines: [],
   onePageMax: 20,
-  LastWineIndex: 0
-};
+  LastWineIndex: 0,
+  sortedAndSearchRedWines: [],
+  searchText: '',
+  filterKey: 'id',
+  ascending: true
 
+};
+interface Wine {
+  id: number;
+  name: string;
+  location: string;
+  rating: Object;
+  image: string;
+  price: number;
+  type: string;
+}
 if (localStorage.getItem("currentUser")) {
   defaultState.currentUser = JSON.parse(localStorage.getItem("currentUser") || "{}");
 }
 if (localStorage.getItem("redWines")) {
   defaultState.redWines = JSON.parse(localStorage.getItem("redWines") || "{}")
+  defaultState.sortedAndSearchRedWines = defaultState.redWines;
 }
 
 const store = createStore<State>({
@@ -60,12 +79,55 @@ const store = createStore<State>({
     },
     setCurrentWines(state: State) {
       localStorage.removeItem("currentWines")
-      state.currentWines = state.redWines.slice(state.onePageMax * (state.currentPage-1), state.onePageMax * state.currentPage)
+      state.currentWines = state.sortedAndSearchRedWines.slice(state.onePageMax * (state.currentPage - 1), state.onePageMax * state.currentPage)
       localStorage.setItem("currentWines", JSON.stringify(state.currentWines));
     },
     setCurrentPage(state: State, newPage: number) {
       state.currentPage = newPage;
-    }
+    },
+    setSortedAndSearched(state: State) {
+      state.sortedAndSearchRedWines = [...state.redWines].sort((a, b) => {
+        if (state.ascending == 'true') {
+          if (state.filterKey == "wine" || state.filterKey == "winery" || state.filterKey == "id") {
+            return a[state.filterKey].localeCompare(b[state.filterKey])
+          }
+          else if (state.filterKey == "price") {
+            return a[state.filterKey] - b[state.filterKey];
+
+          }
+
+        }
+        else if (state.ascending == 'false') {
+
+          if (state.filterKey == "wine" || state.filterKey == "winery" || state.filterKey == "id") {
+            return b[state.filterKey].localeCompare(a[state.filterKey])
+          }
+          else if (state.filterKey == "price") {
+            return b[state.filterKey] - a[state.filterKey];
+
+          }
+        }
+      }).filter((wine) => {
+        if (wine.wine.includes(state.searchText) || wine.winery.includes(state.searchText) || wine.location.includes(state.searchText)) {
+          return wine;
+        }
+      })
+      console.log(state.ascending)
+      console.log(state.sortedAndSearchRedWines);
+    },
+    setSearchText(state: State, newSearch: string) {
+      state.searchText = newSearch;
+      console.log(state.searchText);
+    },
+    setFilterKey(state: State, newKey: string) {
+      state.filterKey = newKey;
+      console.log(state.filterKey);
+
+    },
+    setAscending(state: State, newState: boolean) {
+      state.ascending = newState;
+      console.log(state.ascending)
+    },
   },
   actions: {
     getRedWines({ commit }: { commit: Function }) {
@@ -91,14 +153,14 @@ const store = createStore<State>({
     },
     setCurrentPageWine({ commit, state }: { commit: Function, state: State }, newPage: string) {
       commit("setCurrentPage", newPage);
+      commit("setSortedAndSearched")
       commit("setCurrentWines");
     }
   },
   getters: {
     getRedWinesPages(state: State) {
-      return state.redWines.length;
-    }
-
+      return state.sortedAndSearchRedWines.length;
+    },
   },
 });
 
