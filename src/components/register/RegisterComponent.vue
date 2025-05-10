@@ -8,6 +8,7 @@ import GoogleIcon from "../../assets/icons/Google_Icon.svg";
 import { auth, googleProvider } from "../../config/firebase.ts";
 import {
   createUserWithEmailAndPassword,
+  sendEmailVerification,
   signInWithPopup,
   updateProfile,
 } from "firebase/auth";
@@ -70,9 +71,6 @@ console.log(import.meta.env.VITE_FIREBASE_AUTH_DOMAIN);
           @click="
             async () => {
               try {
-                console.log(email);
-                console.log(password);
-                console.log(surname);
                 await createUserWithEmailAndPassword(
                   auth,
                   email,

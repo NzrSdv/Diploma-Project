@@ -13,7 +13,7 @@ import DisabledHeart from "../../assets/icons/Heart_disabled_icon.svg";
   <router-link :to="`/redWines/${info.id}`">
     <div
       :class="[
-        'w-88 h-98 flex flex-col rounded-md font-accent relative pt-10',
+        'xl:w-88 w-70 xl:h-98 h-90 flex flex-col rounded-xl font-accent relative pt-10',
         info.type == 'red' || info.type == 'rose' ? 'bg-main-2' : 'bg-main-3',
       ]"
     >
@@ -25,7 +25,7 @@ import DisabledHeart from "../../assets/icons/Heart_disabled_icon.svg";
       <div
         class="flex h-full flex-col items-center justify-between text-main-05"
       >
-        <div class="w-12 h-50">
+        <div class="xl:w-12 w-10 xl:h-50 h-45">
           <img
             :src="
               info.type == 'red' || info.type == 'rose' ? RedWhine : WhiteWine
@@ -35,7 +35,9 @@ import DisabledHeart from "../../assets/icons/Heart_disabled_icon.svg";
         </div>
         <div class="w-full flex flex-col items-start justify-center pl-6 pb-6">
           <h3>{{ info.wine }}</h3>
-          <p class="font-semibold text-lg">${{ info.price }}</p>
+          <p class="font-semibold text-lg">
+            ${{ info.price }}
+          </p>
           <div class="flex items-center justify-center gap-2">
             <div class="flex items-center justify-center">
               <div

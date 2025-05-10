@@ -5,3 +5,4 @@ export default interface User {
   photoURL: string;
   cart: Array<Object>;
 }
+

@@ -1,7 +1,11 @@
 <template>
-    <div>
-        
-    </div>
+    <main>
+        <section>
+            <div>
+                Cart Component
+            </div>
+        </section>
+    </main>
 </template>
 <script lang="ts">
 export default {

@@ -4,23 +4,23 @@ import DeliveryInput from "../../UI/inputs/DeliveryInput.vue";
 import DeliverPhoto from "../../assets/img/DeliverySection_photo.png";
 </script>
 <template>
-  <section class="container flex flex-col items-center justify-center gap-20">
-    <div class="w-full flex flex-col gap-5 px-30">
+  <section class="2xl:container w-full flex flex-col items-center justify-center gap-20">
+    <div class="w-full flex flex-col gap-5 md:px-30 px-4">
       <h2 class="text-4xl font-main font-semibold">Доставка</h2>
       <div class="h-[1px] w-full bg-accent-2"></div>
     </div>
     <div
-      class="w-full bg-main-025 pl-44 flex flex-row items-stretch justify-between"
+      class="w-full bg-main-025 lg:pl-44 px-10 xl:pt-0 py-30 flex xl:flex-row flex-col xl:items-stretch items-center justify-between"
     >
-      <div class="flex flex-col gap-13 items-start justify-center font-main">
+      <div class="flex flex-col gap-13 md:items-start items-stretch justify-center font-main">
         <div class="flex flex-col gap-8">
           <div class="flex flex-col gap-4">
-            <h2 class="font-bold text-5xl">Вкус винограда — у двери</h2>
-            <p>Доставка зависит от места вашего нахождения.</p>
+            <h2 class="font-bold md:text-start text-center md:text-5xl text-3xl">Вкус винограда — у двери</h2>
+            <p class="md:flex-base md:text-start text-center flex-xs">Доставка зависит от места вашего нахождения.</p>
           </div>
-          <div class="w-full flex flex-row items-center justify-stretch gap-5">
-            <DeliveryInput class="w-1/2" placeholder="Ваше имя" />
-            <DeliveryInput class="w-1/2" placeholder="Ваш телефон" />
+          <div class="w-full flex md:flex-row flex-col items-center justify-stretch md:gap-5 gap-10">
+            <DeliveryInput class="md:w-1/2 w-full" placeholder="Ваше имя" />
+            <DeliveryInput class="md:w-1/2 w-full" placeholder="Ваш телефон" />
           </div>
         </div>
         <ButtonAccentOne

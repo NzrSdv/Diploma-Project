@@ -10,56 +10,59 @@ import DisabledHeart from "../../assets/icons/Heart_disabled_icon.svg";
 import ButtonAccentOne from "../../UI/buttons/ButtonAccentOne.vue";
 </script>
 <template>
-  <main class="">
-    <section
-      class="section mt-25 bg-main-025 py-20 px-30 flex flex-row items-center justify-between gap-40"
+  <section
+    class="2xl:section w-full mt-25 bg-main-025 xl:py-20 py-4 xl:px-30 px-4 flex xl:flex-row flex-col items-center justify-between xl:gap-40 gap-4"
+  >
+    <div
+      class="xl:w-1/2 md:w-2/3 w-full xl:h-160 h-120 bg-main-2 flex flex-col items-center justify-center relative"
     >
-      <div
-        class="w-1/2 h-160 bg-main-2 flex flex-col items-center justify-center relative"
-      >
-        <div class="size-6 absolute top-5 right-5 duration-300 hover:scale-110">
-          <img class="w-full h-auto" :src="DisabledHeart" alt="" />
-        </div>
-        <div class="w-28 h-120">
+      <div class="size-6 absolute top-5 right-5 duration-300 hover:scale-110">
+        <img class="w-full h-auto" :src="DisabledHeart" alt="" />
+      </div>
+      <div class="xl:mt-0 mt-10 xl:w-28 w-20 xl:h-120 h-110">
+        <img
+          class=""
+          :src="currentProduct.type == 'red' ? RedWinePhoto : WhiteWinePhoto"
+          alt=""
+        />
+      </div>
+      <div class="flex items-center justify-center absolute bottom-5 left-5">
+        <div class="size-6" v-for="(star, index) in ratingStars" :key="index">
           <img
-            class=""
-            :src="currentProduct.type == 'red' ? RedWinePhoto : WhiteWinePhoto"
+            class="w-full h-auto"
+            :src="star ? ActiveStar : DisabledStar"
             alt=""
           />
         </div>
-        <div class="flex items-center justify-center absolute bottom-5 left-5">
-          <div class="size-6" v-for="(star, index) in ratingStars" :key="index">
-            <img
-              class="w-full h-auto"
-              :src="star ? ActiveStar : DisabledStar"
-              alt=""
-            />
-          </div>
-        </div>
       </div>
-      <div
-        class="w-1/2 font-main text-main-2 flex flex-col items-start justify-center gap-7"
-      >
-        <h1 class="text-6xl">{{ currentProduct.wine }}</h1>
-        <p class="text-6xl font-semibold">
-          ${{
-            currentProduct.price < 10
-              ? currentProduct.price * 100
-              : currentProduct.price
-          }}
-        </p>
+    </div>
+    <div
+      class="xl:w-1/2 w-full font-main text-main-2 flex flex-col xl:items-start items-center justify-center gap-7"
+    >
+      <h1 class="md:text-6xl text-4xl md:text-start text-center">{{ currentProduct.wine }}</h1>
+      <p class="md:text-6xl text-4xl font-semibold">
+        ${{
+          currentProduct.price < 10
+            ? currentProduct.price * 100
+            : currentProduct.price
+        }}
+      </p>
 
-        <div class="flex flex-col items-start justify-center gap-15">
-          <p class="text-base">
-            Мини-описание. Это текст о компании. Он необходим для дальнейшего
-            продвижения Вашего сайта. Вам будет необходимо предоставить исходные
-            данные, по которым наши копирайтеры составят правильный текст
-          </p>
-          <ButtonAccentOne text="ЗАКАЗАТЬ ДОСТАВКУ" padding="py-4 px-17" radius="rounded-md"/>
-        </div>
+      <div class="flex flex-col xl:items-start items-center justify-center gap-15">
+        <p class="xl:max-w-full md:max-w-2/3 max-w-full xl:text-start text-center text-base">
+          Мини-описание. Это текст о компании. Он необходим для дальнейшего
+          продвижения Вашего сайта. Вам будет необходимо предоставить исходные
+          данные, по которым наши копирайтеры составят правильный текст
+        </p>
+        <ButtonAccentOne
+        class="sm:w-auto w-full"
+          text="ЗАКАЗАТЬ ДОСТАВКУ"
+          padding="py-4 sm:px-17 px-auto"
+          radius="rounded-md"
+        />
       </div>
-    </section>
-  </main>
+    </div>
+  </section>
 </template>
 <script lang="ts">
 export default {

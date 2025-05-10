@@ -1,13 +1,16 @@
 {
   "files": [],
   "compilerOptions": {
-    "lib": ["WebWorker"]
+    "lib": ["WebWorker"],
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"]
+    }
   },
   "references": [
     { "path": "./tsconfig.app.json" },
     { "path": "./tsconfig.node.json" }
   ],
-  "types": [
-   "vuex/types"
-]
+
+  "types": ["vuex/types"]
 }

@@ -33,7 +33,7 @@ function toggleBurgerStatus(): void {
         ]"
       >
         <ul
-          class="flex lg:flex-row flex-col items-center lg:justify-center justify-start px-10 gap-14 bg-white lg:static fixed top-0 right-0 bottom-0"
+          class="flex lg:flex-row flex-col items-center lg:justify-center justify-start px-10 gap-14 bg-white lg:static border-l border-t border-solid md:border-transparent border-black fixed top-20 md:pt-0 pt-10 right-0 bottom-0 z-50"
         >
           <li
             :class="[
@@ -44,6 +44,7 @@ function toggleBurgerStatus(): void {
             ]"
             v-for="(link, index) in links"
             :key="index"
+            @click="toggleBurgerStatus"
           >
             <router-link :to="link.link">{{ link.text }}</router-link>
           </li>
@@ -55,8 +56,11 @@ function toggleBurgerStatus(): void {
                 ? 'border-accent-15'
                 : 'border-transparent',
             ]"
+            @click="toggleBurgerStatus"
           >
-            <router-link to="/user/info">Мои данные</router-link>
+            <router-link to="/user/info" 
+              >Мои данные</router-link
+            >
           </li>
           <li
             class="w-full lg:hidden block text-center font-main text-xl rounded-lg text-accent-15 font-bold duration-300 cursor-pointer hover:bg-main-1/50"
@@ -94,9 +98,9 @@ export default {
   data() {
     return {
       links: [
-        { text: "Каталог", link: "/catalog" },
+        { text: "Каталог", link: "/catalog/red/1" },
         { text: "О нас", link: "/" },
-        { text: "Корзина", link: "/" },
+        { text: "Корзина", link: "/cart" },
       ],
       signedIn: false,
     };
