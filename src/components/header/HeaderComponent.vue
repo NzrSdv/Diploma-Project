@@ -33,7 +33,7 @@ function toggleBurgerStatus(): void {
         ]"
       >
         <ul
-          class="flex lg:flex-row flex-col items-center lg:justify-center justify-start px-10 gap-14 bg-white lg:static fixed top-0 right-0 bottom-0 z-20"
+          class="flex lg:flex-row flex-col items-center lg:justify-center justify-start px-10 gap-14 bg-white lg:static fixed top-20 xl:pt-0 pt-10 right-0 bottom-0 z-20"
         >
           <li
             :class="[
