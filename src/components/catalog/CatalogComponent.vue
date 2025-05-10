@@ -22,8 +22,17 @@ const store = useStore(key);
 const route = useRoute();
 
 const currentWines = computed(() => store.state.currentWines);
+console.log(route.params.page);
+console.log(route.params.wineType);
 store.dispatch("setCurrentPageWine", route.params.page);
-console.log(route.params.page)
+store.dispatch("setWineType", route.params.wineType);
+
+watch(
+  () => route.params.wineType,
+  (newType, oldType) => {
+  store.dispatch("setWineType",newType)
+  }
+);
 watch(
   () => route.params.page,
   (newPage, oldPage) => {
@@ -31,7 +40,7 @@ watch(
   }
 );
 
-const AllPages = computed(() => store.getters.getRedWinesPages);
+const AllPages = computed(() => store.getters.getWinesPages);
 console.log(AllPages);
 </script>
 <template>
@@ -45,22 +54,34 @@ console.log(AllPages);
       <h1
         class="w-full text-main-2 md:text-8xl text-6xl md:text-start text-center border-b border-solid border-accent-2 uppercase font-bold pb-5"
       >
-        Вино
+        {{ $route.params.wineType }} Вино
       </h1>
     </div>
   </section>
   <section
     class="2xl:container w-full md:px-30 px-0 flex-col flex items-center justify-center gap-10"
   >
+    <div class="flex flex-row items-center justify-center gap-3">
+      <router-link to="/catalog/red/1">
+        red
+      </router-link>
+      <router-link to="/catalog/white/1">
+        White
+      </router-link>
+      <router-link to="/catalog/rose/1">
+        Rose
+      </router-link>
+    </div>
     <div class="text-white">
       <input
         type="text"
+        placeholder="Поиск..."
         v-model="searchText"
         @input="
           () => {
             store.commit('setSearchText', searchText);
             store.commit('setSortedAndSearched');
-            store.commit('setCurrentWines')
+            store.commit('setCurrentWines');
           }
         "
       />
@@ -72,8 +93,7 @@ console.log(AllPages);
           () => {
             store.commit('setFilterKey', searchKey);
             store.commit('setSortedAndSearched');
-            store.commit('setCurrentWines')
-
+            store.commit('setCurrentWines');
           }
         "
       >
@@ -87,8 +107,7 @@ console.log(AllPages);
           () => {
             store.commit('setAscending', ascending);
             store.commit('setSortedAndSearched');
-            store.commit('setCurrentWines')
-
+            store.commit('setCurrentWines');
           }
         "
         name=""
@@ -100,12 +119,15 @@ console.log(AllPages);
     </div>
     <div class="w-full h-max flex items-center justify-center flex-wrap gap-7">
       <WineCard
-      v-if="currentWines?.length"
+        v-if="currentWines?.length"
         v-for="(wine, index) in currentWines"
         :key="index"
         :info="wine"
       />
-      <div v-if="!currentWines?.length" class="w-full h-100 flex items-center justify-center">
+      <div
+        v-if="!currentWines?.length"
+        class="w-full h-100 flex items-center justify-center"
+      >
         <h2 class="text-6xl text-main-2 font-bold">Ничего не найдено</h2>
       </div>
     </div>
@@ -118,10 +140,10 @@ console.log(AllPages);
       :default-page="Number(route.params.page)"
     >
       <PaginationContent v-slot="{ items }" class="flex items-center gap-1">
-        <PaginationFirst @click="() => router.push(`/catalog/1`)" />
+        <PaginationFirst @click="() => router.push(`/catalog/${route.params.wineType}/1`)" />
         <PaginationPrevious
           @click="
-            () => router.push(`/catalog/${Number(route.params.page) - 1}`)
+            () => router.push(`/catalog/${route.params.wineType}/${Number(route.params.page) - 1}`)
           "
         />
         <template v-for="(item, index) in items">
@@ -134,7 +156,7 @@ console.log(AllPages);
             <Button
               class="w-10 h-10 p-0"
               :variant="item.value === page ? 'outline' : 'default'"
-              @click="() => router.push(`/catalog/${item.value}`)"
+              @click="() => router.push(`/catalog/${route.params.wineType}/${item.value}`)"
             >
               {{ item.value }}
             </Button>
@@ -143,11 +165,11 @@ console.log(AllPages);
         </template>
         <PaginationNext
           @click="
-            () => router.push(`/catalog/${Number(route.params.page) + 1}`)
+            () => router.push(`/catalog/${route.params.wineType}/${Number(route.params.page) + 1}`)
           "
         />
         <PaginationLast
-          @click="() => router.push(`/catalog/${Math.ceil(AllPages / 20)}`)"
+          @click="() => router.push(`/catalog/${route.params.wineType}/${Math.ceil(AllPages / 20)}`)"
         />
       </PaginationContent>
     </Pagination>

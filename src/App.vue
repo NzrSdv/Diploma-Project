@@ -10,13 +10,12 @@ import FooterComponent from "./components/footer/FooterComponent.vue";
 import { auth } from "./config/firebase.ts";
 
 auth.authStateReady().then(() => {
-  if(auth.currentUser){
+  if (auth.currentUser) {
     // console.log("logged in",auth.currentUser)
+  } else {
+    console.log("not logged in");
   }
-  else{
-    console.log("not logged in")
-  }
-})
+});
 
 export default defineComponent({
   components: { HeaderComponent, FooterComponent },
@@ -24,12 +23,14 @@ export default defineComponent({
     const store = useStore(key);
     const route = useRoute();
     const currentUser = computed(() => store.state.currentUser);
-    if (!localStorage.getItem("redWines")) {
+    if (!localStorage.getItem("roseWines")) {
+      store.dispatch("getRoseWines");
+    } else if (!localStorage.getItem("whiteWines")) {
+      store.dispatch("getWhiteWines");
+    } else if (!localStorage.getItem("redWines")) {
       store.dispatch("getRedWines");
-    }
-    else{
+    } else {
       console.log("local is wine");
-      
     }
     console.log(auth.currentUser);
     return {

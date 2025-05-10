@@ -8,7 +8,7 @@ import type { Wine } from "lucide-vue-next";
 export interface State {
   currentUser: Object;
   currentPage: number;
-  redWines: Array<Object>;
+  wines: Array<Object>;
   currentWines: Array<Object>;
   onePageMax: number;
   LastWineIndex: number;
@@ -24,7 +24,7 @@ export const key: InjectionKey<Store<State>> = Symbol();
 const defaultState: State = {
   currentUser: {},
   currentPage: 0,
-  redWines: [],
+  wines: [],
   currentWines: [],
   onePageMax: 20,
   LastWineIndex: 0,
@@ -47,8 +47,8 @@ if (localStorage.getItem("currentUser")) {
   defaultState.currentUser = JSON.parse(localStorage.getItem("currentUser") || "{}");
 }
 if (localStorage.getItem("redWines")) {
-  defaultState.redWines = JSON.parse(localStorage.getItem("redWines") || "{}")
-  defaultState.sortedAndSearchRedWines = defaultState.redWines;
+  defaultState.wines = JSON.parse(localStorage.getItem("redWines") || "{}")
+  defaultState.sortedAndSearchRedWines = defaultState.wines;
 }
 
 const store = createStore<State>({
@@ -67,15 +67,25 @@ const store = createStore<State>({
       const usersCollection = collection(db, "users");
       try {
         await addDoc(usersCollection, newUser);
-        console.log("ok")
+
       } catch (error) {
         console.error(error);
       }
     },
     setRedWines(state: State, redWines: Array<Object>) {
-      state.redWines = redWines;
+      state.wines = redWines;
+      console.log("reddd")
       localStorage.setItem("redWines", JSON.stringify(redWines));
-      console.log(state.currentWines);
+    },
+    setWhiteWines(state: State, whiteWines: Array<Object>) {
+      state.wines = whiteWines;
+      console.log("whiteeee")
+      localStorage.setItem("whiteWines", JSON.stringify(whiteWines));
+    },
+    setRoseWines(state: State, roseWines: Array<Object>) {
+      state.wines = roseWines;
+      console.log("roseeee")
+      localStorage.setItem("roseWines", JSON.stringify(roseWines))
     },
     setCurrentWines(state: State) {
       localStorage.removeItem("currentWines")
@@ -86,7 +96,7 @@ const store = createStore<State>({
       state.currentPage = newPage;
     },
     setSortedAndSearched(state: State) {
-      state.sortedAndSearchRedWines = [...state.redWines].sort((a, b) => {
+      state.sortedAndSearchRedWines = [...state.wines].sort((a, b) => {
         if (state.ascending == 'true') {
           if (state.filterKey == "wine" || state.filterKey == "winery" || state.filterKey == "id") {
             return a[state.filterKey].localeCompare(b[state.filterKey])
@@ -112,21 +122,19 @@ const store = createStore<State>({
           return wine;
         }
       })
-      console.log(state.ascending)
-      console.log(state.sortedAndSearchRedWines);
+
     },
     setSearchText(state: State, newSearch: string) {
       state.searchText = newSearch;
-      console.log(state.searchText);
+
     },
     setFilterKey(state: State, newKey: string) {
       state.filterKey = newKey;
-      console.log(state.filterKey);
+
 
     },
     setAscending(state: State, newState: boolean) {
       state.ascending = newState;
-      console.log(state.ascending)
     },
   },
   actions: {
@@ -140,8 +148,47 @@ const store = createStore<State>({
             ...doc.data(),
             id: doc.id,
           }));
-          console.log(filteredData);
           commit("setRedWines", filteredData);
+          commit("setCurrentWines")
+          resolve();
+        }
+        catch (error) {
+          console.error(error);
+          reject(error);
+        }
+      });
+    },
+    getWhiteWines({ commit }: { commit: Function }) {
+      return new Promise(async (resolve: Function, reject: Function) => {
+        try {
+          const whiteWines = collection(db, "whiteWines");
+          const pageQuery = query(whiteWines, orderBy("wine"));
+          const data = await getDocs(pageQuery);
+          const filteredData = data.docs.map((doc) => ({
+            ...doc.data(),
+            id: doc.id,
+          }));
+          commit("setWhiteWines", filteredData);
+          commit("setCurrentWines")
+          resolve();
+        }
+        catch (error) {
+          console.error(error);
+          reject(error);
+        }
+      });
+    },
+    getRoseWines({ commit }: { commit: Function }) {
+      return new Promise(async (resolve: Function, reject: Function) => {
+        try {
+          const roseWines = collection(db, "roseWines");
+          const pageQuery = query(roseWines, orderBy("wine"));
+          const data = await getDocs(pageQuery);
+          const filteredData = data.docs.map((doc) => ({
+            ...doc.data(),
+            id: doc.id,
+          }));
+          commit("setRoseWines", filteredData);
           commit("setCurrentWines")
           resolve();
         }
@@ -155,10 +202,43 @@ const store = createStore<State>({
       commit("setCurrentPage", newPage);
       commit("setSortedAndSearched")
       commit("setCurrentWines");
+    },
+    setWineType({ commit ,state}: { commit: Function,state:State }, wineType: String) {
+      switch (wineType) {
+        case "red":
+          console.log("red")
+          commit(
+            "setRedWines",
+            JSON.parse(localStorage.getItem("redWines"))
+          );
+          break;
+        case "white":
+          console.log("white")
+          commit(
+            "setWhiteWines",
+            JSON.parse(localStorage.getItem("whiteWines"))
+          );
+
+          break;
+        case "rose":
+          console.log("rose")
+          commit(
+            "setRoseWines",
+            JSON.parse(localStorage.getItem("roseWines"))
+          );
+
+          break;
+        default:
+          console.log("okk")
+          break;
+      }
+      commit("setSortedAndSearched")
+      commit("setCurrentWines");
+      console.log(state.currentWines)
     }
   },
   getters: {
-    getRedWinesPages(state: State) {
+    getWinesPages(state: State) {
       return state.sortedAndSearchRedWines.length;
     },
   },

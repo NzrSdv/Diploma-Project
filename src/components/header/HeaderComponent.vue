@@ -98,7 +98,7 @@ export default {
   data() {
     return {
       links: [
-        { text: "Каталог", link: "/catalog/1" },
+        { text: "Каталог", link: "/catalog/red/1" },
         { text: "О нас", link: "/" },
         { text: "Корзина", link: "/cart" },
       ],
