@@ -1,12 +1,10 @@
 <script setup lang="ts">
 import CatalogPhoto from "../../assets/img/CatalogComponent_photo.jpg";
 import WineCard from "../../UI/cards/WineCard.vue";
-
-const wines = JSON.parse(localStorage.getItem("currentWines") || "[]");
 </script>
 <template>
   <section
-    class="2xl:container w-full  h-130 flex flex-col items-center justify-center relative bg-center bg-cover"
+    class="2xl:container w-full h-130 flex flex-col items-center justify-center relative bg-center bg-cover"
     :style="{ backgroundImage: `url(${CatalogPhoto})` }"
   >
     <div
@@ -19,7 +17,9 @@ const wines = JSON.parse(localStorage.getItem("currentWines") || "[]");
       </h1>
     </div>
   </section>
-  <section class="2xl:container w-full md:px-30 px-0 flex-col flex items-center justify-center">
+  <section
+    class="2xl:container w-full md:px-30 px-0 flex-col flex items-center justify-center"
+  >
     <div class="">
       <select name="" id=""></select>
     </div>
@@ -32,6 +32,7 @@ const wines = JSON.parse(localStorage.getItem("currentWines") || "[]");
 export default {
   name: "CatalogComponent",
   components: { WineCard },
+  props: { wines: Array<Object> },
 };
 </script>
 <style></style>
