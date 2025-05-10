@@ -7,12 +7,6 @@ import { key } from "../../../store";
 import ButtonAccentOne from "../../../UI/buttons/ButtonAccentOne.vue";
 import { useRouter } from "vue-router";
 
-auth.authStateReady().then(() => {
-  if (auth.currentUser) {
-  } else {
-    router.push("/");
-  }
-});
 const router = useRouter();
 const store = useStore(key);
 async function signOutUser() {
@@ -28,7 +22,7 @@ async function signOutUser() {
 <template>
   <div class="">
     <div
-      class="bg-main-2 p-10 rounded-md flex flex-col items-center justify-center gap-13"
+      class="bg-main-2 md:p-10 py-10 px-2 rounded-md flex flex-col items-center justify-center gap-13"
     >
       <h2 class="font-semibold text-2xl">Ваши личные данные</h2>
       <div class="flex flex-col items-center justify-center gap-6">

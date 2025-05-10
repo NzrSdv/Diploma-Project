@@ -40,7 +40,7 @@ auth.authStateReady().then(() => {
       class="2xl:w-5/14 md:w-101 w-full md:h-full h-101 bg-main-2 flex flex-col items-center md:justify-start justify-end"
     >
       <div
-        class="w-full flex md:flex-col flex-row items-center md:justify-center justify-evenly gap-5 shadow-sm py-7 z-20"
+        class="w-full flex md:flex-col flex-row items-center md:justify-center justify-evenly gap-5 shadow-sm md:py-7 md:h-auto h-full z-20"
       >
         <div
           class="size-20 rounded-full border border-solid border-accent-1 overflow-hidden flex items-center justify-center"
