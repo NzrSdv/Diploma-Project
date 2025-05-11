@@ -20,6 +20,7 @@ import { useRoute } from "vue-router";
 import ButtonAccentOne from "@/UI/buttons/ButtonAccentOne.vue";
 import ButtonAccentTwo from "@/UI/buttons/ButtonAccentTwo.vue";
 import { Route } from "lucide-vue-next";
+import FillerComponent from "../filler/FillerComponent.vue";
 const store = useStore(key);
 
 const route = useRoute();
@@ -143,12 +144,7 @@ console.log(AllPages);
         :key="index"
         :info="wine"
       />
-      <div
-        v-if="!currentWines?.length"
-        class="w-full h-100 flex items-center justify-center"
-      >
-        <h2 class="text-6xl text-main-2 font-bold">Ничего не найдено</h2>
-      </div>
+      <FillerComponent v-if="!currentWines?.length"/>
     </div>
     <Pagination
       v-slot="{ page }"
@@ -219,6 +215,7 @@ export default {
   name: "CatalogComponent",
   components: {
     WineCard,
+
     Pagination,
     PaginationContent,
     PaginationEllipsis,
@@ -229,6 +226,8 @@ export default {
 
     ButtonAccentOne,
     ButtonAccentTwo,
+
+    FillerComponent
   },
   props: { wines: Array<Object> },
   data() {

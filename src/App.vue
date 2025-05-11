@@ -10,9 +10,12 @@ import FooterComponent from "./common/footer/FooterComponent.vue";
 import { auth } from "./config/firebase.ts";
 import { Toaster } from "./UI/sonner/index.ts";
 
+const store = useStore();
+
 auth.authStateReady().then(() => {
   if (auth.currentUser) {
     // console.log("logged in",auth.currentUser)
+    store.commit('setUserCart')
   } else {
     console.log("not logged in");
   }

@@ -87,8 +87,8 @@ interface Wine {
         <ButtonAccentOne
           @click="addCart"
           class="sm:w-auto w-full"
-          text="ЗАКАЗАТЬ ДОСТАВКУ"
-          padding="py-4 sm:px-17 px-auto"
+          text="В КОРЗИНУ"
+          padding="py-4 sm:px-20 px-auto"
           radius="rounded-md"
         />
         
@@ -123,6 +123,7 @@ export default {
       if (!this.orderStatus) {
         this.orderStatus = true;
         this.$store.commit("setCart", this.currentProduct);
+        this.$store.commit('setTotal');
         setTimeout(() => {
           toast("Вино добавлено в корзину", {
             description: "",

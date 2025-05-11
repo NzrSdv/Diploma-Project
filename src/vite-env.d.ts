@@ -8,7 +8,8 @@ interface ImportMetaEnv {
     readonly VITE_FIREBASE_STORE_BUCKET: string,
     readonly VITE_FIREBASE_MESSAGING_SENDER_ID: string,
     readonly VITE_FIREBASE_APP_ID: string,
-    readonly VITE_FIREBASE_MEASUREMENT_ID: string
+    readonly VITE_FIREBASE_MEASUREMENT_ID: string;
+    readonly VITE_STRIPE_SK_KEY:string;
 }
 interface ImportMeta {
     readonly env: ImportMetaEnv

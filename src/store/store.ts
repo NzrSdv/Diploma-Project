@@ -1,11 +1,11 @@
 import { createStore, Store } from "vuex";
 import { db } from "../config/firebase.ts";
-import { addDoc, collection, getDocs, orderBy, query, } from "firebase/firestore";
+import { addDoc, collection, doc, getDocs, orderBy, query, updateDoc, } from "firebase/firestore";
 import type { InjectionKey } from "vue";
 
 import type User from "../interfaces.ts";
 export interface State {
-  currentUser: Object;
+  currentUser: User;
   pagination: Pagination;
   sortAndFilter: SortAndFilter;
   Cart: Cart
@@ -25,7 +25,8 @@ interface SortAndFilter {
 }
 
 interface Cart {
-  cart: Array<CartWine>
+  cart: Array<CartWine>;
+  total: number
 }
 
 export const key: InjectionKey<Store<State>> = Symbol();
@@ -44,11 +45,18 @@ const defaultPagination: Pagination = {
 }
 
 const defaultCart: Cart = {
-  cart: []
+  cart: [],
+  total: 0
 }
 
 const defaultState: State = {
-  currentUser: {},
+  currentUser: {
+    uid: '',
+    displayName: '',
+    email: '',
+    photoURL: '',
+    cart: []
+  },
   pagination: defaultPagination,
   sortAndFilter: defaultSortAndFilter,
   Cart: defaultCart
@@ -82,7 +90,13 @@ if (localStorage.getItem("redWines")) {
   defaultState.sortAndFilter.sortedAndSearchRedWines = defaultState.pagination.wines;
 }
 if (localStorage.getItem("cart")) {
-  defaultState.Cart.cart = JSON.parse(localStorage.getItem("cart") || "{}")
+  defaultState.Cart.cart = JSON.parse(localStorage.getItem("cart") || "{}");
+  let counter = 0;
+  defaultState.Cart.cart.forEach((wine) => {
+    counter += (wine.quantity * wine.price)
+  })
+  console.log(counter);
+  defaultState.Cart.total = counter;
 }
 
 const store = createStore<State>({
@@ -105,6 +119,12 @@ const store = createStore<State>({
       } catch (error) {
         console.error(error);
       }
+    },
+    async setUserCart(state: State) {
+      state.currentUser.cart = state.Cart.cart;
+      localStorage.setItem('currentUser', JSON.stringify(state.currentUser));
+      const userDoc = doc(db, 'users', state.currentUser.uid);
+      updateDoc(userDoc, { cart: state.Cart.cart })
     },
     setRedWines(state: State, redWines: Array<Object>) {
       state.pagination.wines = redWines;
@@ -193,7 +213,7 @@ const store = createStore<State>({
 
       localStorage.setItem("cart", JSON.stringify(state.Cart.cart))
     },
-    setCartQuantityById(state: State, { Id, newQ } : {Id:any,newQ:number}) {
+    setCartQuantityById(state: State, { Id, newQ }: { Id: any, newQ: number }) {
       console.log(newQ);
       state.Cart.cart = [...state.Cart.cart].map((wine) => {
         console.log(wine)
@@ -207,6 +227,27 @@ const store = createStore<State>({
       })
       localStorage.setItem("cart", JSON.stringify(state.Cart.cart))
 
+    },
+    setTotal(state: State) {
+      let counter = 0;
+      state.Cart.cart.forEach((wine) => {
+        counter += (wine.quantity * wine.price)
+      })
+      console.log(counter)
+      state.Cart.total = counter;
+    },
+    async removeCart(state: State) {
+      state.Cart.cart = []
+      localStorage.removeItem('cart')
+      const userDoc = doc(db, 'users', state.currentUser.uid)
+      await updateDoc(userDoc, { cart: [] })
+    },
+    removeFromCartById(state: State, Id: any) {
+      state.Cart.cart = state.Cart.cart.filter(wine => {
+        if (wine.id != Id) {
+          return wine;
+        }
+      })
     }
   },
   actions: {
@@ -303,7 +344,7 @@ const store = createStore<State>({
       commit("setSortedAndSearched")
       commit("setCurrentWines");
 
-    }
+    },
   },
   getters: {
     getWinesPages(state: State) {
