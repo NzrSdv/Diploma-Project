@@ -1,14 +1,14 @@
 <script lang="ts">
 import { defineComponent } from "vue";
-import HeaderComponent from "./components/header/HeaderComponent.vue";
+import HeaderComponent from "./common/header/HeaderComponent.vue";
 import { RouterView } from "vue-router";
 import { useStore } from "vuex";
 import { key } from "./store/store.ts";
 import { useRoute } from "vue-router";
 import { computed } from "vue";
-import FooterComponent from "./components/footer/FooterComponent.vue";
+import FooterComponent from "./common/footer/FooterComponent.vue";
 import { auth } from "./config/firebase.ts";
-
+import { Toaster } from "./UI/sonner/index.ts";
 
 auth.authStateReady().then(() => {
   if (auth.currentUser) {
@@ -19,19 +19,19 @@ auth.authStateReady().then(() => {
 });
 
 export default defineComponent({
-  components: { HeaderComponent, FooterComponent },
+  components: { HeaderComponent, FooterComponent,Toaster },
   setup() {
     const store = useStore(key);
     const route = useRoute();
     const currentUser = computed(() => store.state.currentUser);
     if (!localStorage.getItem("roseWines")) {
       store.dispatch("getRoseWines");
-    } else if (!localStorage.getItem("whiteWines")) {
+    }
+    if (!localStorage.getItem("whiteWines")) {
       store.dispatch("getWhiteWines");
-    } else if (!localStorage.getItem("redWines")) {
+    }
+    if (!localStorage.getItem("redWines")) {
       store.dispatch("getRedWines");
-    } else {
-      console.log("local is wine");
     }
     console.log(auth.currentUser);
     return {
@@ -43,6 +43,7 @@ export default defineComponent({
 </script>
 
 <template>
+  <Toaster class="pointer-event-auto" />
   <div class="min-h-dvh">
     <HeaderComponent
       v-if="route.path != '/login' && route.path != '/register'"

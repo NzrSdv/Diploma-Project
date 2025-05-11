@@ -10,19 +10,26 @@ import ActiveHeart from "../../assets/icons/Heart_active_icon.svg";
 import DisabledHeart from "../../assets/icons/Heart_disabled_icon.svg";
 import ButtonAccentOne from "../../UI/buttons/ButtonAccentOne.vue";
 
+import { useStore } from "vuex";
+import { key } from "@/store/store";
+import { toast } from "vue-sonner";
+
 interface Rating {
   average: number;
   reviews: number;
 }
 interface Wine {
   id: string;
-  name: string;
+  wine: string;
+  winery: string;
   location: string;
   rating: Rating;
   image: string;
   price: number;
   type: string;
 }
+
+
 </script>
 <template>
   <section
@@ -64,11 +71,7 @@ interface Wine {
         {{ currentProduct.wine }}
       </h1>
       <p class="md:text-6xl text-4xl font-semibold">
-        ${{
-          currentProduct.price < 10
-            ? currentProduct.price * 100
-            : currentProduct.price
-        }}
+        ${{ currentProduct.price }}
       </p>
 
       <div
@@ -82,11 +85,13 @@ interface Wine {
           данные, по которым наши копирайтеры составят правильный текст
         </p>
         <ButtonAccentOne
+          @click="addCart"
           class="sm:w-auto w-full"
           text="ЗАКАЗАТЬ ДОСТАВКУ"
           padding="py-4 sm:px-17 px-auto"
           radius="rounded-md"
         />
+        
       </div>
     </div>
   </section>
@@ -110,7 +115,26 @@ export default {
         type: "",
       },
       ratingStars: [0, 0, 0, 0, 0],
+      orderStatus: false,
     };
+  },
+  methods: {
+    addCart() {
+      if (!this.orderStatus) {
+        this.orderStatus = true;
+        this.$store.commit("setCart", this.currentProduct);
+        setTimeout(() => {
+          toast("Вино добавлено в корзину", {
+            description: "",
+            action: {
+              label: "ОК",
+              onClick: () => console.log("Undo"),
+            },
+          });
+          this.orderStatus = false;
+        }, 500);
+      }
+    },
   },
   created() {
     if (this.$route.params.wineType == "rose") {
@@ -126,7 +150,7 @@ export default {
         localStorage.getItem("whiteWines") || "{}"
       ).filter((wine: Wine) => wine.id == this.$route.params.WineId)[0];
     }
-    
+
     console.log(this.currentProduct);
     this.ratingStars.forEach((element, index) => {
       if (Math.round(Number(this.currentProduct.rating.average)) >= index + 1) {

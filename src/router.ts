@@ -5,16 +5,16 @@ import ProductView from "./views/ProductView.vue";
 import UserInfoView from "./views/UserInfoView.vue";
 import RegisterView from "./views/RegisterView.vue";
 import LoginView from "./views/LoginView.vue";
-import ErrorComponent from "./components/error/ErrorComponent.vue";
+import ErrorView from "./views/ErrorView.vue";
 import InfoComponent from "./components/user/nested/InfoComponent.vue";
 import CardComponent from "./components/user/nested/CardComponent.vue";
 import SettingsComponent from "./components/user/nested/SettingsComponent.vue";
-import CartComponent from "./components/cart/CartComponent.vue";
+import CartView from "./views/Cart/CartView.vue";
 
 const routes = [
   { path: "/", component: MainView },
   { path: "/catalog/:wineType/:page", component: CatalogView },
-  { path: "/cart", component: CartComponent },
+  { path: "/cart", component: CartView },
   { path: "/:wineType/:WineId", component: ProductView },
   { path: "/register", component: RegisterView },
   { path: "/login", component: LoginView },
@@ -26,7 +26,7 @@ const routes = [
 
     ]
   },
-  { path: "/:pathMatch(.*)*", component: ErrorComponent },
+  { path: "/:pathMatch(.*)*", component: ErrorView },
 ];
 
 const router = createRouter({

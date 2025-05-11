@@ -7,7 +7,8 @@ import type User from "../interfaces.ts";
 export interface State {
   currentUser: Object;
   pagination: Pagination;
-  sortAndFilter: SortAndFilter
+  sortAndFilter: SortAndFilter;
+  Cart: Cart
 }
 
 interface Pagination {
@@ -23,6 +24,9 @@ interface SortAndFilter {
   ascending: string;
 }
 
+interface Cart {
+  cart: Array<CartWine>
+}
 
 export const key: InjectionKey<Store<State>> = Symbol();
 
@@ -39,10 +43,15 @@ const defaultPagination: Pagination = {
   onePageMax: 20,
 }
 
+const defaultCart: Cart = {
+  cart: []
+}
+
 const defaultState: State = {
   currentUser: {},
   pagination: defaultPagination,
-  sortAndFilter: defaultSortAndFilter
+  sortAndFilter: defaultSortAndFilter,
+  Cart: defaultCart
 };
 interface Wine {
   id: number;
@@ -53,12 +62,27 @@ interface Wine {
   price: number;
   type: string;
 }
+
+interface CartWine extends Wine {
+  id: number;
+  name: string;
+  location: string;
+  rating: Object;
+  image: string;
+  price: number;
+  type: string;
+  quantity: number;
+}
+
 if (localStorage.getItem("currentUser")) {
   defaultState.currentUser = JSON.parse(localStorage.getItem("currentUser") || "{}");
 }
 if (localStorage.getItem("redWines")) {
   defaultState.pagination.wines = JSON.parse(localStorage.getItem("redWines") || "{}")
   defaultState.sortAndFilter.sortedAndSearchRedWines = defaultState.pagination.wines;
+}
+if (localStorage.getItem("cart")) {
+  defaultState.Cart.cart = JSON.parse(localStorage.getItem("cart") || "{}")
 }
 
 const store = createStore<State>({
@@ -143,9 +167,47 @@ const store = createStore<State>({
 
 
     },
-    setAscending(state: State, newState: boolean) {
+    setAscending(state: State, newState: string) {
       state.sortAndFilter.ascending = newState;
     },
+    setCart(state: State, CartWine: Wine) {
+      let status = false;
+      if (state.Cart.cart.length != 0) {
+        state.Cart.cart = [...state.Cart.cart].map((wine) => {
+          if (wine.id == CartWine.id) {
+            status = true;
+            return { ...wine, quantity: wine.quantity + 1 }
+          }
+          else {
+            return wine;
+          }
+        })
+        if (!status) {
+          state.Cart.cart.push({ ...CartWine, quantity: 1 })
+        }
+      }
+      else {
+        state.Cart.cart.push({ ...CartWine, quantity: 1 })
+
+      }
+
+      localStorage.setItem("cart", JSON.stringify(state.Cart.cart))
+    },
+    setCartQuantityById(state: State, { Id, newQ } : {Id:any,newQ:number}) {
+      console.log(newQ);
+      state.Cart.cart = [...state.Cart.cart].map((wine) => {
+        console.log(wine)
+        if (wine.id == Id) {
+          console.log({ ...wine, quantity: newQ })
+          return { ...wine, quantity: newQ }
+        }
+        else {
+          return wine
+        }
+      })
+      localStorage.setItem("cart", JSON.stringify(state.Cart.cart))
+
+    }
   },
   actions: {
     getRedWines({ commit }: { commit: Function }) {
@@ -247,6 +309,9 @@ const store = createStore<State>({
     getWinesPages(state: State) {
       return state.sortAndFilter.sortedAndSearchRedWines.length;
     },
+    getCartWines(state: State) {
+      return state.Cart.cart;
+    }
   },
 });
 
