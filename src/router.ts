@@ -4,7 +4,7 @@ import CatalogView from "./views//CatalogView.vue";
 import ProductView from "./views/ProductView.vue";
 import UserInfoView from "./views/UserInfoView.vue";
 import RegisterView from "./views/RegisterView.vue";
-import LoginComponent from "./components/login/LoginComponent.vue";
+import LoginView from "./views/LoginView.vue";
 import ErrorComponent from "./components/error/ErrorComponent.vue";
 import InfoComponent from "./components/user/nested/InfoComponent.vue";
 import CardComponent from "./components/user/nested/CardComponent.vue";
@@ -17,7 +17,7 @@ const routes = [
   { path: "/cart", component: CartComponent },
   { path: "/:wineType/:WineId", component: ProductView },
   { path: "/register", component: RegisterView },
-  { path: "/login", component: LoginComponent },
+  { path: "/login", component: LoginView },
   {
     path: "/user", component: UserInfoView, children: [
       { path: '/user/info', component: InfoComponent },

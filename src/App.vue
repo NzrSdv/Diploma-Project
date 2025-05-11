@@ -9,6 +9,7 @@ import { computed } from "vue";
 import FooterComponent from "./components/footer/FooterComponent.vue";
 import { auth } from "./config/firebase.ts";
 
+
 auth.authStateReady().then(() => {
   if (auth.currentUser) {
     // console.log("logged in",auth.currentUser)
