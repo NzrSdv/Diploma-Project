@@ -8,7 +8,7 @@ import { signInWithEmailAndPassword, signInWithPopup } from "firebase/auth";
 import { auth, googleProvider } from "../../config/firebase";
 import { useRouter } from "vue-router";
 import { useStore } from "vuex";
-import { key } from "../../store.ts";
+import { key } from "../../store/store.ts";
 import ButtonAccentOne from "../../UI/buttons/ButtonAccentOne.vue";
 const router = useRouter();
 const store = useStore(key);

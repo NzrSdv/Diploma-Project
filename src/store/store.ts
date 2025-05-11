@@ -1,38 +1,48 @@
 import { createStore, Store } from "vuex";
-import { db } from "./config/firebase.ts";
+import { db } from "../config/firebase.ts";
 import { addDoc, collection, getDocs, orderBy, query, } from "firebase/firestore";
 import type { InjectionKey } from "vue";
 
-import type User from "./interfaces.ts";
-import type { Wine } from "lucide-vue-next";
+import type User from "../interfaces.ts";
 export interface State {
   currentUser: Object;
+  pagination: Pagination;
+  sortAndFilter: SortAndFilter
+}
+
+interface Pagination {
   currentPage: number;
   wines: Array<Object>;
   currentWines: Array<Object>;
   onePageMax: number;
-  LastWineIndex: number;
+}
+interface SortAndFilter {
   sortedAndSearchRedWines: Array<Object>;
   searchText: string;
   filterKey: string;
-  ascending: boolean;
+  ascending: string;
 }
 
 
 export const key: InjectionKey<Store<State>> = Symbol();
 
-const defaultState: State = {
-  currentUser: {},
+const defaultSortAndFilter: SortAndFilter = {
+  sortedAndSearchRedWines: [],
+  searchText: '',
+  filterKey: 'id',
+  ascending: 'true'
+}
+const defaultPagination: Pagination = {
   currentPage: 0,
   wines: [],
   currentWines: [],
   onePageMax: 20,
-  LastWineIndex: 0,
-  sortedAndSearchRedWines: [],
-  searchText: '',
-  filterKey: 'id',
-  ascending: true
+}
 
+const defaultState: State = {
+  currentUser: {},
+  pagination: defaultPagination,
+  sortAndFilter: defaultSortAndFilter
 };
 interface Wine {
   id: number;
@@ -47,8 +57,8 @@ if (localStorage.getItem("currentUser")) {
   defaultState.currentUser = JSON.parse(localStorage.getItem("currentUser") || "{}");
 }
 if (localStorage.getItem("redWines")) {
-  defaultState.wines = JSON.parse(localStorage.getItem("redWines") || "{}")
-  defaultState.sortedAndSearchRedWines = defaultState.wines;
+  defaultState.pagination.wines = JSON.parse(localStorage.getItem("redWines") || "{}")
+  defaultState.sortAndFilter.sortedAndSearchRedWines = defaultState.pagination.wines;
 }
 
 const store = createStore<State>({
@@ -73,68 +83,68 @@ const store = createStore<State>({
       }
     },
     setRedWines(state: State, redWines: Array<Object>) {
-      state.wines = redWines;
-      console.log("reddd")
+      state.pagination.wines = redWines;
+
       localStorage.setItem("redWines", JSON.stringify(redWines));
     },
     setWhiteWines(state: State, whiteWines: Array<Object>) {
-      state.wines = whiteWines;
-      console.log("whiteeee")
+      state.pagination.wines = whiteWines;
+
       localStorage.setItem("whiteWines", JSON.stringify(whiteWines));
     },
     setRoseWines(state: State, roseWines: Array<Object>) {
-      state.wines = roseWines;
-      console.log("roseeee")
+      state.pagination.wines = roseWines;
+
       localStorage.setItem("roseWines", JSON.stringify(roseWines))
     },
     setCurrentWines(state: State) {
       localStorage.removeItem("currentWines")
-      state.currentWines = state.sortedAndSearchRedWines.slice(state.onePageMax * (state.currentPage - 1), state.onePageMax * state.currentPage)
-      localStorage.setItem("currentWines", JSON.stringify(state.currentWines));
+      state.pagination.currentWines = state.sortAndFilter.sortedAndSearchRedWines.slice(state.pagination.onePageMax * (state.pagination.currentPage - 1), state.pagination.onePageMax * state.pagination.currentPage)
+      localStorage.setItem("currentWines", JSON.stringify(state.pagination.currentWines));
     },
     setCurrentPage(state: State, newPage: number) {
-      state.currentPage = newPage;
+      state.pagination.currentPage = newPage;
     },
     setSortedAndSearched(state: State) {
-      state.sortedAndSearchRedWines = [...state.wines].sort((a, b) => {
-        if (state.ascending == 'true') {
-          if (state.filterKey == "wine" || state.filterKey == "winery" || state.filterKey == "id") {
-            return a[state.filterKey].localeCompare(b[state.filterKey])
+      state.sortAndFilter.sortedAndSearchRedWines = [...state.pagination.wines].sort((a, b) => {
+        if (state.sortAndFilter.ascending == 'true') {
+          if (state.sortAndFilter.filterKey == "wine" || state.sortAndFilter.filterKey == "winery" || state.sortAndFilter.filterKey == "id") {
+            return a[state.sortAndFilter.filterKey].localeCompare(b[state.sortAndFilter.filterKey])
           }
-          else if (state.filterKey == "price") {
-            return a[state.filterKey] - b[state.filterKey];
+          else if (state.sortAndFilter.filterKey == "price") {
+            return a[state.sortAndFilter.filterKey] - b[state.sortAndFilter.filterKey];
 
           }
 
         }
-        else if (state.ascending == 'false') {
+        else if (state.sortAndFilter.ascending == 'false') {
 
-          if (state.filterKey == "wine" || state.filterKey == "winery" || state.filterKey == "id") {
-            return b[state.filterKey].localeCompare(a[state.filterKey])
+          if (state.sortAndFilter.filterKey == "wine" || state.sortAndFilter.filterKey == "winery" || state.sortAndFilter.filterKey == "id") {
+            return b[state.sortAndFilter.filterKey].localeCompare(a[state.sortAndFilter.filterKey])
           }
-          else if (state.filterKey == "price") {
-            return b[state.filterKey] - a[state.filterKey];
+          else if (state.sortAndFilter.filterKey == "price") {
+            return b[state.sortAndFilter.filterKey] - a[state.sortAndFilter.filterKey];
 
           }
         }
       }).filter((wine) => {
-        if (wine.wine.includes(state.searchText) || wine.winery.includes(state.searchText) || wine.location.includes(state.searchText)) {
+        if (wine.wine.includes(state.sortAndFilter.searchText) || wine.winery.includes(state.sortAndFilter.searchText) || wine.location.includes(state.searchText)) {
           return wine;
         }
       })
 
     },
     setSearchText(state: State, newSearch: string) {
-      state.searchText = newSearch;
+      state.sortAndFilter.searchText = newSearch;
 
     },
     setFilterKey(state: State, newKey: string) {
-      state.filterKey = newKey;
+      state.sortAndFilter.filterKey = newKey;
 
 
     },
     setAscending(state: State, newState: boolean) {
-      state.ascending = newState;
+      state.sortAndFilter.ascending = newState;
     },
   },
   actions: {
@@ -203,43 +213,39 @@ const store = createStore<State>({
       commit("setSortedAndSearched")
       commit("setCurrentWines");
     },
-    setWineType({ commit ,state}: { commit: Function,state:State }, wineType: String) {
+    setWineType({ commit, state }: { commit: Function, state: State }, wineType: String) {
       switch (wineType) {
         case "red":
-          console.log("red")
           commit(
             "setRedWines",
-            JSON.parse(localStorage.getItem("redWines"))
+            JSON.parse(localStorage.getItem("redWines") || "[]")
           );
           break;
         case "white":
-          console.log("white")
           commit(
             "setWhiteWines",
-            JSON.parse(localStorage.getItem("whiteWines"))
+            JSON.parse(localStorage.getItem("whiteWines") || "[]")
           );
-
           break;
         case "rose":
-          console.log("rose")
           commit(
             "setRoseWines",
-            JSON.parse(localStorage.getItem("roseWines"))
+            JSON.parse(localStorage.getItem("roseWines") || "[]")
           );
 
           break;
         default:
-          console.log("okk")
+
           break;
       }
       commit("setSortedAndSearched")
       commit("setCurrentWines");
-      console.log(state.currentWines)
+
     }
   },
   getters: {
     getWinesPages(state: State) {
-      return state.sortedAndSearchRedWines.length;
+      return state.sortAndFilter.sortedAndSearchRedWines.length;
     },
   },
 });

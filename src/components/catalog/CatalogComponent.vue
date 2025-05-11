@@ -2,7 +2,7 @@
 import { useStore } from "vuex";
 import CatalogPhoto from "../../assets/img/CatalogComponent_photo.jpg";
 import WineCard from "../../UI/cards/WineCard.vue";
-import { key } from "../../store";
+import { key } from "../../store/store";
 import { computed, ref, watch } from "vue";
 import Button from "@/UI/pagination/button/Button.vue";
 import {
@@ -17,11 +17,14 @@ import {
 } from "../../UI/pagination/pagination";
 import router from "@/router";
 import { useRoute } from "vue-router";
+import ButtonAccentOne from "@/UI/buttons/ButtonAccentOne.vue";
+import ButtonAccentTwo from "@/UI/buttons/ButtonAccentTwo.vue";
+import { Route } from "lucide-vue-next";
 const store = useStore(key);
 
 const route = useRoute();
 
-const currentWines = computed(() => store.state.currentWines);
+const currentWines = computed(() => store.state.pagination.currentWines);
 console.log(route.params.page);
 console.log(route.params.wineType);
 store.dispatch("setCurrentPageWine", route.params.page);
@@ -30,7 +33,7 @@ store.dispatch("setWineType", route.params.wineType);
 watch(
   () => route.params.wineType,
   (newType, oldType) => {
-  store.dispatch("setWineType",newType)
+    store.dispatch("setWineType", newType);
   }
 );
 watch(
@@ -63,13 +66,28 @@ console.log(AllPages);
   >
     <div class="flex flex-row items-center justify-center gap-3">
       <router-link to="/catalog/red/1">
-        red
+        <ButtonAccentOne class="px-5" v-if="route.params.wineType == 'red'" text="Red" />
+        <ButtonAccentTwo
+          class="text-main-2 px-5"
+          v-if="route.params.wineType != 'red'"
+          text="Red"
+        />
       </router-link>
       <router-link to="/catalog/white/1">
-        White
+        <ButtonAccentOne class="px-5" v-if="route.params.wineType == 'white'" text="White" />
+        <ButtonAccentTwo
+          class="text-main-2 px-5"
+          v-if="route.params.wineType != 'white'"
+          text="White"
+        />
       </router-link>
       <router-link to="/catalog/rose/1">
-        Rose
+        <ButtonAccentOne class=" px-5" v-if="route.params.wineType == 'rose'" text="Rose" />
+        <ButtonAccentTwo
+          class="text-main-2 px-5"
+          v-if="route.params.wineType != 'rose'"
+          text="Rose"
+        />
       </router-link>
     </div>
     <div class="text-white">
@@ -97,13 +115,10 @@ console.log(AllPages);
           }
         "
       >
-        
         <option value="wine">По названию</option>
         <option value="price">По цене</option>
         <option value="location">По месту</option>
         <option value="winery">По винодельной</option>
-
-    
       </select>
       <select
         v-model="ascending"
@@ -144,10 +159,17 @@ console.log(AllPages);
       :default-page="Number(route.params.page)"
     >
       <PaginationContent v-slot="{ items }" class="flex items-center gap-1">
-        <PaginationFirst @click="() => router.push(`/catalog/${route.params.wineType}/1`)" />
+        <PaginationFirst
+          @click="() => router.push(`/catalog/${route.params.wineType}/1`)"
+        />
         <PaginationPrevious
           @click="
-            () => router.push(`/catalog/${route.params.wineType}/${Number(route.params.page) - 1}`)
+            () =>
+              router.push(
+                `/catalog/${route.params.wineType}/${
+                  Number(route.params.page) - 1
+                }`
+              )
           "
         />
         <template v-for="(item, index) in items">
@@ -160,7 +182,10 @@ console.log(AllPages);
             <Button
               class="w-10 h-10 p-0"
               :variant="item.value === page ? 'outline' : 'default'"
-              @click="() => router.push(`/catalog/${route.params.wineType}/${item.value}`)"
+              @click="
+                () =>
+                  router.push(`/catalog/${route.params.wineType}/${item.value}`)
+              "
             >
               {{ item.value }}
             </Button>
@@ -169,11 +194,21 @@ console.log(AllPages);
         </template>
         <PaginationNext
           @click="
-            () => router.push(`/catalog/${route.params.wineType}/${Number(route.params.page) + 1}`)
+            () =>
+              router.push(
+                `/catalog/${route.params.wineType}/${
+                  Number(route.params.page) + 1
+                }`
+              )
           "
         />
         <PaginationLast
-          @click="() => router.push(`/catalog/${route.params.wineType}/${Math.ceil(AllPages / 20)}`)"
+          @click="
+            () =>
+              router.push(
+                `/catalog/${route.params.wineType}/${Math.ceil(AllPages / 20)}`
+              )
+          "
         />
       </PaginationContent>
     </Pagination>
@@ -191,6 +226,9 @@ export default {
     PaginationLast,
     PaginationNext,
     PaginationPrevious,
+
+    ButtonAccentOne,
+    ButtonAccentTwo,
   },
   props: { wines: Array<Object> },
   data() {

@@ -14,7 +14,7 @@ import {
 } from "firebase/auth";
 
 import { useStore } from "vuex";
-import { key } from "../../store.ts";
+import { key } from "../../store/store.ts";
 
 const store = useStore(key);
 
@@ -23,23 +23,22 @@ const router = useRouter();
 console.log(import.meta.env.VITE_FIREBASE_AUTH_DOMAIN);
 </script>
 <template>
-  <main class="text-main-2 font-accent">
     <section
-      class="w-full h-dvh bg-main-025 flex flex-col items-center justify-center gap-16"
+      class="w-full h-dvh bg-main-025 flex flex-col items-center md:justify-center justify-start md:pt-0 pt-5 md:gap-16 gap-10 md:px-0 px-4"
     >
-      <div class="flex flex-col items-center justify-center text-center gap-5">
+      <div class="flex flex-col items-center justify-center text-center md:gap-5 gap-2">
         <h2 class="text-4xl font-semibold">Регистрация</h2>
         <p class="text-xl">Пожалуйста, заполните эту форму.</p>
       </div>
-      <div class="flex flex-col items-center justify-center gap-6">
-        <div class="w-full flex flex-row items-center justify-center gap-8">
+      <div class="flex flex-col items-center justify-center md:gap-6 gap-2">
+        <div class="w-full flex md:flex-row flex-col items-center justify-center md:gap-8 gap-2">
           <SignInInput
-            class="w-1/2"
+            class="md:w-1/2 w-full"
             title="Имя"
             placeholder="Имя"
             @modify="changeName"
           /><SignInInput
-            class="w-1/2"
+            class="md:w-1/2 w-full"
             title="Фамилия"
             placeholder="Фамилиля"
             @modify="changeSurname"
@@ -61,7 +60,7 @@ console.log(import.meta.env.VITE_FIREBASE_AUTH_DOMAIN);
         />
         <div class="w-full flex flex-row items-center justify-start gap-3">
           <input type="checkbox" id="Policy" v-model="policyAgree" />
-          <label class="text-base max-w-112" for="Policy"
+          <label class="text-base max-w-112 text-center" for="Policy"
             >Вы соглашаетесь с нашей дружелюбной политикой
             конфиденциальности.</label
           >
@@ -116,7 +115,6 @@ console.log(import.meta.env.VITE_FIREBASE_AUTH_DOMAIN);
         ></ButtonAccentOne>
       </div>
     </section>
-  </main>
 </template>
 <script lang="ts">
 export default {

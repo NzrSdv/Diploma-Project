@@ -3,7 +3,7 @@ import { signOut, updateEmail, updateProfile } from "firebase/auth";
 import ProfileInput from "../../../UI/inputs/ProfileInput.vue";
 import { auth } from "../../../config/firebase";
 import { useStore } from "vuex";
-import { key } from "../../../store";
+import { key } from "../../../store/store";
 import ButtonAccentOne from "../../../UI/buttons/ButtonAccentOne.vue";
 import { useRouter } from "vue-router";
 
