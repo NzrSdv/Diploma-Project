@@ -13,6 +13,8 @@ import ButtonAccentOne from "../../UI/buttons/ButtonAccentOne.vue";
 import { useStore } from "vuex";
 import { key } from "@/store/store";
 import { toast } from "vue-sonner";
+import { auth } from "@/config/firebase";
+import { useRouter } from "vue-router";
 
 interface Rating {
   average: number;
@@ -28,8 +30,12 @@ interface Wine {
   price: number;
   type: string;
 }
-
-
+const router = useRouter();
+auth.authStateReady().then(() => {
+  if (!auth.currentUser) {
+    router.push("/register");
+  }
+});
 </script>
 <template>
   <section
@@ -91,7 +97,6 @@ interface Wine {
           padding="py-4 sm:px-20 px-auto"
           radius="rounded-md"
         />
-        
       </div>
     </div>
   </section>
@@ -123,7 +128,7 @@ export default {
       if (!this.orderStatus) {
         this.orderStatus = true;
         this.$store.commit("setCart", this.currentProduct);
-        this.$store.commit('setTotal');
+        this.$store.commit("setTotal");
         setTimeout(() => {
           toast("Вино добавлено в корзину", {
             description: "",

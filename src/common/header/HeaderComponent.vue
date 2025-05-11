@@ -46,7 +46,9 @@ function toggleBurgerStatus(): void {
             :key="index"
             @click="toggleBurgerStatus"
           >
-            <router-link :to="link.link">{{ link.text }}</router-link>
+            <router-link :to="link.link" v-if="link.signed ? signedIn : true">{{
+              link.text
+            }}</router-link>
           </li>
           <li
             v-if="signedIn"
@@ -58,9 +60,7 @@ function toggleBurgerStatus(): void {
             ]"
             @click="toggleBurgerStatus"
           >
-            <router-link to="/user/info" 
-              >Мои данные</router-link
-            >
+            <router-link to="/user/info">Мои данные</router-link>
           </li>
           <li
             class="w-full lg:hidden block text-center font-main text-xl rounded-lg text-accent-15 font-bold duration-300 cursor-pointer hover:bg-main-1/50"
@@ -98,9 +98,9 @@ export default {
   data() {
     return {
       links: [
-        { text: "Каталог", link: "/catalog/red/1" },
-        { text: "О нас", link: "/" },
-        { text: "Корзина", link: "/cart" },
+        { text: "Каталог", link: "/catalog/red/1", signed: false },
+        { text: "О нас", link: "/", signed: false },
+        { text: "Корзина", link: "/cart", signed: true },
       ],
       signedIn: false,
     };

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import CartComponent from "../../components/cart/CartComponent.vue";
+import CartComponent from "@/components/cart/CartComponent.vue";
 </script>
 
 <template>

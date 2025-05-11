@@ -18,15 +18,15 @@ const store = useStore(key);
 
 <template>
   <div
-    class="w-full font-main text-main-2 flex flex-row items-center justify-between"
+    class="w-full font-main text-main-2 flex xl:flex-row flex-col items-center justify-between border border-solid border-main-2"
   >
     <div
-      class="size-110 bg-main-2 flex flex-col items-center justify-center relative"
+      class="md:size-110 size-full md:py-0 py-20 bg-main-2 flex flex-col items-center justify-center relative"
     >
       <div class="size-6 absolute top-5 right-5 duration-300 hover:scale-110">
         <img class="w-full h-auto" :src="DisabledHeart" alt="" />
       </div>
-      <div class="w-1/5 h-auto">
+      <div class="md:w-1/5 sm:w-1/7 w-1/5 h-auto">
         <img
           class=""
           :src="

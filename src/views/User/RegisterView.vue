@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import RegisterComponent from "../components/register/RegisterComponent.vue";
+import RegisterComponent from "@/components/register/RegisterComponent.vue";
 </script>
 <template>
   <main class="text-main-2 font-accent">

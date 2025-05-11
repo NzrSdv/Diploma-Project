@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import SignInInput from "../../UI/inputs/SignInInput.vue";
-import ButtonInput from "../../UI/buttons/ButtonInput.vue";
+import SignInInput from "@/UI/inputs/SignInInput.vue";
+import ButtonInput from "@/UI/buttons/ButtonInput.vue";
 
 import GoogleIcon from "../../assets/icons/Google_Icon.svg";
 
@@ -15,7 +15,7 @@ const store = useStore(key);
 </script>
 <template>
   <section
-    class="w-full h-dvh bg-main-025 flex flex-col justify-center items-center gap-16 font-accent text-main-2 sm:px-0 px-4"
+    class="w-full h-dvh bg-main-025 flex flex-col justify-center items-center gap-16 font-accent text-main-2 sm:px-0 px-4 "
   >
     <div class="flex flex-col items-center justify-center text-center gap-5">
       <h2 class="text-4xl font-semibold">Вход</h2>
