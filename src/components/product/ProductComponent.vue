@@ -124,21 +124,20 @@ export default {
     };
   },
   methods: {
-    addCart() {
+    async addCart() {
       if (!this.orderStatus) {
         this.orderStatus = true;
         this.$store.commit("setCart", this.currentProduct);
         this.$store.commit("setTotal");
-        setTimeout(() => {
-          toast("Вино добавлено в корзину", {
-            description: "",
-            action: {
-              label: "ОК",
-              onClick: () => console.log("Undo"),
-            },
-          });
-          this.orderStatus = false;
-        }, 500);
+        await this.$store.commit("setUserCart");
+        toast("Вино добавлено в корзину", {
+          description: "",
+          action: {
+            label: "ОК",
+            onClick: () => console.log("okk"),
+          },
+        });
+        this.orderStatus = false;
       }
     },
   },

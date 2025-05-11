@@ -234,7 +234,7 @@ export default {
     return {
       searchText: "",
       searchKey: "wine",
-      ascending: false,
+      ascending: true,
     };
   },
 };

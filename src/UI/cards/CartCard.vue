@@ -18,7 +18,7 @@ const store = useStore(key);
 
 <template>
   <div
-    class="w-full font-main text-main-2 flex xl:flex-row flex-col items-center justify-between border border-solid border-main-2"
+    class="w-full font-main text-main-2 flex md:flex-row flex-col items-center justify-between border border-solid border-main-2"
   >
     <div
       class="md:size-110 size-full md:py-0 py-20 bg-main-2 flex flex-col items-center justify-center relative"
@@ -50,60 +50,83 @@ const store = useStore(key);
       </div>
     </div>
     <div
-      class="w-full h-full flex flex-col items-center justify-between text-main-2 font-main"
+      class="w-full h-full flex flex-row xl:flex-nowrap flex-wrap items-center xl:justify-between justify-center text-main-2 font-main p-20 gap-10"
     >
-      <h2 class="font-semibold text-3xl">{{ CurrentWine?.wine }}</h2>
-      <p class="">{{ CurrentWine?.winery }}</p>
-      <div class="flex flex-row items-center justify-center gap-4">
-        <ButtonAccentTwo
+      <div
+        class="flex flex-col xl:items-start items-center justify-center gap-4"
+      >
+        <h2 class="font-semibold xl:text-start text-center text-4xl">
+          {{ CurrentWine?.wine }}
+        </h2>
+        <p class="text-main-2/60 text-lg xl:text-start text-center">
+          {{ CurrentWine?.location }}
+        </p>
+        <p class="text-main-2/60 text-lg xl:text-start text-center">
+          {{ CurrentWine?.winery }}
+        </p>
+      </div>
+      <div class="flex flex-col items-center justify-center gap-5">
+        <div class="flex flex-col items-center justify-center gap-5">
+          <p class=" rounded-sm px-4 py-2">
+            <span class="font-semibold text-2xl"
+              >${{ CurrentWine?.price * CurrentWine?.quantity }}</span
+            >
+          </p>
+          <div class="flex flex-row items-center justify-center gap-4">
+            <ButtonAccentTwo
+              @click="
+                () => {
+                  if (CurrentWine?.quantity - 1 >= 1) {
+                    store.commit('setCartQuantityById', {
+                      Id: CurrentWine?.id,
+                      newQ: CurrentWine?.quantity - 1,
+                    });
+                    store.commit('setTotal');
+                  }
+                }
+              "
+              class="px-5 text-main-2"
+              text="-"
+            />
+            <p class="text-main-2/50">
+              <span class="font-semibold text-xl"
+                >{{ CurrentWine?.quantity }} x ${{ CurrentWine?.price }}</span
+              >
+            </p>
+            <ButtonAccentTwo
+              @click="
+                () => {
+                  store.commit('setCartQuantityById', {
+                    Id: CurrentWine?.id,
+                    newQ: CurrentWine?.quantity + 1,
+                  });
+                  store.commit('setTotal');
+                }
+              "
+              class="px-5 text-main-2"
+              text="+"
+            />
+          </div>
+        </div>
+        <ButtonAccentOne
           @click="
             () => {
-              if (CurrentWine?.quantity - 1 >= 1) {
-                store.commit('setCartQuantityById', {
-                  Id: CurrentWine?.id,
-                  newQ: CurrentWine?.quantity - 1,
-                });
-                store.commit('setTotal');
-              }
-            }
-          "
-          class="px-5 text-main-2"
-          text="-"
-        />
-        <p>{{ CurrentWine?.quantity }}</p>
-        <ButtonAccentTwo
-          @click="
-            () => {
-              store.commit('setCartQuantityById', {
-                Id: CurrentWine?.id,
-                newQ: CurrentWine?.quantity + 1,
-              });
+              store.commit('removeFromCartById', CurrentWine?.id);
               store.commit('setTotal');
+              toast(`Вино ${CurrentWine?.wine} удалено из корзины`, {
+                description: '',
+                action: {
+                  label: 'ОК',
+                  onClick: () => console.log('ок'),
+                },
+              });
             }
           "
-          class="px-5 text-main-2"
-          text="+"
+          padding="px-10 py-2"
+          radius="rounded-sm"
+          text="Удалить из корзины"
         />
       </div>
-      ${{ CurrentWine?.price }}
-      <ButtonAccentOne
-        @click="
-          () => {
-            store.commit('removeFromCartById', CurrentWine?.id);
-            store.commit('setTotal');
-            toast(`Вино ${CurrentWine?.wine} удалено из корзины`, {
-              description: '',
-              action: {
-                label: 'ОК',
-                onClick: () => console.log('ок'),
-              },
-            });
-          }
-        "
-        padding="px-10 py-2"
-        radius="rounded-sm"
-        text="Удалить из корзины"
-      />
     </div>
   </div>
 </template>

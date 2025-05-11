@@ -1,11 +1,12 @@
 import { createStore, Store } from "vuex";
 import { db } from "../config/firebase.ts";
-import { addDoc, collection, doc, getDocs, orderBy, query, updateDoc, } from "firebase/firestore";
+import { addDoc, collection, doc, getDocs, orderBy, query, updateDoc, where, } from "firebase/firestore";
 import type { InjectionKey } from "vue";
 
 import type User from "../interfaces.ts";
 export interface State {
   currentUser: User;
+  currentUserDbId: string;
   pagination: Pagination;
   sortAndFilter: SortAndFilter;
   Cart: Cart
@@ -57,6 +58,7 @@ const defaultState: State = {
     photoURL: '',
     cart: []
   },
+  currentUserDbId: '',
   pagination: defaultPagination,
   sortAndFilter: defaultSortAndFilter,
   Cart: defaultCart
@@ -84,6 +86,8 @@ interface CartWine extends Wine {
 
 if (localStorage.getItem("currentUser")) {
   defaultState.currentUser = JSON.parse(localStorage.getItem("currentUser") || "{}");
+  const usersCollection = collection(db, 'users');
+  defaultState.currentUserDbId = await getDocs(usersCollection).then((data => { }))
 }
 if (localStorage.getItem("redWines")) {
   defaultState.pagination.wines = JSON.parse(localStorage.getItem("redWines") || "{}")
@@ -123,8 +127,13 @@ const store = createStore<State>({
     async setUserCart(state: State) {
       state.currentUser.cart = state.Cart.cart;
       localStorage.setItem('currentUser', JSON.stringify(state.currentUser));
-      const userDoc = doc(db, 'users', state.currentUser.uid);
-      updateDoc(userDoc, { cart: state.Cart.cart })
+      try {
+        const userDoc = doc(db, 'users', where('uid', '==', state.currentUser.uid));
+        await updateDoc(userDoc, { cart: state.Cart.cart })
+        console.log(state.Cart.cart);
+      } catch (e) {
+        console.log(e)
+      }
     },
     setRedWines(state: State, redWines: Array<Object>) {
       state.pagination.wines = redWines;
