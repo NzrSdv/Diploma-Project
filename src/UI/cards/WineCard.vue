@@ -1,16 +1,20 @@
 <script setup lang="ts">
 import RedWhine from "../../assets/img/RedWine_photo.png";
 import WhiteWine from "../../assets/img/WhiteWine_photo.png";
+import RoseWine from "../../assets/img/RoseWine_photo.jpg";
 
 import ActiveStar from "../../assets/icons/Star_active_icon.svg";
 import DisabledStar from "../../assets/icons/Star_disabled_icon.svg";
 
 import ActiveHeart from "../../assets/icons/Heart_active_icon.svg";
 import DisabledHeart from "../../assets/icons/Heart_disabled_icon.svg";
+import { useRoute } from "vue-router";
+
+const route = useRoute();
 </script>
 
 <template>
-  <router-link :to="`/redWines/${info.id}`">
+  <router-link :to="`/${route.params.wineType}/${info.id}`">
     <div
       :class="[
         'xl:w-88 w-70 xl:h-98 h-90 flex flex-col rounded-xl font-accent relative pt-10',
@@ -27,17 +31,20 @@ import DisabledHeart from "../../assets/icons/Heart_disabled_icon.svg";
       >
         <div class="xl:w-12 w-10 xl:h-50 h-45">
           <img
+            class="w-full h-auto"
             :src="
-              info.type == 'red' || info.type == 'rose' ? RedWhine : WhiteWine
+              info.type == 'red'
+                ? RedWhine
+                : info.type == 'rose'
+                ? RoseWine
+                : WhiteWine
             "
             alt=""
           />
         </div>
         <div class="w-full flex flex-col items-start justify-center pl-6 pb-6">
           <h3>{{ info.wine }}</h3>
-          <p class="font-semibold text-lg">
-            ${{ info.price }}
-          </p>
+          <p class="font-semibold text-lg">${{ info.price }}</p>
           <div class="flex items-center justify-center gap-2">
             <div class="flex items-center justify-center">
               <div

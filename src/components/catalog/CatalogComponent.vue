@@ -97,9 +97,13 @@ console.log(AllPages);
           }
         "
       >
-        <option value="id">Обычно</option>
+        
         <option value="wine">По названию</option>
         <option value="price">По цене</option>
+        <option value="location">По месту</option>
+        <option value="winery">По винодельной</option>
+
+    
       </select>
       <select
         v-model="ascending"
@@ -193,7 +197,7 @@ export default {
     return {
       searchText: "",
       searchKey: "wine",
-      ascending: true,
+      ascending: false,
     };
   },
 };

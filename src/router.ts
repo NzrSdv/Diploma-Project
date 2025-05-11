@@ -15,7 +15,7 @@ const routes = [
   { path: "/", component: MainView },
   { path: "/catalog/:wineType/:page", component: CatalogView },
   { path: "/cart", component: CartComponent },
-  { path: "/redWines/:WineId", component: ProductView },
+  { path: "/:wineType/:WineId", component: ProductView },
   { path: "/register", component: RegisterComponent },
   { path: "/login", component: LoginComponent },
   {
