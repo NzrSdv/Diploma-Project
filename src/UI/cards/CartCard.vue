@@ -4,6 +4,7 @@ import WhiteWinePhoto from "../../assets/img/WhiteWine_photo.png";
 import RoseWinePhoto from "../../assets/img/RoseWine_photo.jpg";
 import ButtonAccentTwo from "../buttons/ButtonAccentTwo.vue";
 
+import ActiveHeart from "@/assets/icons/Heart_active_icon.svg";
 import DisabledHeart from "../../assets/icons/Heart_disabled_icon.svg";
 import ActiveStar from "../../assets/icons/Star_active_icon.svg";
 import DisabledStar from "../../assets/icons/Star_disabled_icon.svg";
@@ -23,8 +24,22 @@ const store = useStore(key);
     <div
       class="md:size-110 size-full md:py-0 py-20 bg-main-2 flex flex-col items-center justify-center relative"
     >
-      <div class="size-6 absolute top-5 right-5 duration-300 hover:scale-110">
-        <img class="w-full h-auto" :src="DisabledHeart" alt="" />
+      <div
+        @click="() => {}"
+        class="size-6 absolute top-5 right-5 duration-300 hover:scale-110"
+      >
+        <img
+          class="w-full h-auto"
+          :src="CurrentWine?.favorite ? ActiveHeart : DisabledHeart"
+          alt=""
+          @click="
+            () => {
+              store.commit('toggleFavoriteInCart', CurrentWine?.id);
+              store.commit('setSortedAndSearched');
+              store.commit('setCurrentWines');
+            }
+          "
+        />
       </div>
       <div class="md:w-1/5 sm:w-1/7 w-1/5 h-auto">
         <img
@@ -67,7 +82,7 @@ const store = useStore(key);
       </div>
       <div class="flex flex-col items-center justify-center gap-5">
         <div class="flex flex-col items-center justify-center gap-5">
-          <p class=" rounded-sm px-4 py-2">
+          <p class="rounded-sm px-4 py-2">
             <span class="font-semibold text-2xl"
               >${{ CurrentWine?.price * CurrentWine?.quantity }}</span
             >

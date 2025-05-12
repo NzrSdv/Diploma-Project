@@ -1,5 +1,5 @@
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent, watch } from "vue";
 import HeaderComponent from "./common/header/HeaderComponent.vue";
 import { RouterView } from "vue-router";
 import { useStore } from "vuex";
@@ -10,19 +10,21 @@ import FooterComponent from "./common/footer/FooterComponent.vue";
 import { auth } from "./config/firebase.ts";
 import { Toaster } from "./UI/sonner/index.ts";
 
-const store = useStore();
+const store = useStore(key);
 
 auth.authStateReady().then(() => {
   if (auth.currentUser) {
     // console.log("logged in",auth.currentUser)
-    store.commit('setUserCart')
+    store.commit("setUserCart");
   } else {
     console.log("not logged in");
   }
 });
 
+const route = useRoute();
+
 export default defineComponent({
-  components: { HeaderComponent, FooterComponent,Toaster },
+  components: { HeaderComponent, FooterComponent, Toaster },
   setup() {
     const store = useStore(key);
     const route = useRoute();

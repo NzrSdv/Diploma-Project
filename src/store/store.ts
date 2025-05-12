@@ -9,7 +9,8 @@ export interface State {
   currentUserDbId: string;
   pagination: Pagination;
   sortAndFilter: SortAndFilter;
-  Cart: Cart
+  Cart: Cart,
+  ProductPageProduct: Object;
 }
 
 interface Pagination {
@@ -56,12 +57,13 @@ const defaultState: State = {
     displayName: '',
     email: '',
     photoURL: '',
-    cart: []
+    cart: [],
   },
   currentUserDbId: '',
   pagination: defaultPagination,
   sortAndFilter: defaultSortAndFilter,
-  Cart: defaultCart
+  Cart: defaultCart,
+  ProductPageProduct: {}
 };
 interface Wine {
   id: number;
@@ -71,6 +73,7 @@ interface Wine {
   image: string;
   price: number;
   type: string;
+  favorite: boolean;
 }
 
 interface CartWine extends Wine {
@@ -81,17 +84,23 @@ interface CartWine extends Wine {
   image: string;
   price: number;
   type: string;
+  favorite: boolean;
   quantity: number;
 }
 
 if (localStorage.getItem("currentUser")) {
   defaultState.currentUser = JSON.parse(localStorage.getItem("currentUser") || "{}");
   const usersCollection = collection(db, 'users');
-  defaultState.currentUserDbId = await getDocs(usersCollection).then((data => { }))
+  // defaultState.currentUserDbId = await getDocs(usersCollection).then((data => {
+  //   return data.docs;
+  // }))
 }
 if (localStorage.getItem("redWines")) {
   defaultState.pagination.wines = JSON.parse(localStorage.getItem("redWines") || "{}")
   defaultState.sortAndFilter.sortedAndSearchRedWines = defaultState.pagination.wines;
+}
+if (localStorage.getItem("currentWines")) {
+  defaultState.pagination.currentWines = JSON.parse(localStorage.getItem("currentWines") || "[]")
 }
 if (localStorage.getItem("cart")) {
   defaultState.Cart.cart = JSON.parse(localStorage.getItem("cart") || "{}");
@@ -101,6 +110,10 @@ if (localStorage.getItem("cart")) {
   })
   console.log(counter);
   defaultState.Cart.total = counter;
+}
+if (localStorage.getItem("ProductPageProduct")) {
+  defaultState.ProductPageProduct = JSON.parse(localStorage.getItem("ProductPageProduct") || "{}")
+  console.log(defaultState.ProductPageProduct)
 }
 
 const store = createStore<State>({
@@ -112,7 +125,7 @@ const store = createStore<State>({
         email: user.email,
         displayName: user.displayName,
         photoURL: user.photoURL || "",
-        cart: user.cart
+        cart: user.cart,
       }
       state.currentUser = newUser;
       localStorage.setItem("currentUser", JSON.stringify(newUser));
@@ -151,7 +164,6 @@ const store = createStore<State>({
       localStorage.setItem("roseWines", JSON.stringify(roseWines))
     },
     setCurrentWines(state: State) {
-      localStorage.removeItem("currentWines")
       state.pagination.currentWines = state.sortAndFilter.sortedAndSearchRedWines.slice(state.pagination.onePageMax * (state.pagination.currentPage - 1), state.pagination.onePageMax * state.pagination.currentPage)
       localStorage.setItem("currentWines", JSON.stringify(state.pagination.currentWines));
     },
@@ -187,7 +199,85 @@ const store = createStore<State>({
       })
 
     },
-    setSearchText(state: State, newSearch: string) {
+    toggleFavorite(state: State, Id: any) {
+      state.pagination.wines = [...state.pagination.wines].map((wine: Wine) => {
+        if (wine.id == Id) {
+          console.log(wine.favorite)
+          console.log(!wine.favorite);
+          return { ...wine, favorite: !wine.favorite }
+        }
+        else {
+          return wine
+        }
+      })
+      if (state.pagination.wines[0].type == 'red') {
+        localStorage.setItem("redWines", JSON.stringify(state.pagination.wines))
+      }
+      else if (state.pagination.wines[0].type == 'white') {
+        localStorage.setItem("whiteWines", JSON.stringify(state.pagination.wines))
+      } else if (state.pagination.wines[0].type == 'rose') {
+        localStorage.setItem("roseWines", JSON.stringify(state.pagination.wines))
+      }
+    },
+    toggleFavoriteInCart(state: State, outerWine: CartWine) {
+      state.Cart.cart = [...state.Cart.cart].map((wine: CartWine) => {
+        if (wine.id == outerWine.id) {
+          return { ...wine, favorite: !wine.favorite }
+        }
+        else {
+          return wine;
+        }
+      })
+      localStorage.setItem("cart", JSON.stringify(state.Cart.cart));
+
+      if (outerWine.type == 'red') {
+        localStorage.setItem("redWines", JSON.stringify([...JSON.parse(localStorage.getItem('redWines') || "{}")].map((wine: Wine) => {
+          if (wine.id == outerWine.id) {
+
+            return { ...wine, favorite: !wine.favorite }
+          }
+          else {
+            return wine
+          }
+        })))
+      }
+      else if (outerWine.type == 'white') {
+        localStorage.setItem("whiteWines", JSON.stringify(state.pagination.wines))
+      } else if (outerWine.type == 'rose') {
+        localStorage.setItem("roseWines", JSON.stringify(state.pagination.wines))
+      }
+    }
+    , toggleFavoriteInMain(state: State, outerWine: Wine) {
+      if (outerWine.type == 'red') {
+        localStorage.setItem('redWines', JSON.stringify(JSON.parse(localStorage.getItem('redWines') || "[]").map((wine: Wine) => {
+          if (wine.id == outerWine.id) {
+            return { ...outerWine, favorite: !outerWine.favorite }
+          }
+          else {
+            return wine
+          }
+        })))
+      } else if (outerWine.type == 'white') {
+        localStorage.setItem('whiteWines', JSON.stringify(JSON.parse(localStorage.getItem('whiteWines') || "[]").map((wine: Wine) => {
+          if (wine.id == outerWine.id) {
+            return { ...outerWine, favorite: !outerWine.favorite }
+          }
+          else {
+            return wine
+          }
+        })))
+      } else if (outerWine.type == 'rose') {
+        localStorage.setItem('roseWines', JSON.stringify(JSON.parse(localStorage.getItem('roseWines') || "[]").map((wine: Wine) => {
+          if (wine.id == outerWine.id) {
+            return { ...outerWine, favorite: !outerWine.favorite }
+          }
+          else {
+            return wine
+          }
+        })))
+      }
+    }
+    , setSearchText(state: State, newSearch: string) {
       state.sortAndFilter.searchText = newSearch;
 
     },
@@ -257,6 +347,13 @@ const store = createStore<State>({
           return wine;
         }
       })
+    },
+    setProductPageProduct(state: State, Id: any) {
+      state.ProductPageProduct = state.sortAndFilter.sortedAndSearchRedWines.filter((wine) => wine.id === Id)[0];
+      localStorage.setItem("ProductPageProduct", JSON.stringify(state.ProductPageProduct))
+    },
+    removeProductPageProduct(state: State) {
+      localStorage.removeItem("ProductPageProduct")
     }
   },
   actions: {
@@ -269,6 +366,7 @@ const store = createStore<State>({
           const filteredData = data.docs.map((doc) => ({
             ...doc.data(),
             id: doc.id,
+            favorite: false
           }));
           commit("setRedWines", filteredData);
           commit("setCurrentWines")
@@ -289,6 +387,7 @@ const store = createStore<State>({
           const filteredData = data.docs.map((doc) => ({
             ...doc.data(),
             id: doc.id,
+            favorite: false
           }));
           commit("setWhiteWines", filteredData);
           commit("setCurrentWines")
@@ -309,6 +408,7 @@ const store = createStore<State>({
           const filteredData = data.docs.map((doc) => ({
             ...doc.data(),
             id: doc.id,
+            favorite: false
           }));
           commit("setRoseWines", filteredData);
           commit("setCurrentWines")

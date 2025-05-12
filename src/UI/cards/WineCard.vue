@@ -8,13 +8,25 @@ import DisabledStar from "../../assets/icons/Star_disabled_icon.svg";
 
 import ActiveHeart from "../../assets/icons/Heart_active_icon.svg";
 import DisabledHeart from "../../assets/icons/Heart_disabled_icon.svg";
+
 import { useRoute } from "vue-router";
 
+import { useStore } from "vuex";
+import { key } from "@/store/store";
+
 const route = useRoute();
+const store = useStore(key);
 </script>
 
 <template>
-  <router-link :to="`/${route.params.wineType}/${info.id}`">
+  <router-link
+    @click="
+      () => {
+          store.commit('setProductPageProduct', info.id);
+      }
+    "
+    :to="`/${route.params.wineType || info.type}/${info.id}`"
+  >
     <div
       :class="[
         'xl:w-88 w-70 xl:h-98 h-90 flex flex-col rounded-xl font-accent relative pt-10',
@@ -22,9 +34,22 @@ const route = useRoute();
       ]"
     >
       <div
-        class="absolute size-8 right-1 top-2 flex items-center justify-center duration-200 hover:scale-110 cursor-pointer"
+        v-if="$route.path.includes('catalog')"
+        @click="
+          ($event) => {
+            $event.preventDefault();
+            if ($route.path.includes('catalog')) {
+              store.commit('toggleFavorite', info.id);
+              store.commit('setSortedAndSearched');
+              store.commit('setCurrentWines');
+            } else {
+              store.commit('toggleFavoriteInMain', info);
+            }
+          }
+        "
+        class="absolute size-8 right-1 top-2 z-40 flex items-center justify-center duration-200 hover:scale-110 cursor-pointer"
       >
-        <img :src="DisabledHeart" alt="" />
+        <img :src="info?.favorite ? ActiveHeart : DisabledHeart" alt="" />
       </div>
       <div
         class="flex h-full flex-col items-center justify-between text-main-05"

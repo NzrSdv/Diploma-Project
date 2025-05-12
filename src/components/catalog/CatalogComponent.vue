@@ -67,7 +67,11 @@ console.log(AllPages);
   >
     <div class="flex flex-row items-center justify-center gap-3">
       <router-link to="/catalog/red/1">
-        <ButtonAccentOne class="px-5" v-if="route.params.wineType == 'red'" text="Red" />
+        <ButtonAccentOne
+          class="px-5"
+          v-if="route.params.wineType == 'red'"
+          text="Red"
+        />
         <ButtonAccentTwo
           class="text-main-2 px-5"
           v-if="route.params.wineType != 'red'"
@@ -75,7 +79,11 @@ console.log(AllPages);
         />
       </router-link>
       <router-link to="/catalog/white/1">
-        <ButtonAccentOne class="px-5" v-if="route.params.wineType == 'white'" text="White" />
+        <ButtonAccentOne
+          class="px-5"
+          v-if="route.params.wineType == 'white'"
+          text="White"
+        />
         <ButtonAccentTwo
           class="text-main-2 px-5"
           v-if="route.params.wineType != 'white'"
@@ -83,7 +91,11 @@ console.log(AllPages);
         />
       </router-link>
       <router-link to="/catalog/rose/1">
-        <ButtonAccentOne class=" px-5" v-if="route.params.wineType == 'rose'" text="Rose" />
+        <ButtonAccentOne
+          class="px-5"
+          v-if="route.params.wineType == 'rose'"
+          text="Rose"
+        />
         <ButtonAccentTwo
           class="text-main-2 px-5"
           v-if="route.params.wineType != 'rose'"
@@ -91,8 +103,9 @@ console.log(AllPages);
         />
       </router-link>
     </div>
-    <div class="text-white">
+    <div class="text-white flex md:flex-row flex-col items-center gap-3">
       <input
+        class="p-2 rounded border border-solid border-main-2"
         type="text"
         placeholder="Поиск..."
         v-model="searchText"
@@ -104,38 +117,43 @@ console.log(AllPages);
           }
         "
       />
-      <select
-        name=""
-        id=""
-        v-model="searchKey"
-        @change="
-          () => {
-            store.commit('setFilterKey', searchKey);
-            store.commit('setSortedAndSearched');
-            store.commit('setCurrentWines');
-          }
-        "
-      >
-        <option value="wine">По названию</option>
-        <option value="price">По цене</option>
-        <option value="location">По месту</option>
-        <option value="winery">По винодельной</option>
-      </select>
-      <select
-        v-model="ascending"
-        @change="
-          () => {
-            store.commit('setAscending', ascending);
-            store.commit('setSortedAndSearched');
-            store.commit('setCurrentWines');
-          }
-        "
-        name=""
-        id=""
-      >
-        <option value="true">По возростанию</option>
-        <option value="false">По убыванию</option>
-      </select>
+      <div class="flex flex-row flex-wrap items-center justify-center gap-3">
+        <select
+          class="bg-transparent p-2 rounded border border-solid border-main-2"
+          name=""
+          id=""
+          v-model="searchKey"
+          @change="
+            () => {
+              store.commit('setFilterKey', searchKey);
+              store.commit('setSortedAndSearched');
+              store.commit('setCurrentWines');
+            }
+          "
+        >
+          <template v-for="(item, index) in searchKeyList" :key="index">
+            <option class="bg-transparent text-main-1" :value="item.key">
+              {{ item.text }}
+            </option>
+          </template>
+        </select>
+        <select
+          class="p-2 rounded border border-solid border-main-2"
+          v-model="ascending"
+          @change="
+            () => {
+              store.commit('setAscending', ascending);
+              store.commit('setSortedAndSearched');
+              store.commit('setCurrentWines');
+            }
+          "
+          name=""
+          id=""
+        >
+          <option value="true">По возростанию</option>
+          <option value="false">По убыванию</option>
+        </select>
+      </div>
     </div>
     <div class="w-full h-max flex items-center justify-center flex-wrap gap-7">
       <WineCard
@@ -144,7 +162,7 @@ console.log(AllPages);
         :key="index"
         :info="wine"
       />
-      <FillerComponent v-if="!currentWines?.length"/>
+      <FillerComponent v-if="!currentWines?.length" />
     </div>
     <Pagination
       v-slot="{ page }"
@@ -227,7 +245,7 @@ export default {
     ButtonAccentOne,
     ButtonAccentTwo,
 
-    FillerComponent
+    FillerComponent,
   },
   props: { wines: Array<Object> },
   data() {
@@ -235,6 +253,13 @@ export default {
       searchText: "",
       searchKey: "wine",
       ascending: true,
+
+      searchKeyList: [
+        { key: "wine", text: "По названию" },
+        { key: "winery", text: "По винодельной" },
+        { key: "price", text: "По цене" },
+        { key: "location", text: "По месту" },
+      ],
     };
   },
 };

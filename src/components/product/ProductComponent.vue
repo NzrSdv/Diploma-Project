@@ -15,7 +15,6 @@ import { key } from "@/store/store";
 import { toast } from "vue-sonner";
 import { auth } from "@/config/firebase";
 import { useRouter } from "vue-router";
-
 interface Rating {
   average: number;
   reviews: number;
@@ -36,6 +35,7 @@ auth.authStateReady().then(() => {
     router.push("/register");
   }
 });
+const store = useStore(key);
 </script>
 <template>
   <section
@@ -45,7 +45,19 @@ auth.authStateReady().then(() => {
       class="xl:w-1/2 md:w-2/3 w-full xl:h-160 h-120 bg-main-2 flex flex-col items-center justify-center relative"
     >
       <div class="size-6 absolute top-5 right-5 duration-300 hover:scale-110">
-        <img class="w-full h-auto" :src="DisabledHeart" alt="" />
+        <img
+          class="w-full h-auto"
+          :src="currentProduct.favorite ? ActiveHeart : DisabledHeart"
+          @click="
+            () => {
+              store.commit('toggleFavorite', currentProduct.id);
+              store.commit('setSortedAndSearched');
+              store.commit('setCurrentWines');
+              store.commit('setProductPageProduct', currentProduct.id);
+            }
+          "
+          alt=""
+        />
       </div>
       <div class="xl:mt-0 mt-10 xl:w-28 w-20 xl:h-120 h-110">
         <img
@@ -89,6 +101,8 @@ auth.authStateReady().then(() => {
           Мини-описание. Это текст о компании. Он необходим для дальнейшего
           продвижения Вашего сайта. Вам будет необходимо предоставить исходные
           данные, по которым наши копирайтеры составят правильный текст
+
+          {{ currentProduct.winery }}
         </p>
         <ButtonAccentOne
           @click="addCart"
@@ -105,20 +119,11 @@ auth.authStateReady().then(() => {
 export default {
   name: "ProductComponent",
   components: { ButtonAccentOne },
+  props: {
+    currentProduct: { type: Object, required: true },
+  },
   data() {
     return {
-      currentProduct: {
-        id: "",
-        name: "",
-        location: "",
-        rating: {
-          average: 0,
-          reviews: 0,
-        },
-        image: "",
-        price: 0,
-        type: "",
-      },
       ratingStars: [0, 0, 0, 0, 0],
       orderStatus: false,
     };
@@ -142,20 +147,6 @@ export default {
     },
   },
   created() {
-    if (this.$route.params.wineType == "rose") {
-      this.currentProduct = JSON.parse(
-        localStorage.getItem("roseWines") || "{}"
-      ).filter((wine: Wine) => wine.id == this.$route.params.WineId)[0];
-    } else if (this.$route.params.wineType == "red") {
-      this.currentProduct = JSON.parse(
-        localStorage.getItem("redWines") || "{}"
-      ).filter((wine: Wine) => wine.id == this.$route.params.WineId)[0];
-    } else if (this.$route.params.wineType == "white") {
-      this.currentProduct = JSON.parse(
-        localStorage.getItem("whiteWines") || "{}"
-      ).filter((wine: Wine) => wine.id == this.$route.params.WineId)[0];
-    }
-
     console.log(this.currentProduct);
     this.ratingStars.forEach((element, index) => {
       if (Math.round(Number(this.currentProduct.rating.average)) >= index + 1) {

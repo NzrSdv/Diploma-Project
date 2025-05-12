@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { stringify } from "querystring";
 import ButtonProfile from "../buttons/ButtonProfile.vue";
 </script>
 <template>
@@ -11,7 +10,7 @@ import ButtonProfile from "../buttons/ButtonProfile.vue";
       v-model="currentText"
       @input="
         (event) => {
-          if (event.target.value.trim() == '' || currentText == mainText) {
+          if (event?.target?.value.trim() == '' || currentText == mainText) {
             isChanged(false);
           } else {
             isChanged(true);

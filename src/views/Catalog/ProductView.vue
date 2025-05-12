@@ -1,10 +1,17 @@
 <script setup lang="ts">
 import ProductComponent from "@/components/product/ProductComponent.vue";
+import { key } from "@/store/store";
+import { computed } from "vue";
+import { useStore } from "vuex";
+const store = useStore(key);
+
+const currentProduct = computed(() => store.state.ProductPageProduct);
+console.log(currentProduct);
 </script>
 
 <template>
   <main class="">
-    <ProductComponent/>
+    <ProductComponent :currentProduct="currentProduct" />
   </main>
 </template>
 <script lang="ts">
