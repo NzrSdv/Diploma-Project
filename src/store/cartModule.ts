@@ -1,8 +1,4 @@
-
-import { db } from "@/config/firebase";
-import { doc, updateDoc } from "firebase/firestore";
-
-import type { CartWine,Wine,CartModule } from "./types";
+import type { CartWine, CartModule } from "./types";
 // interfaces
 
 const defaultCart: CartModule = {
@@ -23,7 +19,7 @@ if (localStorage.getItem("cart")) {
 export const CartControlModule = {
     state: () => defaultCart,
     mutations: {
-        setCart(state: Cart, CartWine: Wine) {
+        setCart(state: CartModule, CartWine: CartWine) {
             let status = false;
             if (state.cart.length != 0) {
                 state.cart = [...state.cart].map((wine) => {
@@ -46,7 +42,7 @@ export const CartControlModule = {
 
             localStorage.setItem("cart", JSON.stringify(state.cart))
         },
-        setCartQuantityById(state: Cart, { Id, newQ }: { Id: any, newQ: number }) {
+        setCartQuantityById(state: CartModule, { Id, newQ }: { Id: any, newQ: number }) {
             console.log(newQ);
             state.cart = [...state.cart].map((wine) => {
                 console.log(wine)
@@ -61,7 +57,7 @@ export const CartControlModule = {
             localStorage.setItem("cart", JSON.stringify(state.cart))
 
         },
-        setTotal(state: Cart) {
+        setTotal(state: CartModule) {
             let counter = 0;
             state.cart.forEach((wine) => {
                 counter += (wine.quantity * wine.price)
@@ -69,7 +65,7 @@ export const CartControlModule = {
             console.log(counter)
             state.total = counter;
         },
-        removeFromCartById(state: Cart, Id: any) {
+        removeFromCartById(state: CartModule, Id: any) {
             state.cart = state.cart.filter(wine => {
                 if (wine.id != Id) {
                     return wine;
@@ -78,7 +74,7 @@ export const CartControlModule = {
         },
     },
     getters: {
-        getCartWines(state: Cart) {
+        getCartWines(state: CartModule) {
             return state.cart;
         }
     }
