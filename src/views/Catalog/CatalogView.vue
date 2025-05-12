@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import CatalogComponent from '../components/catalog/CatalogComponent.vue';
+import CatalogComponent from '@/components/catalog/CatalogComponent.vue';
 const wines = JSON.parse(localStorage.getItem("currentWines") || "[]");
 
 </script>

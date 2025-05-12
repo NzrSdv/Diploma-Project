@@ -1,23 +1,23 @@
 import { createRouter, createWebHistory } from "vue-router";
 import MainView from "./views/MainView.vue";
-import CatalogView from "./views//CatalogView.vue";
-import ProductView from "./views/ProductView.vue";
-import UserInfoView from "./views/UserInfoView.vue";
-import ErrorComponent from "./components/error/ErrorComponent.vue";
-import LoginComponent from "./components/login/LoginComponent.vue";
-import RegisterComponent from "./components/register/RegisterComponent.vue";
+import CatalogView from "./views/Catalog/CatalogView.vue";
+import ProductView from "./views/Catalog/ProductView.vue";
+import UserInfoView from "./views/User/UserInfoView.vue";
+import RegisterView from "./views/User/RegisterView.vue";
+import LoginView from "./views/User/LoginView.vue";
+import ErrorView from "./views/ErrorView.vue";
 import InfoComponent from "./components/user/nested/InfoComponent.vue";
 import CardComponent from "./components/user/nested/CardComponent.vue";
 import SettingsComponent from "./components/user/nested/SettingsComponent.vue";
-import CartComponent from "./components/cart/CartComponent.vue";
+import CartView from "./views/Cart/CartView.vue";
 
 const routes = [
   { path: "/", component: MainView },
   { path: "/catalog/:wineType/:page", component: CatalogView },
-  { path: "/cart", component: CartComponent },
-  { path: "/redWines/:WineId", component: ProductView },
-  { path: "/register", component: RegisterComponent },
-  { path: "/login", component: LoginComponent },
+  { path: "/cart", component: CartView },
+  { path: "/:wineType/:WineId", component: ProductView },
+  { path: "/register", component: RegisterView },
+  { path: "/login", component: LoginView },
   {
     path: "/user", component: UserInfoView, children: [
       { path: '/user/info', component: InfoComponent },
@@ -26,7 +26,7 @@ const routes = [
 
     ]
   },
-  { path: "/:pathMatch(.*)*", component: ErrorComponent },
+  { path: "/:pathMatch(.*)*", component: ErrorView },
 ];
 
 const router = createRouter({

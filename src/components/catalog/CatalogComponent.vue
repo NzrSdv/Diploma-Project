@@ -2,7 +2,7 @@
 import { useStore } from "vuex";
 import CatalogPhoto from "../../assets/img/CatalogComponent_photo.jpg";
 import WineCard from "../../UI/cards/WineCard.vue";
-import { key } from "../../store";
+import { key } from "../../store/store";
 import { computed, ref, watch } from "vue";
 import Button from "@/UI/pagination/button/Button.vue";
 import {
@@ -17,11 +17,15 @@ import {
 } from "../../UI/pagination/pagination";
 import router from "@/router";
 import { useRoute } from "vue-router";
+import ButtonAccentOne from "@/UI/buttons/ButtonAccentOne.vue";
+import ButtonAccentTwo from "@/UI/buttons/ButtonAccentTwo.vue";
+import { Route } from "lucide-vue-next";
+import FillerComponent from "../filler/FillerComponent.vue";
 const store = useStore(key);
 
 const route = useRoute();
 
-const currentWines = computed(() => store.state.currentWines);
+const currentWines = computed(() => store.state.pagination.currentWines);
 console.log(route.params.page);
 console.log(route.params.wineType);
 store.dispatch("setCurrentPageWine", route.params.page);
@@ -30,7 +34,7 @@ store.dispatch("setWineType", route.params.wineType);
 watch(
   () => route.params.wineType,
   (newType, oldType) => {
-  store.dispatch("setWineType",newType)
+    store.dispatch("setWineType", newType);
   }
 );
 watch(
@@ -63,17 +67,45 @@ console.log(AllPages);
   >
     <div class="flex flex-row items-center justify-center gap-3">
       <router-link to="/catalog/red/1">
-        red
+        <ButtonAccentOne
+          class="px-5"
+          v-if="route.params.wineType == 'red'"
+          text="Red"
+        />
+        <ButtonAccentTwo
+          class="text-main-2 px-5"
+          v-if="route.params.wineType != 'red'"
+          text="Red"
+        />
       </router-link>
       <router-link to="/catalog/white/1">
-        White
+        <ButtonAccentOne
+          class="px-5"
+          v-if="route.params.wineType == 'white'"
+          text="White"
+        />
+        <ButtonAccentTwo
+          class="text-main-2 px-5"
+          v-if="route.params.wineType != 'white'"
+          text="White"
+        />
       </router-link>
       <router-link to="/catalog/rose/1">
-        Rose
+        <ButtonAccentOne
+          class="px-5"
+          v-if="route.params.wineType == 'rose'"
+          text="Rose"
+        />
+        <ButtonAccentTwo
+          class="text-main-2 px-5"
+          v-if="route.params.wineType != 'rose'"
+          text="Rose"
+        />
       </router-link>
     </div>
-    <div class="text-white">
+    <div class="text-white flex md:flex-row flex-col items-center gap-3">
       <input
+        class="p-2 rounded border border-solid border-main-2"
         type="text"
         placeholder="Поиск..."
         v-model="searchText"
@@ -85,37 +117,43 @@ console.log(AllPages);
           }
         "
       />
-      <select
-        name=""
-        id=""
-        v-model="searchKey"
-        @change="
-          () => {
-            store.commit('setFilterKey', searchKey);
-            store.commit('setSortedAndSearched');
-            store.commit('setCurrentWines');
-          }
-        "
-      >
-        <option value="id">Обычно</option>
-        <option value="wine">По названию</option>
-        <option value="price">По цене</option>
-      </select>
-      <select
-        v-model="ascending"
-        @change="
-          () => {
-            store.commit('setAscending', ascending);
-            store.commit('setSortedAndSearched');
-            store.commit('setCurrentWines');
-          }
-        "
-        name=""
-        id=""
-      >
-        <option value="true">По возростанию</option>
-        <option value="false">По убыванию</option>
-      </select>
+      <div class="flex flex-row flex-wrap items-center justify-center gap-3">
+        <select
+          class="bg-transparent p-2 rounded border border-solid border-main-2"
+          name=""
+          id=""
+          v-model="searchKey"
+          @change="
+            () => {
+              store.commit('setFilterKey', searchKey);
+              store.commit('setSortedAndSearched');
+              store.commit('setCurrentWines');
+            }
+          "
+        >
+          <template v-for="(item, index) in searchKeyList" :key="index">
+            <option class="bg-transparent text-main-1" :value="item.key">
+              {{ item.text }}
+            </option>
+          </template>
+        </select>
+        <select
+          class="p-2 rounded border border-solid border-main-2"
+          v-model="ascending"
+          @change="
+            () => {
+              store.commit('setAscending', ascending);
+              store.commit('setSortedAndSearched');
+              store.commit('setCurrentWines');
+            }
+          "
+          name=""
+          id=""
+        >
+          <option value="true">По возростанию</option>
+          <option value="false">По убыванию</option>
+        </select>
+      </div>
     </div>
     <div class="w-full h-max flex items-center justify-center flex-wrap gap-7">
       <WineCard
@@ -124,12 +162,7 @@ console.log(AllPages);
         :key="index"
         :info="wine"
       />
-      <div
-        v-if="!currentWines?.length"
-        class="w-full h-100 flex items-center justify-center"
-      >
-        <h2 class="text-6xl text-main-2 font-bold">Ничего не найдено</h2>
-      </div>
+      <FillerComponent v-if="!currentWines?.length" />
     </div>
     <Pagination
       v-slot="{ page }"
@@ -140,10 +173,17 @@ console.log(AllPages);
       :default-page="Number(route.params.page)"
     >
       <PaginationContent v-slot="{ items }" class="flex items-center gap-1">
-        <PaginationFirst @click="() => router.push(`/catalog/${route.params.wineType}/1`)" />
+        <PaginationFirst
+          @click="() => router.push(`/catalog/${route.params.wineType}/1`)"
+        />
         <PaginationPrevious
           @click="
-            () => router.push(`/catalog/${route.params.wineType}/${Number(route.params.page) - 1}`)
+            () =>
+              router.push(
+                `/catalog/${route.params.wineType}/${
+                  Number(route.params.page) - 1
+                }`
+              )
           "
         />
         <template v-for="(item, index) in items">
@@ -156,7 +196,10 @@ console.log(AllPages);
             <Button
               class="w-10 h-10 p-0"
               :variant="item.value === page ? 'outline' : 'default'"
-              @click="() => router.push(`/catalog/${route.params.wineType}/${item.value}`)"
+              @click="
+                () =>
+                  router.push(`/catalog/${route.params.wineType}/${item.value}`)
+              "
             >
               {{ item.value }}
             </Button>
@@ -165,11 +208,21 @@ console.log(AllPages);
         </template>
         <PaginationNext
           @click="
-            () => router.push(`/catalog/${route.params.wineType}/${Number(route.params.page) + 1}`)
+            () =>
+              router.push(
+                `/catalog/${route.params.wineType}/${
+                  Number(route.params.page) + 1
+                }`
+              )
           "
         />
         <PaginationLast
-          @click="() => router.push(`/catalog/${route.params.wineType}/${Math.ceil(AllPages / 20)}`)"
+          @click="
+            () =>
+              router.push(
+                `/catalog/${route.params.wineType}/${Math.ceil(AllPages / 20)}`
+              )
+          "
         />
       </PaginationContent>
     </Pagination>
@@ -180,6 +233,7 @@ export default {
   name: "CatalogComponent",
   components: {
     WineCard,
+
     Pagination,
     PaginationContent,
     PaginationEllipsis,
@@ -187,6 +241,11 @@ export default {
     PaginationLast,
     PaginationNext,
     PaginationPrevious,
+
+    ButtonAccentOne,
+    ButtonAccentTwo,
+
+    FillerComponent,
   },
   props: { wines: Array<Object> },
   data() {
@@ -194,6 +253,13 @@ export default {
       searchText: "",
       searchKey: "wine",
       ascending: true,
+
+      searchKeyList: [
+        { key: "wine", text: "По названию" },
+        { key: "winery", text: "По винодельной" },
+        { key: "price", text: "По цене" },
+        { key: "location", text: "По месту" },
+      ],
     };
   },
 };

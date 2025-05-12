@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import UserComponent from '../components/user/UserComponent.vue';
+import UserComponent from '@/components/user/UserComponent.vue';
 </script>
 <template>
   <main class="h-dvh">
