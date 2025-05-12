@@ -3,7 +3,7 @@ import CartComponent from "@/components/cart/CartComponent.vue";
 </script>
 
 <template>
-  <main class="w-full flex flex-col items-stretch">
+  <main class="w-full flex flex-col items-center">
     <CartComponent />
   </main>
 </template>

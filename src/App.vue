@@ -30,13 +30,13 @@ export default defineComponent({
     const route = useRoute();
     const currentUser = computed(() => store.state.currentUser);
     if (!localStorage.getItem("roseWines")) {
-      store.dispatch("getRoseWines");
+      store.dispatch("wine/getRoseWines");
     }
     if (!localStorage.getItem("whiteWines")) {
-      store.dispatch("getWhiteWines");
+      store.dispatch("wine/getWhiteWines");
     }
     if (!localStorage.getItem("redWines")) {
-      store.dispatch("getRedWines");
+      store.dispatch("wine/getRedWines");
     }
     console.log(auth.currentUser);
     return {
