@@ -150,8 +150,11 @@ console.log(AllPages);
           name=""
           id=""
         >
-          <option value="true">По возростанию</option>
-          <option value="false">По убыванию</option>
+          <template v-for="(item, index) in ascendingKeyList" :key="index">
+            <option class="text-main-1" :value="item.key">
+              {{ item.text }}
+            </option>
+          </template>
         </select>
       </div>
     </div>
@@ -259,6 +262,10 @@ export default {
         { key: "winery", text: "По винодельной" },
         { key: "price", text: "По цене" },
         { key: "location", text: "По месту" },
+      ],
+      ascendingKeyList: [
+        { key: "true", text: "По возростанию" },
+        { key: "false", text: "По возростанию" },
       ],
     };
   },
