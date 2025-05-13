@@ -217,7 +217,7 @@ export const WineControlModule = {
 
                     break;
                 default:
-
+                    console.log("default")
                     break;
             }
             commit("setSortedAndSearched")

@@ -25,7 +25,7 @@ const store = useStore(key);
 
 const route = useRoute();
 
-const currentWines = computed(() => store.state.pagination.currentWines);
+const currentWines = computed(() => store.state.wine.pagination.currentWines);
 console.log(route.params.page);
 console.log(route.params.wineType);
 store.dispatch("setCurrentPageWine", route.params.page);
