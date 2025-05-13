@@ -9,18 +9,22 @@ export interface Wine {
     wine: string;
     winery: string;
     location: string;
-    rating: Object;
+    rating: Rating;
     image: string;
     price: number;
     type: string;
     favorite: boolean;
+}
+export interface Rating {
+    average: number;
+    reviews: string;
 }
 export interface CartWine extends Wine {
     id: string;
     wine: string;
     winery: string;
     location: string;
-    rating: Object;
+    rating: Rating;
     image: string;
     price: number;
     type: string;
@@ -39,7 +43,6 @@ export interface WineControl {
     pageWine: Wine
 }
 export interface User {
-    dbId: string;
     uid: string;
     displayName: string;
     email: string;

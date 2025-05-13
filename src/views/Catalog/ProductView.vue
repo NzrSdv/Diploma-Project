@@ -5,7 +5,7 @@ import { computed } from "vue";
 import { useStore } from "vuex";
 const store = useStore(key);
 
-const currentProduct = computed(() => store.state.ProductPageProduct);
+const currentProduct = computed(() => store.state.wine.pageWine);
 console.log(currentProduct);
 </script>
 

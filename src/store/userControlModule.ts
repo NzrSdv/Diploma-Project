@@ -1,13 +1,12 @@
 import { db } from "@/config/firebase";
-import { addDoc, collection, doc, updateDoc } from "firebase/firestore";
-import type { UserControl, User } from "./types";
+import { addDoc, collection, doc, getDoc, getDocs, setDoc, updateDoc } from "firebase/firestore";
+import type { UserControl, User, CartWine } from "./types";
 
 
 
 
 const defaultUserControl: UserControl = {
     currentUser: {
-        dbId: "",
         uid: "",
         displayName: "",
         email: "",
@@ -17,32 +16,36 @@ const defaultUserControl: UserControl = {
 }
 if (localStorage.getItem("currentUser")) {
     defaultUserControl.currentUser = JSON.parse(localStorage.getItem("currentUser") || "{}");
-    //   const usersCollection = collection(db, 'users');
-    // defaultState.currentUserDbId = await getDocs(usersCollection).then((data => {
-    //   return data.docs;
-    // }))
 }
 export const userControlModule = {
     state: () => defaultUserControl,
     mutations: {
-        async setUser(state: UserControl, user: User) {
-            const newUser = {
-                dbId: user.dbId,
+        async setUser(state: UserControl, user: any) {
+            const newUser: User = {
                 uid: user.uid,
                 email: user.email,
                 displayName: user.displayName,
                 photoURL: user.photoURL || "",
                 cart: user.cart,
             }
+            console.log(newUser);
             state.currentUser = newUser;
             localStorage.setItem("currentUser", JSON.stringify(newUser));
-            const usersCollection = collection(db, "users");
+            const userDocRef = doc(db, 'users', newUser.uid)
             try {
-                await addDoc(usersCollection, newUser);
+                await setDoc(userDocRef, newUser);
 
             } catch (error) {
                 console.error(error);
             }
+        },
+    },
+    actions: {
+        async updateUserCart({ commit, state }: { commit: Function, state: UserControl }, newCart: Array<CartWine>) {
+            const userRef = doc(db, 'users', state.currentUser.uid);
+            await updateDoc(userRef, { cart: newCart })
+            localStorage.setItem('cart', JSON.stringify(newCart))
+            commit('setUser', { ...state.currentUser, cart: newCart })
         },
         async removeCart(state: UserControl) {
             localStorage.removeItem('cart')

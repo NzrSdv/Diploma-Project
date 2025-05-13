@@ -28,7 +28,10 @@ const defaultWineControl: WineControl = {
         wine: '',
         winery: '',
         location: '',
-        rating: {},
+        rating: {
+            average:0,
+            reviews:''
+        },
         image: '',
         price: 0,
         type: '',
@@ -60,20 +63,24 @@ export const WineControlModule = {
             state.pagination.wines = redWines;
 
             localStorage.setItem("redWines", JSON.stringify(redWines));
+            console.log("set the red")
         },
         setWhiteWines(state: WineControl, whiteWines: Array<Wine>) {
             state.pagination.wines = whiteWines;
 
             localStorage.setItem("whiteWines", JSON.stringify(whiteWines));
+            console.log("set the white")
         },
         setRoseWines(state: WineControl, roseWines: Array<Wine>) {
             state.pagination.wines = roseWines;
 
             localStorage.setItem("roseWines", JSON.stringify(roseWines))
+            console.log("set the rose")
         },
         setCurrentWines(state: WineControl) {
             state.pagination.currentWines = state.sortAndFilter.sortedAndSearchWines.slice(state.pagination.onePageMax * (state.pagination.currentPage - 1), state.pagination.onePageMax * state.pagination.currentPage)
             localStorage.setItem("currentWines", JSON.stringify(state.pagination.currentWines));
+            console.log(state.pagination.currentWines)
         },
 
 
@@ -82,7 +89,8 @@ export const WineControlModule = {
             state.pagination.currentPage = newPage;
         },
         setSortedAndSearched(state: WineControl) {
-            state.sortAndFilter.sortedAndSearchWines.sort(sortByKey(state.sortAndFilter.filterKey, state.sortAndFilter.ascending == "true")).filter((wine: Wine) => {
+
+            state.sortAndFilter.sortedAndSearchWines = [...state.pagination.wines].sort(sortByKey(state.sortAndFilter.filterKey, state.sortAndFilter.ascending == "true")).filter((wine: Wine) => {
                 if (wine.wine.includes(state.sortAndFilter.searchText) || wine.winery.includes(state.sortAndFilter.searchText) || String(wine.price).includes(state.sortAndFilter.searchText)) {
                     return wine;
                 }
@@ -195,7 +203,9 @@ export const WineControlModule = {
             commit("setSortedAndSearched")
             commit("setCurrentWines");
         },
-        setWineType({ commit }: { commit: Function }, wineType: String) {
+        setWineType({ commit, state }: { commit: Function, state: WineControl }, wineType: String) {
+            console.log(wineType)
+            console.log(state.pagination.wines);
             switch (wineType) {
                 case "red":
                     commit(
@@ -220,7 +230,11 @@ export const WineControlModule = {
                     console.log("default")
                     break;
             }
+            console.log(state.pagination.wines);
+
             commit("setSortedAndSearched")
+            console.log(state.pagination.wines);
+
             commit("setCurrentWines");
         },
 

@@ -9,10 +9,10 @@ import FillerComponent from "../filler/FillerComponent.vue";
 import ButtonAccentTwo from "@/UI/buttons/ButtonAccentTwo.vue";
 const store = useStore(key);
 
-const cart = computed(() => store.state.Cart.cart);
-const total = computed(() => store.state.Cart.total);
+const cart = computed(() => store.state.cart.cart);
+const total = computed(() => store.state.cart.total);
 function removeItem() {
-  store.commit("removeCart");
+  store.dispatch("removeCart");
 }
 </script>
 

@@ -71,6 +71,7 @@ export const CartControlModule = {
                     return wine;
                 }
             })
+            localStorage.setItem("cart",JSON.stringify(state.cart))
         },
     },
     getters: {

@@ -22,7 +22,7 @@ const store = useStore(key);
   <router-link
     @click="
       () => {
-          store.commit('setProductPageProduct', info.id);
+          store.commit('setPageWine', info.id);
       }
     "
     :to="`/${route.params.wineType || info.type}/${info.id}`"

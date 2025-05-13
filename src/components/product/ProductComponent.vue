@@ -1,42 +1,3 @@
-<script setup lang="ts">
-import RedWinePhoto from "../../assets/img/RedWine_photo.png";
-import WhiteWinePhoto from "../../assets/img/WhiteWine_photo.png";
-import RoseWinePhoto from "../../assets/img/RoseWine_photo.jpg";
-
-import ActiveStar from "../../assets/icons/Star_active_icon.svg";
-import DisabledStar from "../../assets/icons/Star_disabled_icon.svg";
-
-import ActiveHeart from "../../assets/icons/Heart_active_icon.svg";
-import DisabledHeart from "../../assets/icons/Heart_disabled_icon.svg";
-import ButtonAccentOne from "../../UI/buttons/ButtonAccentOne.vue";
-
-import { useStore } from "vuex";
-import { key } from "@/store/store";
-import { toast } from "vue-sonner";
-import { auth } from "@/config/firebase";
-import { useRouter } from "vue-router";
-interface Rating {
-  average: number;
-  reviews: number;
-}
-interface Wine {
-  id: string;
-  wine: string;
-  winery: string;
-  location: string;
-  rating: Rating;
-  image: string;
-  price: number;
-  type: string;
-}
-const router = useRouter();
-auth.authStateReady().then(() => {
-  if (!auth.currentUser) {
-    router.push("/register");
-  }
-});
-const store = useStore(key);
-</script>
 <template>
   <section
     class="2xl:section w-full mt-25 bg-main-025 xl:py-20 py-4 xl:px-30 px-4 flex xl:flex-row flex-col items-center justify-between xl:gap-40 gap-4"
@@ -116,11 +77,47 @@ const store = useStore(key);
   </section>
 </template>
 <script lang="ts">
+import RedWinePhoto from "../../assets/img/RedWine_photo.png";
+import WhiteWinePhoto from "../../assets/img/WhiteWine_photo.png";
+import RoseWinePhoto from "../../assets/img/RoseWine_photo.jpg";
+
+import ActiveStar from "../../assets/icons/Star_active_icon.svg";
+import DisabledStar from "../../assets/icons/Star_disabled_icon.svg";
+
+import ActiveHeart from "../../assets/icons/Heart_active_icon.svg";
+import DisabledHeart from "../../assets/icons/Heart_disabled_icon.svg";
+import ButtonAccentOne from "../../UI/buttons/ButtonAccentOne.vue";
+
+import { useStore } from "vuex";
+import { key } from "@/store/store";
+import { computed } from "vue";
+import type { CartWine } from "@/store/types.ts";
+
+import { toast } from "vue-sonner";
+import { auth } from "@/config/firebase";
+import { useRouter } from "vue-router";
+const router = useRouter();
+auth.authStateReady().then(() => {
+  if (!auth.currentUser) {
+    router.push("/register");
+  }
+});
+
 export default {
   name: "ProductComponent",
   components: { ButtonAccentOne },
   props: {
     currentProduct: { type: Object, required: true },
+  },
+  setup() {
+    const store = useStore(key);
+    return {
+      cart: computed(() => store.state.cart.cart),
+      setCart: (payload: CartWine) => store.commit("setCart", payload),
+      setTotal: () => store.commit("setTotal"),
+      updateUserCart: (payload: Array<CartWine>) =>
+        store.dispatch("updateUserCart", payload),
+    };
   },
   data() {
     return {
@@ -132,10 +129,9 @@ export default {
     async addCart() {
       if (!this.orderStatus) {
         this.orderStatus = true;
-        this.$store.commit("setCart", this.currentProduct);
-        this.$store.commit("setTotal");
-        await this.$store.commit("setUserCart");
-        toast("Вино добавлено в корзину", {
+        this.setCart(this.currentProduct);
+        this.setTotal();
+        this.toast("Вино добавлено в корзину", {
           description: "",
           action: {
             label: "ОК",
@@ -149,7 +145,10 @@ export default {
   created() {
     console.log(this.currentProduct);
     this.ratingStars.forEach((element, index) => {
-      if (Math.round(Number(this.currentProduct.rating.average)) >= index + 1) {
+      if (
+        Math.round(Number(this.currentProduct?.rating.average)) >=
+        index + 1
+      ) {
         this.ratingStars[index] = 1;
       } else {
         this.ratingStars[index] = 0;

@@ -34,6 +34,7 @@ store.dispatch("setWineType", route.params.wineType);
 watch(
   () => route.params.wineType,
   (newType, oldType) => {
+    console.log(newType)
     store.dispatch("setWineType", newType);
   }
 );
