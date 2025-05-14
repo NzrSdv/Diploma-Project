@@ -22,7 +22,7 @@ const store = useStore(key);
   <router-link
     @click="
       () => {
-          store.commit('setPageWine', info.id);
+        store.commit('setPageWine', info.id);
       }
     "
     :to="`/${route.params.wineType || info.type}/${info.id}`"
@@ -34,6 +34,7 @@ const store = useStore(key);
       ]"
     >
       <div
+        :ref="container"
         v-if="$route.path.includes('catalog')"
         @click="
           ($event) => {

@@ -4,7 +4,6 @@ import ButtonAccentOne from "../../UI/buttons/ButtonAccentOne.vue";
 import ButtonAccentTwo from "../../UI/buttons/ButtonAccentTwo.vue";
 import { auth } from "../../config/firebase";
 import { ref } from "vue";
-
 const route = useRoute();
 const router = useRouter();
 let burgerStatus = ref(false);
@@ -25,7 +24,6 @@ function toggleBurgerStatus(): void {
       <router-link to="/">
         <div class="Logo w-6/16">Vino</div>
       </router-link>
-
       <nav
         :class="[
           'lg:w-10/16 w-1/4 lg:flex lg:flex-row flex-col-reverse  items-center lg:justify-between justify-end',

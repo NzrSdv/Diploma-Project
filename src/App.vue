@@ -10,12 +10,13 @@ import FooterComponent from "./common/footer/FooterComponent.vue";
 import { auth } from "./config/firebase.ts";
 import { Toaster } from "./UI/sonner/index.ts";
 
+
 const store = useStore(key);
 
 auth.authStateReady().then(() => {
   if (auth.currentUser) {
-    // console.log("logged in",auth.currentUser)
     store.commit("setUserCart");
+    console.log("logged in", auth.currentUser);
   } else {
     console.log("not logged in");
   }
@@ -54,6 +55,7 @@ export default defineComponent({
       v-if="route.path != '/login' && route.path != '/register'"
     />
     <RouterView />
+    <div class="text-main-2"></div>
     <FooterComponent
       v-if="
         route.path != '/login' &&

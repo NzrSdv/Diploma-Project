@@ -3,7 +3,7 @@ import FirstSectionComponent from "@/components/main/FirstSectionComponent.vue";
 import SecondSectionComponent from "@/components/main/SecondSectionComponent.vue";
 import ThirdSectionComponent from "@/components/main/ThirdSectionComponent.vue";
 import FourthSectionComponent from "@/components/main/FourthSectionComponent.vue";
-import FifthSectionComponent from "@/components/main/FifthSectionComponent.vue";
+import FifthSectionComponent from "@/components/main/SectionFive/FifthSectionComponent.vue";
 </script>
 <template>
   <main

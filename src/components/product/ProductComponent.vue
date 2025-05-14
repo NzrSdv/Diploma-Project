@@ -1,3 +1,17 @@
+<script setup lang="ts">
+import RedWinePhoto from "../../assets/img/RedWine_photo.png";
+import WhiteWinePhoto from "../../assets/img/WhiteWine_photo.png";
+import RoseWinePhoto from "../../assets/img/RoseWine_photo.jpg";
+
+import ActiveStar from "../../assets/icons/Star_active_icon.svg";
+import DisabledStar from "../../assets/icons/Star_disabled_icon.svg";
+
+import ActiveHeart from "../../assets/icons/Heart_active_icon.svg";
+import DisabledHeart from "../../assets/icons/Heart_disabled_icon.svg";
+
+import ButtonAccentOne from "../../UI/buttons/ButtonAccentOne.vue";
+
+</script>
 <template>
   <section
     class="2xl:section w-full mt-25 bg-main-025 xl:py-20 py-4 xl:px-30 px-4 flex xl:flex-row flex-col items-center justify-between xl:gap-40 gap-4"
@@ -77,16 +91,6 @@
   </section>
 </template>
 <script lang="ts">
-import RedWinePhoto from "../../assets/img/RedWine_photo.png";
-import WhiteWinePhoto from "../../assets/img/WhiteWine_photo.png";
-import RoseWinePhoto from "../../assets/img/RoseWine_photo.jpg";
-
-import ActiveStar from "../../assets/icons/Star_active_icon.svg";
-import DisabledStar from "../../assets/icons/Star_disabled_icon.svg";
-
-import ActiveHeart from "../../assets/icons/Heart_active_icon.svg";
-import DisabledHeart from "../../assets/icons/Heart_disabled_icon.svg";
-import ButtonAccentOne from "../../UI/buttons/ButtonAccentOne.vue";
 
 import { useStore } from "vuex";
 import { key } from "@/store/store";
