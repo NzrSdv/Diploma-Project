@@ -12,6 +12,7 @@ const store = useStore(key);
 async function signOutUser() {
   try {
     await signOut(auth);
+    store.commit("setCart", []);
     localStorage.removeItem("currentUser");
     localStorage.removeItem("cart");
     router.push("/");

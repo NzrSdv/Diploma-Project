@@ -1,4 +1,4 @@
-import type { CartWine, CartModule } from "./types";
+import type { CartWine, CartModule, Wine } from "./types";
 // interfaces
 
 const defaultCart: CartModule = {
@@ -19,6 +19,10 @@ if (localStorage.getItem("cart")) {
 export const CartControlModule = {
     state: () => defaultCart,
     mutations: {
+        initCart(state: CartModule, cart: Array<CartWine>) {
+            state.cart = cart;
+            localStorage.setItem("cart", JSON.stringify(state.cart))
+        },
         setCart(state: CartModule, CartWine: CartWine) {
             let status = false;
             if (state.cart.length != 0) {
@@ -78,6 +82,6 @@ export const CartControlModule = {
     getters: {
         getCartWines(state: CartModule) {
             return state.cart;
-        }
+        },
     }
 }

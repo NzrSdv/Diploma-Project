@@ -36,8 +36,38 @@ export const userControlModule = {
                 console.error(error);
             }
         },
+        removeCurrentUser(state: UserControl) {
+            state.currentUser = {
+                uid: "",
+                displayName: "",
+                email: "",
+                photoURL: "",
+            };
+        }
     },
     actions: {
+        async setFirestoreUserCart({ commit, state }: { commit: Function, state: UserControl }) {
+            const docRef = doc(db, 'userCarts', state.currentUser.uid);
+            try {
+                await setDoc(docRef, { cart: [], uid: state.currentUser.uid })
+                commit('initCart', []);
+            } catch (error) {
+                console.error(error);
+            }
+        },
+        async setUserCart({ commit, state }: { commit: Function, state: UserControl }) {
+            // already has to be logged in
+            const docRef = doc(db, 'userCarts', state.currentUser.uid);
+            try {
+                const docSnap = await getDoc(docRef)
+                const data: { cart: Array<CartWine>, uid: string } = docSnap.data();
+                console.log(data)
+                commit('initCart', data.cart)
+            }
+            catch (error) {
+                console.error(error)
+            }
+        },
         async updateUserCart({ commit, state }: { commit: Function, state: UserControl }, newCart: Array<CartWine>) {
             const userRef = doc(db, 'userCarts', state.currentUser.uid);
             await updateDoc(userRef, { cart: newCart, uid: state.currentUser.uid })

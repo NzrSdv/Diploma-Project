@@ -60,9 +60,7 @@ async function addToTheCart() {
           @click="
             () => {
               store.commit('toggleFavorite', currentProduct.id);
-              store.commit('setSortedAndSearched');
-              store.commit('setCurrentWines');
-              store.commit('setProductPageProduct', currentProduct.id);
+              // store.commit('setProductPageProduct', currentProduct.id);
             }
           "
           alt=""

@@ -48,11 +48,8 @@ const store = useStore(key);
             async () => {
               try {
                 await signInWithEmailAndPassword(auth, email, password);
-                await store.commit('setUser', {
-                  ...auth.currentUser,
-                  cart: [],
-                });
-                await store.commit('setFirestoreUserCart');
+                await store.commit('setUser', auth.currentUser);
+                await store.dispatch('setUserCart');
                 router.push('/');
               } catch (e) {
                 console.error(e);
@@ -68,11 +65,8 @@ const store = useStore(key);
             async () => {
               try {
                 await signInWithPopup(auth, googleProvider);
-                await store.commit('setUser', {
-                  ...auth.currentUser,
-                  cart: [],
-                });
-                await store.commit('setFirestoreUserCart');
+                await store.commit('setUser', auth.currentUser);
+                await store.dispatch('setUserCart');
                 router.push('/');
               } catch (e) {
                 console.error(e);

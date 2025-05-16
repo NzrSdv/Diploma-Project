@@ -86,7 +86,7 @@ console.log(import.meta.env.VITE_FIREBASE_AUTH_DOMAIN);
                 ...{ displayName: name, ...auth.currentUser },
                 cart: [],
               });
-              await store.commit('setFirestoreUserCart');
+              await store.dispatch('setFirestoreUserCart');
 
               router.push('/');
             } catch (e) {
@@ -107,7 +107,7 @@ console.log(import.meta.env.VITE_FIREBASE_AUTH_DOMAIN);
             try {
               await signInWithPopup(auth, googleProvider);
               await store.commit('setUser', { ...auth.currentUser, cart: [] });
-              await store.commit('setFirestoreUserCart');
+              await store.dispatch('setFirestoreUserCart');
 
               router.push('/');
             } catch (e) {
