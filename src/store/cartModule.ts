@@ -44,16 +44,17 @@ export const CartControlModule = {
         },
         setCartQuantityById(state: CartModule, { Id, newQ }: { Id: any, newQ: number }) {
             console.log(newQ);
+            console.log(state.cart)
             state.cart = [...state.cart].map((wine) => {
                 console.log(wine)
                 if (wine.id == Id) {
-                    console.log({ ...wine, quantity: newQ })
                     return { ...wine, quantity: newQ }
                 }
                 else {
                     return wine
                 }
             })
+            console.log(state.cart)
             localStorage.setItem("cart", JSON.stringify(state.cart))
 
         },
@@ -71,7 +72,7 @@ export const CartControlModule = {
                     return wine;
                 }
             })
-            localStorage.setItem("cart",JSON.stringify(state.cart))
+            localStorage.setItem("cart", JSON.stringify(state.cart))
         },
     },
     getters: {

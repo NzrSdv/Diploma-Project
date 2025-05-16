@@ -13,8 +13,11 @@ import { useStore } from "vuex";
 import { key } from "@/store/store";
 import ButtonAccentOne from "../buttons/ButtonAccentOne.vue";
 import { toast } from "vue-sonner";
+import { computed } from "vue";
 
 const store = useStore(key);
+const myCart = computed(() => store.state.cart.cart);
+console.log(myCart);
 </script>
 
 <template>
@@ -90,13 +93,15 @@ const store = useStore(key);
           <div class="flex flex-row items-center justify-center gap-4">
             <ButtonAccentTwo
               @click="
-                () => {
+                async () => {
                   if (CurrentWine?.quantity - 1 >= 1) {
                     store.commit('setCartQuantityById', {
                       Id: CurrentWine?.id,
                       newQ: CurrentWine?.quantity - 1,
                     });
                     store.commit('setTotal');
+                    await store.dispatch('updateUserCart', myCart);
+                    toast('okkk');
                   }
                 }
               "
@@ -110,12 +115,14 @@ const store = useStore(key);
             </p>
             <ButtonAccentTwo
               @click="
-                () => {
+                async () => {
                   store.commit('setCartQuantityById', {
                     Id: CurrentWine?.id,
                     newQ: CurrentWine?.quantity + 1,
                   });
                   store.commit('setTotal');
+                  await store.dispatch('updateUserCart', myCart);
+                  toast('okkk');
                 }
               "
               class="px-5 text-main-2"
@@ -125,9 +132,10 @@ const store = useStore(key);
         </div>
         <ButtonAccentOne
           @click="
-            () => {
+            async () => {
               store.commit('removeFromCartById', CurrentWine?.id);
               store.commit('setTotal');
+              await store.dispatch('updateUserCart', []);
               toast(`Вино ${CurrentWine?.wine} удалено из корзины`, {
                 description: '',
                 action: {
@@ -155,7 +163,7 @@ export default {
   props: {
     CurrentWine: { type: Object, requried: true },
   },
-  data(vm) {
+  data() {
     return {
       ratingStars: [0, 0, 0, 0, 0],
     };

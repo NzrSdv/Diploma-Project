@@ -1,8 +1,14 @@
 <script setup lang="ts">
 import ButtonWithArrow from "@/UI/buttons/ButtonWithArrow.vue";
 import ReviewCard from "@/UI/cards/ReviewCard.vue";
+import { breakpointsTailwind, useBreakpoints } from "@vueuse/core";
 
-import { TransitionGroup } from "vue";
+import { TransitionGroup, watch } from "vue";
+
+const breakpoints = useBreakpoints(breakpointsTailwind);
+
+const xl = breakpoints.greaterOrEqual("xl");
+
 </script>
 
 <template lang="">
@@ -26,9 +32,10 @@ import { TransitionGroup } from "vue";
       >
         <ReviewCard
           class="w-full"
-          v-for="item in currentReviews"
+          v-for="(item, index) in currentReviews"
           :key="item"
           :review="item"
+          :data-index="index"
         />
       </TransitionGroup>
 
@@ -115,6 +122,7 @@ export default {
         this.currentReviews.push(
           this.reviews[this.currentReviewSlide % this.reviews.length]
         );
+
         this.currentReviews.push(
           this.reviews[(this.currentReviewSlide + 1) % this.reviews.length]
         );

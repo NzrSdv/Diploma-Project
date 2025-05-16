@@ -11,6 +11,40 @@ import DisabledHeart from "../../assets/icons/Heart_disabled_icon.svg";
 
 import ButtonAccentOne from "../../UI/buttons/ButtonAccentOne.vue";
 
+import { useStore } from "vuex";
+import { key } from "@/store/store";
+import { computed } from "vue";
+import type { CartWine } from "@/store/types.ts";
+
+import { toast } from "vue-sonner";
+import { auth } from "@/config/firebase";
+import { useRouter } from "vue-router";
+
+const store = useStore(key);
+// cart: computed(() => store.state.cart.cart),
+//       setCart: (payload: Object) => store.commit("setCart", payload),
+//       setTotal: () => store.commit("setTotal"),
+//       updateUserCart: async (payload: Array<CartWine>) =>
+//         await store.dispatch("updateUserCart", payload),
+
+const currentProduct = computed(() => store.state.wine.pageWine);
+const cart = computed(() => store.state.cart.cart);
+console.log(currentProduct);
+const ratingStars = [false, false, false, false, false];
+ratingStars.map((element, index) => {
+  if (Math.round(Number(currentProduct.value.rating.average)) >= index + 1) {
+    ratingStars[index] = true;
+  } else {
+    ratingStars[index] = false;
+  }
+});
+
+async function addToTheCart() {
+  store.commit("setCart", currentProduct.value);
+  store.commit("setTotal");
+  await store.dispatch("updateUserCart", cart.value);
+  toast("dobavleno v korzinu");
+}
 </script>
 <template>
   <section
@@ -80,10 +114,11 @@ import ButtonAccentOne from "../../UI/buttons/ButtonAccentOne.vue";
           {{ currentProduct.winery }}
         </p>
         <ButtonAccentOne
-          @click="addCart"
+          @click.passive="addToTheCart"
           class="sm:w-auto w-full"
           text="В КОРЗИНУ"
-          padding="py-4 sm:px-20 px-auto"
+          padding="py-4 sm:px-20
+        px-auto"
           radius="rounded-md"
         />
       </div>
@@ -91,15 +126,6 @@ import ButtonAccentOne from "../../UI/buttons/ButtonAccentOne.vue";
   </section>
 </template>
 <script lang="ts">
-
-import { useStore } from "vuex";
-import { key } from "@/store/store";
-import { computed } from "vue";
-import type { CartWine } from "@/store/types.ts";
-
-import { toast } from "vue-sonner";
-import { auth } from "@/config/firebase";
-import { useRouter } from "vue-router";
 const router = useRouter();
 auth.authStateReady().then(() => {
   if (!auth.currentUser) {
@@ -110,55 +136,6 @@ auth.authStateReady().then(() => {
 export default {
   name: "ProductComponent",
   components: { ButtonAccentOne },
-  props: {
-    currentProduct: { type: Object, required: true },
-  },
-  setup() {
-    const store = useStore(key);
-    return {
-      cart: computed(() => store.state.cart.cart),
-      setCart: (payload: CartWine) => store.commit("setCart", payload),
-      setTotal: () => store.commit("setTotal"),
-      updateUserCart: (payload: Array<CartWine>) =>
-        store.dispatch("updateUserCart", payload),
-    };
-  },
-  data() {
-    return {
-      ratingStars: [0, 0, 0, 0, 0],
-      orderStatus: false,
-    };
-  },
-  methods: {
-    async addCart() {
-      if (!this.orderStatus) {
-        this.orderStatus = true;
-        this.setCart(this.currentProduct);
-        this.setTotal();
-        this.toast("Вино добавлено в корзину", {
-          description: "",
-          action: {
-            label: "ОК",
-            onClick: () => console.log("okk"),
-          },
-        });
-        this.orderStatus = false;
-      }
-    },
-  },
-  created() {
-    console.log(this.currentProduct);
-    this.ratingStars.forEach((element, index) => {
-      if (
-        Math.round(Number(this.currentProduct?.rating.average)) >=
-        index + 1
-      ) {
-        this.ratingStars[index] = 1;
-      } else {
-        this.ratingStars[index] = 0;
-      }
-    });
-  },
 };
 </script>
 <style></style>

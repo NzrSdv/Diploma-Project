@@ -13,6 +13,7 @@ async function signOutUser() {
   try {
     await signOut(auth);
     localStorage.removeItem("currentUser");
+    localStorage.removeItem("cart");
     router.push("/");
   } catch (error) {
     console.error("Error signing out: ", error);

@@ -5,13 +5,11 @@ import { computed } from "vue";
 import { useStore } from "vuex";
 const store = useStore(key);
 
-const currentProduct = computed(() => store.state.wine.pageWine);
-console.log(currentProduct);
 </script>
 
 <template>
   <main class="">
-    <ProductComponent :currentProduct="currentProduct" />
+    <ProductComponent />
   </main>
 </template>
 <script lang="ts">

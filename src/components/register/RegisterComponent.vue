@@ -83,9 +83,11 @@ console.log(import.meta.env.VITE_FIREBASE_AUTH_DOMAIN);
                 }
               );
               await store.commit('setUser', {
-                ...{ displayName: surname, ...auth.currentUser },
+                ...{ displayName: name, ...auth.currentUser },
                 cart: [],
               });
+              await store.commit('setFirestoreUserCart');
+
               router.push('/');
             } catch (e) {
               console.error(e);
@@ -103,8 +105,10 @@ console.log(import.meta.env.VITE_FIREBASE_AUTH_DOMAIN);
         @click="
           async () => {
             try {
-              signInWithPopup(auth, googleProvider);
+              await signInWithPopup(auth, googleProvider);
               await store.commit('setUser', { ...auth.currentUser, cart: [] });
+              await store.commit('setFirestoreUserCart');
+
               router.push('/');
             } catch (e) {
               console.error(e);

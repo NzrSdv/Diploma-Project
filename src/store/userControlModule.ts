@@ -11,7 +11,6 @@ const defaultUserControl: UserControl = {
         displayName: "",
         email: "",
         photoURL: "",
-        cart: [],
     }
 }
 if (localStorage.getItem("currentUser")) {
@@ -26,9 +25,7 @@ export const userControlModule = {
                 email: user.email,
                 displayName: user.displayName,
                 photoURL: user.photoURL || "",
-                cart: user.cart,
             }
-            console.log(newUser);
             state.currentUser = newUser;
             localStorage.setItem("currentUser", JSON.stringify(newUser));
             const userDocRef = doc(db, 'users', newUser.uid)
@@ -42,15 +39,15 @@ export const userControlModule = {
     },
     actions: {
         async updateUserCart({ commit, state }: { commit: Function, state: UserControl }, newCart: Array<CartWine>) {
-            const userRef = doc(db, 'users', state.currentUser.uid);
-            await updateDoc(userRef, { cart: newCart })
+            const userRef = doc(db, 'userCarts', state.currentUser.uid);
+            await updateDoc(userRef, { cart: newCart, uid: state.currentUser.uid })
             localStorage.setItem('cart', JSON.stringify(newCart))
             commit('setUser', { ...state.currentUser, cart: newCart })
         },
         async removeCart(state: UserControl) {
             localStorage.removeItem('cart')
-            const userDoc = doc(db, 'users', state.currentUser.uid)
-            await updateDoc(userDoc, { cart: [] })
+            const userRef2 = doc(db, 'userCarts', state.currentUser.uid);
+            await updateDoc(userRef2, { cart: [{}], uid: state.currentUser.uid })
         },
     }
 }

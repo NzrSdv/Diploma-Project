@@ -34,18 +34,13 @@ const store = useStore(key);
       ]"
     >
       <div
-        :ref="container"
         v-if="$route.path.includes('catalog')"
         @click="
           ($event) => {
-            $event.preventDefault();
-            if ($route.path.includes('catalog')) {
-              store.commit('toggleFavorite', info.id);
-              store.commit('setSortedAndSearched');
-              store.commit('setCurrentWines');
-            } else {
-              store.commit('toggleFavoriteInMain', info);
-            }
+            $event.preventDefault(); 
+            store.commit('toggleFavorite', info.id);
+            store.commit('setSortedAndSearched');
+            store.commit('setCurrentWines');
           }
         "
         class="absolute size-8 right-1 top-2 z-40 flex items-center justify-center duration-200 hover:scale-110 cursor-pointer"
