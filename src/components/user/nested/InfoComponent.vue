@@ -22,7 +22,7 @@ async function signOutUser() {
 }
 </script>
 <template>
-  <div class="">
+  <div class="w-full">
     <div
       class="bg-main-2 md:p-10 py-10 px-2 rounded-md flex flex-col items-center justify-center gap-13"
     >

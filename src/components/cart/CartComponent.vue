@@ -7,10 +7,17 @@ import { key } from "@/store/store";
 import ButtonAccentOne from "@/UI/buttons/ButtonAccentOne.vue";
 import FillerComponent from "../filler/FillerComponent.vue";
 import ButtonAccentTwo from "@/UI/buttons/ButtonAccentTwo.vue";
+import { useRouter } from "vue-router";
+
+import { createStripeProducts } from "@/config/stripe";
+
 const store = useStore(key);
 
 const cart = computed(() => store.state.cart.cart);
 const total = computed(() => store.state.cart.total);
+
+const router = useRouter();
+
 function removeItem() {
   store.dispatch("removeCart");
 }
@@ -32,7 +39,19 @@ function removeItem() {
       </div>
 
       <div class="flex flex-row items-center justify-center gap-4">
-        <ButtonAccentTwo class="text-main-2 px-10 py-2" text="Купить все" />
+        <ButtonAccentTwo
+          class="text-main-2 px-10 py-2"
+          text="Купить все"
+          @click="
+            () => {
+              createStripeProducts(
+                cart,
+                'http://localhost:5173'
+              );
+              // router.push('/purchase');
+            }
+          "
+        />
         <ButtonAccentOne
           @click="removeItem"
           padding="px-10 py-2"

@@ -9,6 +9,7 @@ declare module 'vuex' {
         currentUser: Object;
         currentPage: Object;
         redWines: Array<Object>;
+        
     }
 
     interface ComponentCustomProperties {

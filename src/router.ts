@@ -10,6 +10,8 @@ import InfoComponent from "./components/user/nested/InfoComponent.vue";
 import CardComponent from "./components/user/nested/CardComponent.vue";
 import SettingsComponent from "./components/user/nested/SettingsComponent.vue";
 import CartView from "./views/Cart/CartView.vue";
+import PaymentSuccess from "@/components/purchase/PaymentSuccess.vue";
+import PaymentCancel from "@/components/purchase/PaymentCancel.vue";
 
 const routes = [
   { path: "/", component: MainView },
@@ -26,6 +28,8 @@ const routes = [
 
     ]
   },
+  { path: "/paymentsuccess", component: PaymentSuccess },
+  { path: "/paymentcancel", component: PaymentCancel },
   { path: "/:pathMatch(.*)*", component: ErrorView },
 ];
 
