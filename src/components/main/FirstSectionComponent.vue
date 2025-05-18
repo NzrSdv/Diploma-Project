@@ -13,14 +13,12 @@ import Wines_bg from "../../assets/img/Wines_1_photo.jpg";
       <div
         class="max-w-3xl h-full flex flex-col items-center justify-start gap-3 text-center md:pt-32 pt-16"
       >
-        <h1 class="text-main font-bold md:text-8xl sm:text-6xl text-4xl">Порадуйте себя и гостей</h1>
+        <h1 class="text-main font-bold md:text-8xl sm:text-6xl text-4xl">{{$t("main.section1.title")}}</h1>
         <p class="max-w-3xl md:text-xl sm:text-lg text-base flex flex-col">
           <span class="font-semibold md:text-2xl sm:text-xl text-lg"
-            >Твое идеальное вино — на расстоянии одного клика.</span
+            >{{$t("main.section1.subTitle")}}</span
           >
-          Красное, белое, розовое — у нас есть то, что нужно именно вам. Легкий
-          заказ, быстрая доставка и только проверенные винодельни. Откройте
-          бутылку счастья уже сегодня!
+          {{$t("main.section1.description")}}
         </p>
       </div>
     </div>
