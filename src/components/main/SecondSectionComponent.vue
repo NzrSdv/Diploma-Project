@@ -6,7 +6,9 @@ import WineCard from "../../UI/cards/WineCard.vue";
     class="2xl:container w-full overflow-hidden flex flex-col items-center justify-center gap-20 md:px-30 px-5"
   >
     <div class="flex flex-col w-full gap-5">
-      <h2 class="text-4xl font-main font-semibold">Наш ассортимент</h2>
+      <h2 class="text-4xl font-main font-semibold">
+        {{ $t("main.section2.title") }}
+      </h2>
       <div class="h-[1px] w-full bg-accent-2"></div>
     </div>
     <div

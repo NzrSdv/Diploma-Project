@@ -58,7 +58,9 @@ function toggleBurgerStatus(): void {
             ]"
             @click="toggleBurgerStatus"
           >
-            <router-link to="/user/info">Мои данные</router-link>
+            <router-link to="/user/info">{{
+              $t("header.nav.myInfo")
+            }}</router-link>
           </li>
           <li
             class="w-full lg:hidden block text-center font-main text-xl rounded-lg text-accent-15 font-bold duration-300 cursor-pointer hover:bg-main-1/50"
@@ -71,11 +73,9 @@ function toggleBurgerStatus(): void {
           v-if="!signedIn"
           class="flex flex-row items-center justify-center gap-3"
         >
-          <ButtonAccentTwo text="Войти" @click="forwardLogin()" />
-          <ButtonAccentOne
-            text="Зарегестрироваться"
-            @click="forwardRegister()"
-          />
+          <ButtonAccentTwo :text="$t('header.login')" @click="forwardLogin()" />
+          <ButtonAccentOne :text="$t('header.register')"
+          @click="forwardRegister()" />
         </div>
       </nav>
       <button
@@ -96,9 +96,13 @@ export default {
   data() {
     return {
       links: [
-        { text: "Каталог", link: "/catalog/red/1", signed: false },
-        { text: "О нас", link: "/", signed: false },
-        { text: "Корзина", link: "/cart", signed: true },
+        {
+          text: this.$t("header.nav.catalog"),
+          link: "/catalog/red/1",
+          signed: false,
+        },
+        { text: this.$t("header.nav.aboutUs"), link: "/", signed: false },
+        { text: this.$t("header.nav.cart"), link: "/cart", signed: true },
       ],
       signedIn: false,
     };
