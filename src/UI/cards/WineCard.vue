@@ -22,7 +22,7 @@ const store = useStore(key);
   <router-link
     @click="
       () => {
-          store.commit('setProductPageProduct', info.id);
+        store.commit('setPageWine', info.id);
       }
     "
     :to="`/${route.params.wineType || info.type}/${info.id}`"
@@ -38,13 +38,9 @@ const store = useStore(key);
         @click="
           ($event) => {
             $event.preventDefault();
-            if ($route.path.includes('catalog')) {
-              store.commit('toggleFavorite', info.id);
-              store.commit('setSortedAndSearched');
-              store.commit('setCurrentWines');
-            } else {
-              store.commit('toggleFavoriteInMain', info);
-            }
+            store.commit('toggleFavorite', info.id);
+            store.commit('setSortedAndSearched');
+            store.commit('setCurrentWines');
           }
         "
         class="absolute size-8 right-1 top-2 z-40 flex items-center justify-center duration-200 hover:scale-110 cursor-pointer"
@@ -73,11 +69,11 @@ const store = useStore(key);
           <div class="flex items-center justify-center gap-2">
             <div class="flex items-center justify-center">
               <div
-                class="size-4"
+                :class="[star ? 'size-5' : 'size-4']"
                 v-for="(star, index) in ratingStars"
                 :key="index"
               >
-                <img :src="star ? ActiveStar : DisabledStar" alt="" />
+                <img class="w-full h-auto" :src="star ? ActiveStar : DisabledStar" alt="" />
               </div>
             </div>
             {{ info.rating.average }}
@@ -99,11 +95,11 @@ export default {
     };
   },
   created() {
-    this.ratingStars.forEach((element, index) => {
+    this.ratingStars = [...this.ratingStars].map((element, index) => {
       if (Math.round(Number(this.info.rating.average)) >= index + 1) {
-        this.ratingStars[index] = 1;
+        return 1;
       } else {
-        this.ratingStars[index] = 0;
+        return 0;
       }
     });
   },

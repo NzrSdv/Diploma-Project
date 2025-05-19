@@ -1,0 +1,68 @@
+{
+  "header": {
+    "nav": {
+      "catalog": "Catalog",
+      "aboutUs": "About us",
+      "cart": "Cart",
+      "myInfo": "Profile"
+    },
+    "login": "Sign in",
+    "register": "Sign up"
+  },
+  "main": {
+    "section1": {
+      "title": "Bring happiness anywhere",
+      "subTitle": "Your perfect wine is just a click away.",
+      "description": "Red, white, rose - we have what you need. Easy ordering, fast delivery and only trusted wineries. Open a bottle of happiness today!"
+    },
+    "section2": {
+      "title": "Our products"
+    },
+    "section3": {
+      "title": "Delivery",
+      "content": {
+        "title": "Deliver right to the house",
+        "subTitle": "Delivery depends on your place",
+        "namePlaceHolder": "Your name",
+        "emailPlaceHolder": "Your email",
+        "orderButtonText": "Order delivery"
+      }
+    },
+    "section4": {
+      "title": "Wine for special moments",
+      "description": "We’ve combined a love for wine with modern convenience to make buying wine simple, fast, and enjoyable.Explore a curated selection of wines from world-famous French châteaux to bold New World vineyards — each bottle chosen for its quality, story, and character."
+    },
+    "section5": {
+      "subTitle": "what is told about us?",
+      "title": "Reviews about us"
+    }
+  },
+  "catalog": {
+    "wineType": {
+      "red": "Red wine",
+      "white": "White wine",
+      "rose": "Rose wine"
+    },
+    "wineTypeButtons": {
+      "red": "Red",
+      "white": "White",
+      "rose": "Rose"
+    },
+    "inputs": {
+      "searchPlaceHolder": "Search../",
+      "searchKeys": {
+        "wine": "By name",
+        "winery": "By winery",
+        "price": "By price",
+        "location": "By location"
+      },
+      "filterOrderKeys": {
+        "ascending": "ascending",
+        "descending": "descending"
+      }
+    }
+  },
+  "cart":{
+    
+  }
+}

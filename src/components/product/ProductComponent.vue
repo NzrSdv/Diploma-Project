@@ -8,34 +8,43 @@ import DisabledStar from "../../assets/icons/Star_disabled_icon.svg";
 
 import ActiveHeart from "../../assets/icons/Heart_active_icon.svg";
 import DisabledHeart from "../../assets/icons/Heart_disabled_icon.svg";
+
 import ButtonAccentOne from "../../UI/buttons/ButtonAccentOne.vue";
 
 import { useStore } from "vuex";
 import { key } from "@/store/store";
+import { computed } from "vue";
+import type { CartWine } from "@/store/types.ts";
+
 import { toast } from "vue-sonner";
 import { auth } from "@/config/firebase";
 import { useRouter } from "vue-router";
-interface Rating {
-  average: number;
-  reviews: number;
-}
-interface Wine {
-  id: string;
-  wine: string;
-  winery: string;
-  location: string;
-  rating: Rating;
-  image: string;
-  price: number;
-  type: string;
-}
-const router = useRouter();
-auth.authStateReady().then(() => {
-  if (!auth.currentUser) {
-    router.push("/register");
+
+const store = useStore(key);
+// cart: computed(() => store.state.cart.cart),
+//       setCart: (payload: Object) => store.commit("setCart", payload),
+//       setTotal: () => store.commit("setTotal"),
+//       updateUserCart: async (payload: Array<CartWine>) =>
+//         await store.dispatch("updateUserCart", payload),
+
+const currentProduct = computed(() => store.state.wine.pageWine);
+const cart = computed(() => store.state.cart.cart);
+console.log(currentProduct);
+const ratingStars = [false, false, false, false, false];
+ratingStars.map((element, index) => {
+  if (Math.round(Number(currentProduct.value.rating.average)) >= index + 1) {
+    ratingStars[index] = true;
+  } else {
+    ratingStars[index] = false;
   }
 });
-const store = useStore(key);
+
+async function addToTheCart() {
+  store.commit("setCart", currentProduct.value);
+  store.commit("setTotal");
+  await store.dispatch("updateUserCart", cart.value);
+  toast("dobavleno v korzinu");
+}
 </script>
 <template>
   <section
@@ -51,9 +60,7 @@ const store = useStore(key);
           @click="
             () => {
               store.commit('toggleFavorite', currentProduct.id);
-              store.commit('setSortedAndSearched');
-              store.commit('setCurrentWines');
-              store.commit('setProductPageProduct', currentProduct.id);
+              // store.commit('setProductPageProduct', currentProduct.id);
             }
           "
           alt=""
@@ -105,10 +112,11 @@ const store = useStore(key);
           {{ currentProduct.winery }}
         </p>
         <ButtonAccentOne
-          @click="addCart"
+          @click.passive="addToTheCart"
           class="sm:w-auto w-full"
           text="В КОРЗИНУ"
-          padding="py-4 sm:px-20 px-auto"
+          padding="py-4 sm:px-20
+        px-auto"
           radius="rounded-md"
         />
       </div>
@@ -116,46 +124,16 @@ const store = useStore(key);
   </section>
 </template>
 <script lang="ts">
+const router = useRouter();
+auth.authStateReady().then(() => {
+  if (!auth.currentUser) {
+    router.push("/register");
+  }
+});
+
 export default {
   name: "ProductComponent",
   components: { ButtonAccentOne },
-  props: {
-    currentProduct: { type: Object, required: true },
-  },
-  data() {
-    return {
-      ratingStars: [0, 0, 0, 0, 0],
-      orderStatus: false,
-    };
-  },
-  methods: {
-    async addCart() {
-      if (!this.orderStatus) {
-        this.orderStatus = true;
-        this.$store.commit("setCart", this.currentProduct);
-        this.$store.commit("setTotal");
-        await this.$store.commit("setUserCart");
-        toast("Вино добавлено в корзину", {
-          description: "",
-          action: {
-            label: "ОК",
-            onClick: () => console.log("okk"),
-          },
-        });
-        this.orderStatus = false;
-      }
-    },
-  },
-  created() {
-    console.log(this.currentProduct);
-    this.ratingStars.forEach((element, index) => {
-      if (Math.round(Number(this.currentProduct.rating.average)) >= index + 1) {
-        this.ratingStars[index] = 1;
-      } else {
-        this.ratingStars[index] = 0;
-      }
-    });
-  },
 };
 </script>
 <style></style>

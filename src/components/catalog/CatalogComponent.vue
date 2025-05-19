@@ -25,7 +25,7 @@ const store = useStore(key);
 
 const route = useRoute();
 
-const currentWines = computed(() => store.state.pagination.currentWines);
+const currentWines = computed(() => store.state.wine.pagination.currentWines);
 console.log(route.params.page);
 console.log(route.params.wineType);
 store.dispatch("setCurrentPageWine", route.params.page);
@@ -34,6 +34,7 @@ store.dispatch("setWineType", route.params.wineType);
 watch(
   () => route.params.wineType,
   (newType, oldType) => {
+    console.log(newType);
     store.dispatch("setWineType", newType);
   }
 );
@@ -58,7 +59,7 @@ console.log(AllPages);
       <h1
         class="w-full text-main-2 md:text-8xl text-6xl md:text-start text-center border-b border-solid border-accent-2 uppercase font-bold pb-5"
       >
-        {{ $route.params.wineType }} Вино
+        {{ $t(`catalog.wineType.${route.params.wineType}`) }}
       </h1>
     </div>
   </section>
@@ -70,36 +71,36 @@ console.log(AllPages);
         <ButtonAccentOne
           class="px-5"
           v-if="route.params.wineType == 'red'"
-          text="Red"
+          :text="$t('catalog.wineTypeButtons.red')"
         />
         <ButtonAccentTwo
           class="text-main-2 px-5"
           v-if="route.params.wineType != 'red'"
-          text="Red"
+          :text="$t('catalog.wineTypeButtons.red')"
         />
       </router-link>
       <router-link to="/catalog/white/1">
         <ButtonAccentOne
           class="px-5"
           v-if="route.params.wineType == 'white'"
-          text="White"
+          :text="$t('catalog.wineTypeButtons.white')"
         />
         <ButtonAccentTwo
           class="text-main-2 px-5"
           v-if="route.params.wineType != 'white'"
-          text="White"
+          :text="$t('catalog.wineTypeButtons.white')"
         />
       </router-link>
       <router-link to="/catalog/rose/1">
         <ButtonAccentOne
           class="px-5"
           v-if="route.params.wineType == 'rose'"
-          text="Rose"
+          :text="$t('catalog.wineTypeButtons.rose')"
         />
         <ButtonAccentTwo
           class="text-main-2 px-5"
           v-if="route.params.wineType != 'rose'"
-          text="Rose"
+          :text="$t('catalog.wineTypeButtons.rose')"
         />
       </router-link>
     </div>
@@ -133,7 +134,7 @@ console.log(AllPages);
         >
           <template v-for="(item, index) in searchKeyList" :key="index">
             <option class="bg-transparent text-main-1" :value="item.key">
-              {{ item.text }}
+              {{ $t(`catalog.inputs.searchKeys.${item.key}`) }}
             </option>
           </template>
         </select>
@@ -150,8 +151,17 @@ console.log(AllPages);
           name=""
           id=""
         >
-          <option value="true">По возростанию</option>
-          <option value="false">По убыванию</option>
+          <template v-for="(item, index) in ascendingKeyList" :key="index">
+            <option class="text-main-1" :value="item.key">
+              {{
+                $t(
+                  `catalog.inputs.filterOrderKeys.${
+                    item.key == "true" ? "ascending" : "descending"
+                  }`
+                )
+              }}
+            </option>
+          </template>
         </select>
       </div>
     </div>
@@ -255,11 +265,12 @@ export default {
       ascending: true,
 
       searchKeyList: [
-        { key: "wine", text: "По названию" },
-        { key: "winery", text: "По винодельной" },
-        { key: "price", text: "По цене" },
-        { key: "location", text: "По месту" },
+        { key: "wine" },
+        { key: "winery" },
+        { key: "price" },
+        { key: "location" },
       ],
+      ascendingKeyList: [{ key: "true" }, { key: "false" }],
     };
   },
 };
