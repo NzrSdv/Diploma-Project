@@ -5,7 +5,7 @@ import whiteWinePhoto from "@/assets/img/WhiteWine_photo.png";
 import roseWinePhoto from "@/assets/img/RoseWine_photo.jpg";
 import router from "@/router";
 
-const stripe = new Stripe('sk_test_51RLRGv33g5Hd1wYQqhw7ujj1P80VlcxDaOiUcYbHcmLKElSDomRCZvHAsRuGTVO2Y9AP2qqhVaIG26Mf9HXJNK7F00S60rPhvW');
+const stripe = new Stripe(import.meta.env.VITE_STRIPE_SK_KEY);
 
 export async function createStripeProducts(Wines: Array<CartWine>, url: string) {
     let arrayOfItems: Array<Object> = [];
