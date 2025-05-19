@@ -1,8 +1,5 @@
 import Stripe from "stripe";
 import type { CartWine } from "@/store/types";
-import redWinePhoto from "@/assets/img/RedWine_photo.png"
-import whiteWinePhoto from "@/assets/img/WhiteWine_photo.png";
-import roseWinePhoto from "@/assets/img/RoseWine_photo.jpg";
 import router from "@/router";
 
 const stripe = new Stripe(import.meta.env.VITE_STRIPE_SK_KEY);
