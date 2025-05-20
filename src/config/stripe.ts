@@ -1,6 +1,5 @@
 import Stripe from "stripe";
 import type { CartWine } from "@/store/types";
-import router from "@/router";
 
 const stripe = new Stripe(import.meta.env.VITE_STRIPE_SK_KEY);
 
