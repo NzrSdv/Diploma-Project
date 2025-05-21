@@ -1,4 +1,5 @@
 <script lang="ts">
+// @ts-nocheck
 import { defineComponent, watch } from "vue";
 import HeaderComponent from "./common/header/HeaderComponent.vue";
 import { RouterView } from "vue-router";

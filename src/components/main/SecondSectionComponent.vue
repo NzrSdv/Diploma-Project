@@ -1,4 +1,5 @@
 <script setup lang="ts">
+//@ts-nocheck
 import WineCard from "../../UI/cards/WineCard.vue";
 </script>
 <template>

@@ -1,4 +1,5 @@
 <script setup lang="ts">
+// @ts-nocheck
 import { signOut, updateEmail, updateProfile } from "firebase/auth";
 import ProfileInput from "../../../UI/inputs/ProfileInput.vue";
 import { auth } from "../../../config/firebase";

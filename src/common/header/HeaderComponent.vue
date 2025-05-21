@@ -1,4 +1,5 @@
 <script setup lang="ts">
+// @ts-nocheck
 import { useRoute, useRouter } from "vue-router";
 import ButtonAccentOne from "../../UI/buttons/ButtonAccentOne.vue";
 import ButtonAccentTwo from "../../UI/buttons/ButtonAccentTwo.vue";

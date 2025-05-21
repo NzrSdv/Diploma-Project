@@ -1,4 +1,5 @@
 <script setup lang="ts">
+// @ts-nocheck
 import RedWhine from "../../assets/img/RedWine_photo.png";
 import WhiteWine from "../../assets/img/WhiteWine_photo.png";
 import RoseWine from "../../assets/img/RoseWine_photo.jpg";

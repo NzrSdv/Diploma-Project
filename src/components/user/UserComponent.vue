@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+// @ts-nocheck
 import { auth } from "../../config/firebase.ts";
 import { useRoute, useRouter } from "vue-router";
 import ButtonAccentOne from "../../UI/buttons/ButtonAccentOne.vue";

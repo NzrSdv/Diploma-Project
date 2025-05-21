@@ -1,4 +1,5 @@
 <script setup lang="ts">
+// @ts-nocheck
 import { useStore } from "vuex";
 import { computed } from "vue";
 

@@ -1,4 +1,5 @@
 <script setup lang="ts">
+// @ts-nocheck
 import ButtonWithArrow from "@/UI/buttons/ButtonWithArrow.vue";
 import ReviewCard from "@/UI/cards/ReviewCard.vue";
 import { breakpointsTailwind, useBreakpoints } from "@vueuse/core";

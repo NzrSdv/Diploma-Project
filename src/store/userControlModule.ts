@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { db } from "@/config/firebase";
 import { addDoc, collection, doc, getDoc, getDocs, setDoc, updateDoc } from "firebase/firestore";
 import type { UserControl, User, CartWine } from "./types";

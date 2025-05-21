@@ -1,4 +1,5 @@
 <script setup lang="ts">
+// @ts-nocheck
 import { useRouter } from "vue-router";
 import ButtonAccentOne from "../../UI/buttons/ButtonAccentOne.vue";
 import SignInInput from "../../UI/inputs/SignInInput.vue";

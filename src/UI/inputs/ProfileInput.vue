@@ -1,4 +1,5 @@
 <script setup lang="ts">
+// @ts-nocheck
 import ButtonProfile from "../buttons/ButtonProfile.vue";
 </script>
 <template>

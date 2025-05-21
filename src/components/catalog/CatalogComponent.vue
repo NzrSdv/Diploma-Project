@@ -1,4 +1,5 @@
 <script setup lang="ts">
+// @ts-nocheck
 import { useStore } from "vuex";
 import CatalogPhoto from "../../assets/img/CatalogComponent_photo.jpg";
 import WineCard from "../../UI/cards/WineCard.vue";

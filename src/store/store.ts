@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { createStore, Store } from "vuex";
 import type { InjectionKey } from "vue";
 

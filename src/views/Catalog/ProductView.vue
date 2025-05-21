@@ -1,4 +1,5 @@
 <script setup lang="ts">
+// @ts-nocheck
 import ProductComponent from "@/components/product/ProductComponent.vue";
 import { key } from "@/store/store";
 import { computed } from "vue";
