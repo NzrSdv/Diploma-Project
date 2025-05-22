@@ -61,9 +61,33 @@
         "descending": "По убыванию"
       }
     }
-  }
-  ,
-  "cart":{
-    "title":"Корзина"
+  },
+  "cart": {
+    "title": "Корзина",
+    "total": "Общая сумма",
+    "buttons": {
+      "buyAll": "Купить все",
+      "removeAll": "Убрать все",
+      "removeOne": "Удалить из корзины"
+    }
+  },
+  "profile": {
+    "myInfo": {
+      "navTitle": "Ваши данные",
+      "pageTitle": "Ваши персональные данные",
+      "inputs": {
+        "nameLabel": "Ваше имя",
+        "emailLabel": "Ваш email"
+      },
+      "buttons": {
+        "update": "Обновить",
+        "cancel": "Отменить",
+        "signout": "Выйти"
+      }
+    },
+    "purchases": {
+      "navTitle": "Приобретения"
+    },
+    "settings": { "navTitle": "Настройки" }
   }
 }

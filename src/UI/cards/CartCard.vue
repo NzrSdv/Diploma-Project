@@ -148,7 +148,7 @@ console.log(myCart);
           "
           padding="px-10 py-2"
           radius="rounded-sm"
-          text="Удалить из корзины"
+          :text="$t('cart.buttons.removeOne')"
         />
       </div>
     </div>

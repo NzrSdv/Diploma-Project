@@ -23,7 +23,7 @@ const routes = [
   {
     path: "/user", component: UserInfoView, children: [
       { path: '/user/info', component: InfoComponent },
-      { path: '/user/card', component: CardComponent },
+      { path: '/user/purchases', component: CardComponent },
       { path: '/user/settings', component: SettingsComponent }
 
     ]

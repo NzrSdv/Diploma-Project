@@ -27,10 +27,10 @@ import ButtonProfile from "../buttons/ButtonProfile.vue";
           isChanged(false);
         }
       "
-      >Изменить</ButtonProfile
+      >{{$t('profile.myInfo.buttons.update')}}</ButtonProfile
     >
     <ButtonProfile v-if="changed" @click="isChanged(false)"
-      >Сбросить</ButtonProfile
+      >{{$t('profile.myInfo.buttons.cancel')}}</ButtonProfile
     >
   </div>
 </template>

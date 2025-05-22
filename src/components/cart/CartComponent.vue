@@ -33,16 +33,16 @@ function removeItem() {
       class="w-full text-main-2 flex md:flex-row flex-col items-center justify-between gap-10"
     >
       <div class="flex flex-col items-start justify-center gap-2">
-        <h2 class="font-semibold text-4xl font-main">Корзина</h2>
+        <h2 class="font-semibold text-4xl font-main">{{ $t('cart.title') }}</h2>
         <p class="text-center">
-          Общая сумма: <span class="font-semibold text-2xl">${{ total }}</span>
+          {{$t('cart.total')}}: <span class="font-semibold text-2xl">${{ total }}</span>
         </p>
       </div>
 
       <div class="flex flex-row items-center justify-center gap-4">
         <ButtonAccentTwo
           class="text-main-2 px-10 py-2"
-          text="Купить все"
+          :text="$t('cart.buttons.buyAll')"
           @click="
             () => {
               createStripeProducts(
@@ -57,7 +57,7 @@ function removeItem() {
           @click="removeItem"
           padding="px-10 py-2"
           radius="rounded-sm"
-          text="Убрать всё"
+          :text="$t('cart.buttons.removeAll')"
         />
       </div>
     </div>
