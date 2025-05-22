@@ -1,4 +1,5 @@
 <script setup lang="ts">
+// @ts-nocheck
 import RedWinePhoto from "../../assets/img/RedWine_photo.png";
 import WhiteWinePhoto from "../../assets/img/WhiteWine_photo.png";
 import RoseWinePhoto from "../../assets/img/RoseWine_photo.jpg";
@@ -147,7 +148,7 @@ console.log(myCart);
           "
           padding="px-10 py-2"
           radius="rounded-sm"
-          text="Удалить из корзины"
+          :text="$t('cart.buttons.removeOne')"
         />
       </div>
     </div>

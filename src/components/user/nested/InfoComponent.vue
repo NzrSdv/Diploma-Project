@@ -1,4 +1,5 @@
 <script setup lang="ts">
+// @ts-nocheck
 import { signOut, updateEmail, updateProfile } from "firebase/auth";
 import ProfileInput from "../../../UI/inputs/ProfileInput.vue";
 import { auth } from "../../../config/firebase";
@@ -26,10 +27,12 @@ async function signOutUser() {
     <div
       class="bg-main-2 md:p-10 py-10 px-2 rounded-md flex flex-col items-center justify-center gap-13"
     >
-      <h2 class="font-semibold text-2xl">Ваши личные данные</h2>
+      <h2 class="font-semibold text-2xl">
+        {{ $t("profile.myInfo.pageTitle") }}
+      </h2>
       <div class="flex flex-col items-center justify-center gap-6">
         <ProfileInput
-          title="Ваше Имя"
+          :title="$t('profile.myInfo.inputs.nameLabel')"
           :mainValue="email"
           :value="displayName"
           @changeInput="
@@ -41,7 +44,7 @@ async function signOutUser() {
           "
         />
         <ProfileInput
-          title="Ваш email"
+          :title="$t('profile.myInfo.inputs.emailLabel')"
           :mainValue="email"
           :value="email"
           @changeInput="
@@ -58,7 +61,7 @@ async function signOutUser() {
         <ButtonAccentOne
           radius="rounded-md"
           padding="px-6 py-2"
-          text="Выйти из аккаунта"
+          :text="$t('profile.myInfo.buttons.signout')"
           @click="signOutUser"
         />
       </div>

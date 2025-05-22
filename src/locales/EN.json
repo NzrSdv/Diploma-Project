@@ -62,7 +62,32 @@
       }
     }
   },
-  "cart":{
-    
+  "cart": {
+    "title": "Cart",
+    "total": "your total",
+    "buttons": {
+      "buyAll": "Buy all",
+      "removeAll": "Delete all",
+      "removeOne": "Delete"
+    }
+  },
+  "profile": {
+    "myInfo": {
+      "navTitle": "Information",
+      "pageTitle": "Your personal information",
+      "inputs": {
+        "nameLabel": "Your name",
+        "emailLabel": "Your email"
+      },
+      "buttons": {
+        "update": "Update",
+        "cancel": "Cancel",
+        "signout": "Sign out"
+      }
+    },
+    "purchases": {
+      "navTitle": "Purchases"
+    },
+    "settings": { "navTitle": "Settings" }
   }
 }

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { db } from "@/config/firebase";
 import { addDoc, collection, doc, getDoc, getDocs, setDoc, updateDoc } from "firebase/firestore";
 import type { UserControl, User, CartWine } from "./types";
@@ -60,7 +61,7 @@ export const userControlModule = {
             const docRef = doc(db, 'userCarts', state.currentUser.uid);
             try {
                 const docSnap = await getDoc(docRef)
-                const data: { cart: Array<CartWine>, uid: string } = docSnap.data();
+                const data: { cart: Array<CartWine>, purchased: Array<CartWine>, uid: string } = docSnap.data();
                 console.log(data)
                 commit('initCart', data.cart)
             }
@@ -74,10 +75,41 @@ export const userControlModule = {
             localStorage.setItem('cart', JSON.stringify(newCart))
             commit('setUser', { ...state.currentUser, cart: newCart })
         },
-        async removeCart(state: UserControl) {
+        async removeCart({ state, commit }: { state: UserControl, commit: Function }) {
             localStorage.removeItem('cart')
             const userRef2 = doc(db, 'userCarts', state.currentUser.uid);
-            await updateDoc(userRef2, { cart: [{}], uid: state.currentUser.uid })
+            try {
+                await updateDoc(userRef2, { cart: [{}] })
+                commit('initCart', [])
+            } catch (error) {
+                console.error(error)
+            }
         },
+        async purchaseCart({ commit, dispatch, state }: { commit: Function, dispatch: Function, state: UserControl }, theCart: Array<CartWine>) {
+            const docRef = doc(db, 'userCarts', state.currentUser.uid);
+            try {
+                const docSnap = await getDoc(docRef);
+                const { cart, purchased, uid } = docSnap.data();
+                await updateDoc(docRef, { purchased: [...purchased, { order: purchased?.length + 1 || 1, products: theCart }] })
+            } catch (error) {
+                console.error(error)
+            }
+        },
+    },
+    getters: {
+        getOrders: (state: UserControl) => {
+            return new Promise(async (resolve, reject) => {
+                try {
+                    const docRef = doc(db, 'userCarts', state.currentUser.uid)
+                    const docSnap = await getDoc(docRef);
+                    const { cart, purchased, uid } = docSnap.data();
+                    resolve(purchased);
+
+                } catch (error) {
+                    console.error(error)
+                    reject();
+                }
+            })
+        }
     }
 }

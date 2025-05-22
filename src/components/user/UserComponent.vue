@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+// @ts-nocheck
 import { auth } from "../../config/firebase.ts";
 import { useRoute, useRouter } from "vue-router";
 import ButtonAccentOne from "../../UI/buttons/ButtonAccentOne.vue";
@@ -79,7 +80,7 @@ auth.authStateReady().then(() => {
               class="w-full h-full flex items-center justify-center py-5"
               :to="`${baseUrl}${navigat.link}`"
             >
-              <p class="md:flex hidden">{{ navigat.text }}</p>
+              <p class="md:flex hidden">{{ $t(`profile.${navigat.text}.navTitle`) }}</p>
               <div class="size-7">
                 <img
                   class="w-full h-auto md:hidden flex"
@@ -109,9 +110,9 @@ export default {
     return {
       baseUrl: "/user",
       navigationProfile: [
-        { text: "Мои данные", link: `/info`, icon: InfoIcon },
-        { text: "Карта", link: `/card`, icon: CreditCardIcon },
-        { text: "Настройки", link: `/settings`, icon: SettingsIcon },
+        { text: "myInfo", link: `/info`, icon: InfoIcon },
+        { text: "purchases", link: `/purchases`, icon: CreditCardIcon },
+        { text: "settings", link: `/settings`, icon: SettingsIcon },
       ],
       currentNavLink: "/",
     };

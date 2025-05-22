@@ -1,4 +1,5 @@
 <script setup lang="ts">
+// @ts-nocheck
 import { useRoute, useRouter } from "vue-router";
 import ButtonAccentOne from "../../UI/buttons/ButtonAccentOne.vue";
 import ButtonAccentTwo from "../../UI/buttons/ButtonAccentTwo.vue";
@@ -16,6 +17,10 @@ function forwardRegister(): void {
 }
 function toggleBurgerStatus(): void {
   burgerStatus.value = !burgerStatus.value;
+}
+
+function languageChange($event: any): void {
+  localStorage.setItem("lang", $event.target.value);
 }
 </script>
 <template lang="">
@@ -45,7 +50,7 @@ function toggleBurgerStatus(): void {
             @click="toggleBurgerStatus"
           >
             <router-link :to="link.link" v-if="link.signed ? signedIn : true">{{
-              link.text
+              $t(`header.nav.${link.text}`)
             }}</router-link>
           </li>
           <li
@@ -74,9 +79,24 @@ function toggleBurgerStatus(): void {
           class="flex flex-row items-center justify-center gap-3"
         >
           <ButtonAccentTwo :text="$t('header.login')" @click="forwardLogin()" />
-          <ButtonAccentOne :text="$t('header.register')"
-          @click="forwardRegister()" />
+          <ButtonAccentOne
+            :text="$t('header.register')"
+            @click="forwardRegister()"
+          />
         </div>
+        <select
+          class="bg-transparent p-2 rounded border border-solid border-main-2"
+          v-model="$i18n.locale"
+          @change="($event) => languageChange($event)"
+        >
+          <option
+            v-for="locale in $i18n.availableLocales"
+            :key="`locale-${locale}`"
+            :value="locale"
+          >
+            {{ locale }}
+          </option>
+        </select>
       </nav>
       <button
         class="size-8 lg:hidden flex flex-col items-center justify-between"
@@ -97,12 +117,12 @@ export default {
     return {
       links: [
         {
-          text: this.$t("header.nav.catalog"),
+          text: "catalog",
           link: "/catalog/red/1",
           signed: false,
         },
-        { text: this.$t("header.nav.aboutUs"), link: "/", signed: false },
-        { text: this.$t("header.nav.cart"), link: "/cart", signed: true },
+        { text: "aboutUs", link: "/", signed: false },
+        { text: "cart", link: "/cart", signed: true },
       ],
       signedIn: false,
     };

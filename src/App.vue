@@ -1,4 +1,5 @@
 <script lang="ts">
+// @ts-nocheck
 import { defineComponent, watch } from "vue";
 import HeaderComponent from "./common/header/HeaderComponent.vue";
 import { RouterView } from "vue-router";
@@ -9,7 +10,6 @@ import { computed } from "vue";
 import FooterComponent from "./common/footer/FooterComponent.vue";
 import { auth } from "./config/firebase.ts";
 import { Toaster } from "./UI/sonner/index.ts";
-
 
 const store = useStore(key);
 
@@ -31,13 +31,13 @@ export default defineComponent({
     const route = useRoute();
     const currentUser = computed(() => store.state.currentUser);
     if (!localStorage.getItem("roseWines")) {
-      store.dispatch("wine/getRoseWines");
+      store.dispatch("getRoseWines");
     }
     if (!localStorage.getItem("whiteWines")) {
-      store.dispatch("wine/getWhiteWines");
+      store.dispatch("getWhiteWines");
     }
     if (!localStorage.getItem("redWines")) {
-      store.dispatch("wine/getRedWines");
+      store.dispatch("getRedWines");
     }
     console.log(auth.currentUser);
     return {

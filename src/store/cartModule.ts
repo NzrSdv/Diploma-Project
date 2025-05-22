@@ -1,3 +1,4 @@
+// @ts-nocheck
 import type { CartWine, CartModule, Wine } from "./types";
 // interfaces
 

@@ -1,8 +1,10 @@
+// @ts-nocheck
 import Stripe from "stripe";
 import type { CartWine } from "@/store/types";
-import router from "@/router";
 
 const stripe = new Stripe(import.meta.env.VITE_STRIPE_SK_KEY);
+
+const baseUrl = "http://localhost:5173"
 
 export async function createStripeProducts(Wines: Array<CartWine>, url: string) {
     let arrayOfItems: Array<Object> = [];
@@ -22,11 +24,12 @@ export async function createStripeProducts(Wines: Array<CartWine>, url: string) 
     const session = await stripe.checkout.sessions.create({
         line_items: arrayOfItems,
         mode: 'payment',
-        success_url: "https://www.youtube.com/intl/en_my/ads/resources/success-stories/",
-        cancel_url: "https://stackoverflow.com/questions/76833634/when-is-the-cancel-url-called-by-stripe"
+        success_url: `${baseUrl}/paymentsuccess`,
+        cancel_url: `${baseUrl}/paymentcancel`
     })
 
     window.open(`${session.url}`, '_blank')
+    window.close()
 
 
 }

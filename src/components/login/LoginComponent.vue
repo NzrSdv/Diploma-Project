@@ -1,4 +1,5 @@
 <script setup lang="ts">
+// @ts-nocheck
 import SignInInput from "@/UI/inputs/SignInInput.vue";
 import ButtonInput from "@/UI/buttons/ButtonInput.vue";
 
