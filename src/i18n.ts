@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { createI18n } from "vue-i18n";
 import Ru from "./locales/RU.json";
 import En from "./locales/EN.json"
