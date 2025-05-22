@@ -65,7 +65,7 @@ const store = useStore(key);
           @click="
             async () => {
               try {
-                await signInWithPopup(auth, googleProvider);
+                signInWithPopup(auth, googleProvider);
                 await store.commit('setUser', auth.currentUser);
                 await store.dispatch('setUserCart');
                 router.push('/');

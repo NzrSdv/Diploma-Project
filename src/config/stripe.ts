@@ -4,7 +4,7 @@ import type { CartWine } from "@/store/types";
 
 const stripe = new Stripe(import.meta.env.VITE_STRIPE_SK_KEY);
 
-const baseUrl = "http://localhost:5173"
+const baseUrl = import.meta.env.VITE_BASE_URL
 
 export async function createStripeProducts(Wines: Array<CartWine>, url: string) {
     let arrayOfItems: Array<Object> = [];
